@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
-
 
 namespace Game.Penguins.Core.Code.GameBoard
 {
-    class Plateau : IBoard
+    public class Plateau : IBoard
     {
+        public ICell[,] Board { get; }
 
-        private ICell[,] m_board;
-
-        // On implémente la propriété Board accessible en lecture.
-        public ICell[,] Board
+        /// <summary>
+        /// Board construtor
+        /// </summary>
+        /// <param name="sizeX"></param>
+        /// <param name="sizeY"></param>
+        public Plateau(int sizeX, int sizeY)
         {
-            get { return m_board; }
+            Board = new ICell[sizeX, sizeY];
+
+            for (int i = 0; i < sizeX; i++)
+            {
+                for (int j = 0; j < sizeY; j++)
+                {
+                    Board[i,j] = new Cell(CellType.Fish, 3);
+                }
+            }
         }
-
-        public void CreationPlateau()
-        {
-            m_board = new ICell[8,8];
-
-
-        }
-
     }
-    
 }
