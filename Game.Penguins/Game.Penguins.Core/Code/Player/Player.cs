@@ -7,6 +7,12 @@ namespace Game.Penguins.Core.Code.Player
 {
     public class Player : IPlayer
     {
+        /// <summary>
+        /// Constructor of teh player object
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="playerType"></param>
+        /// <param name="playerColor"></param>
         public Player(string name, PlayerType playerType, PlayerColor playerColor)
         {
             Identifier = new Guid();

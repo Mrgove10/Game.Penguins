@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Game.Penguins.AI;
-using Game.Penguins.Core.Code.Player;
+﻿using Game.Penguins.Core.Code.Player;
+using Game.Penguins.Core.Interfaces.Game.Players;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Game.Penguins.AI.UnitTests
 {
@@ -10,9 +10,8 @@ namespace Game.Penguins.AI.UnitTests
         [TestMethod]
         public void CreateNormalPlayer()
         {
-            
-            Player m = new Player();
+            Player m = new Player("Adrien", PlayerType.Human, PlayerColor.Blue);
+            Assert.IsTrue(m.Name == "Adrien");
         }
     }
 }
-
