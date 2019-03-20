@@ -3,8 +3,8 @@
     public enum PlayerType
     {
         Human = 0,
-        AIEasy,
-        AIMedium,
-        AIHard
+        AIEasy = 1,
+        AIMedium = 2,
+        AIHard = 3
     }
 }

@@ -44,7 +44,7 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
 
         /// <summary>
         /// Start the game
-        /// Do not forget to add players before strting the game
+        /// Do not forget to add players before starting the game
         /// </summary>
         void StartGame();
 

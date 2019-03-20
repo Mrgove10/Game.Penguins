@@ -3,8 +3,8 @@
     public enum CellType
     {
         Empty = 0,
-        Fish,
-        FishWithPenguin,
-        Water
+        Fish = 1,
+        FishWithPenguin = 2,
+        Water = 3
     }
 }

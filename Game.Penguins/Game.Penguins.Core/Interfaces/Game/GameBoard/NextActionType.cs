@@ -3,7 +3,7 @@
     public enum NextActionType
     {
         PlacePenguin = 0,
-        MovePenguin,
-        Nothing
+        MovePenguin = 1,
+        Nothing = 2
     }
 }
