@@ -5,7 +5,7 @@ namespace Game.Penguins.Core.Interfaces.Game.Actions
     public interface IPlayAction
     {
         /// <summary>
-        /// Identifier of the player that do the action
+        /// Identifier of the player that does the action
         /// </summary>
         Guid PlayerIdenfifier { get; }
 
