@@ -2,6 +2,8 @@
 using Game.Penguins.Core.Interfaces.Game.Actions;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
+using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.MainGame;
 using Game.Penguins.Framework;
 using System;
 using System.Collections.Generic;
@@ -231,7 +233,7 @@ namespace Game.Penguins.ViewModels
         {
             // TODO : Initialize with the right implementation
             game = (IGame)null;
-            game = new CustomGame();
+            game = new MainGame();
             
             game.StateChanged += Game_StateChanged;
 
