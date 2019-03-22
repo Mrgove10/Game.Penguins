@@ -231,7 +231,7 @@ namespace Game.Penguins.ViewModels
         {
             // TODO : Initialize with the right implementation
             game = (IGame)null;
-            game = new CustomGame();
+        //    game = new CustomGame();
             
             game.StateChanged += Game_StateChanged;
 
