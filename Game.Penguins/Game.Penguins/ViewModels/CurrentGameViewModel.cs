@@ -8,6 +8,7 @@ using Game.Penguins.Framework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Game.Penguins.ViewModels
 {
@@ -16,6 +17,8 @@ namespace Game.Penguins.ViewModels
         , IApplicationContentView
     {
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
+
+        public ObservableCollection<PlayerViewModel> Players { get; } = new ObservableCollection<PlayerViewModel>();
 
         private readonly IGame game;
 
@@ -255,7 +258,8 @@ namespace Game.Penguins.ViewModels
             // First we initialize the game object with players :
             foreach (var player in players)
             {
-                game.AddPlayer(player.PlayerName, player.PlayerType);
+                var createdPlayer = game.AddPlayer(player.PlayerName, player.PlayerType);
+                Players.Add(new PlayerViewModel(createdPlayer));
             }
 
             game.StartGame();
