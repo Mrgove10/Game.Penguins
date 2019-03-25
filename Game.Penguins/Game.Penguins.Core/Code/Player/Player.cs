@@ -1,5 +1,6 @@
 ﻿using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
+using System.Collections.Generic;
 
 namespace Game.Penguins.Core.Code.Player
 {
@@ -10,15 +11,15 @@ namespace Game.Penguins.Core.Code.Player
         /// </summary>
         /// <param name="name"></param>
         /// <param name="playerType"></param>
-        /// <param name="playerColor"></param>
         /// <param name="numberOfPenguins"></param>
-        public Player(string name, PlayerType playerType, PlayerColor playerColor, int numberOfPenguins)
+        public Player(string name, PlayerType playerType, int numberOfPenguins)
         {
             Identifier = new Guid();
             Name = name;
-            Color = PlayerColor.Blue;
+            Color = getPlayerColor();
             Points = 0;
-
+            PlayerType = playerType;
+            
             if (numberOfPenguins < 0 || numberOfPenguins > 4)
             {
                 throw new ArgumentOutOfRangeException();
@@ -27,6 +28,29 @@ namespace Game.Penguins.Core.Code.Player
             {
                 Penguins = numberOfPenguins;
             }
+        }
+
+        private PlayerColor getPlayerColor()
+        {
+            List<PlayerColor> TakenColors = new List<PlayerColor>();
+            Random rand = new Random();
+            var randomNumber = rand.Next(0, 3);
+            PlayerColor FinalColor;
+            foreach (var color in TakenColors)
+            {
+                FinalColor = (PlayerColor) randomNumber;
+                if (color != FinalColor)
+                {
+                    TakenColors.Add(FinalColor);
+                    return FinalColor;
+                }
+                else
+                {
+                    randomNumber = rand.Next(0, 3);
+                }
+            }
+
+            throw new Exception("wtf error");
         }
 
         public Guid Identifier { get; }

@@ -6,23 +6,19 @@ namespace Game.Penguins.Core.Code.GameBoard
     public class Cell : ICell
     {
         /// <summary>
-        /// CellConsructor for non fish
+        /// Cell Consructor for non fish cells
         /// </summary>
         /// <param name="type"></param>
         public Cell(CellType type)
         {
-            if (type == CellType.Fish)
-            {
-                throw new Exception();
-            }
-            else
+            if (type != CellType.Fish)
             {
                 CellType = type;
             }
         }
-
+    
         /// <summary>
-        /// Cell Constructor for fish
+        /// Cell Constructor for fish cells
         /// </summary>
         /// <param name="type"></param>
         /// <param name="nuberOfFish"></param>
