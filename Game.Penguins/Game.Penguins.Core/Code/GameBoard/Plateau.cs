@@ -40,7 +40,9 @@ namespace Game.Penguins.Core.Code.GameBoard
             }
         }
 
-
+        /// <summary>
+        /// Shuffles the listof fish to be random
+        /// </summary>
         private void shuffle()
         {
             for (int i = 0; i < nb1fish; i++)
@@ -56,16 +58,19 @@ namespace Game.Penguins.Core.Code.GameBoard
                 AllCells.Add(new Cell(CellType.Fish, 3));
             }
 
+            #region Randomise List
+
+            //RAndemises the liste of fishes
             Random r = new Random();
             int randomIndex = 0;
             while (AllCells.Count > 0)
             {
-                randomIndex = r.Next(0, AllCells.Count); //Choose a random object in the list
-                AllCellsRandom.Add(AllCells[randomIndex]); //add it to the new, random list
-                AllCells.RemoveAt(randomIndex); //remove to avoid duplicates
+                randomIndex = r.Next(0, AllCells.Count);
+                AllCellsRandom.Add(AllCells[randomIndex]);
+                AllCells.RemoveAt(randomIndex);
             }
 
-
+            #endregion Randomise List
         }
 
         /// <summary>
