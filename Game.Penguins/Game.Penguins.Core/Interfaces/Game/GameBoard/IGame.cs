@@ -40,7 +40,7 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// </summary>
         /// <param name="playerName"></param>
         /// <param name="playerType"></param>
-        void AddPlayer(string playerName, PlayerType playerType);
+        IPlayer AddPlayer(string playerName, PlayerType playerType);
 
         /// <summary>
         /// Start the game
@@ -57,14 +57,14 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        void PlacePinguinManual(int x, int y);
+        void PlacePenguinManual(int x, int y);
 
         /// <summary>
         /// Call the AI to place his penguin
         /// </summary>
         /// <param name="playerName"></param>
         /// <param name="playerType"></param>
-        void PlacePinguin();
+        void PlacePenguin();
 
         #endregion
 
@@ -73,9 +73,9 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// <summary>
         /// Execute a move for the current user if it's a human
         /// </summary>
-        /// <param name="player"></param>
-        /// <param name="action"></param>
-        void MoveManual(IMove action);
+        /// <param name="origin"></param>
+        /// <param name="destination"></param>
+        void MoveManual(ICell origin, ICell destination);
 
         /// <summary>
         /// Execute a move for an AI
