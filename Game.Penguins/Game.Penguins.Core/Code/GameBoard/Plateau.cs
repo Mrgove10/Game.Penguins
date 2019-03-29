@@ -1,15 +1,14 @@
-﻿using System;
-using Game.Penguins.Core.Interfaces.Game.GameBoard;
+﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
+using System;
 
 namespace Game.Penguins.Core.Code.GameBoard
 {
     public class Plateau : IBoard
     {
-        private int TotalCells = 60;
+        private int TotalCells = 64;
         private int nb1fish = 10;
         private int nb2fish = 20;
-        private int nb3fish = 30;
-
+        private int nb3fish = 34;
         public ICell[,] Board { get; }
 
         /// <summary>
@@ -42,26 +41,27 @@ namespace Game.Penguins.Core.Code.GameBoard
         private Cell ChooseRandomCell()
         {
             Random rand = new Random();
-            var value = rand.Next(0, 4);
+            var value = rand.Next(0, 3);
+
             switch (value)
             {
                 case 0:
-                    return new Cell(CellType.Water);
-                case 1:
                     if (nb1fish > 0)
                     {
                         nb1fish = nb1fish - 1;
                         return new Cell(CellType.Fish, 1);
                     }
                     break;
-                case 2:
+
+                case 1:
                     if (nb2fish > 0)
                     {
                         nb2fish = nb2fish - 1;
                         return new Cell(CellType.Fish, 2);
                     }
                     break;
-                case 3:
+
+                case 2:
                     if (nb3fish > 0)
                     {
                         nb3fish = nb3fish - 1;
@@ -69,7 +69,7 @@ namespace Game.Penguins.Core.Code.GameBoard
                     }
                     break;
             }
-           return new Cell(CellType.Empty);
+            return new Cell(CellType.Empty);
         }
     }
 }

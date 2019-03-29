@@ -32,14 +32,20 @@ namespace Game.Penguins.Core.Code.Player
 
         private PlayerColor getPlayerColor()
         {
+            Random rand = new Random();
+            var randomNumber = rand.Next(0, 3);
+            return (PlayerColor) randomNumber;
+
+            //TODO need to change this !!!!!
+            /*
             List<PlayerColor> TakenColors = new List<PlayerColor>();
             Random rand = new Random();
             var randomNumber = rand.Next(0, 3);
             PlayerColor FinalColor;
-            foreach (var color in TakenColors)
+            for (int i = 0; i < 3; i++)
             {
                 FinalColor = (PlayerColor) randomNumber;
-                if (color != FinalColor)
+                if ((PlayerColor)i == FinalColor)
                 {
                     TakenColors.Add(FinalColor);
                     return FinalColor;
@@ -50,7 +56,7 @@ namespace Game.Penguins.Core.Code.Player
                 }
             }
 
-            throw new Exception("wtf error");
+            throw new Exception("Color geneation error");*/
         }
 
         public Guid Identifier { get; }
