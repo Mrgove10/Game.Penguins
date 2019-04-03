@@ -24,19 +24,16 @@ namespace Game.Penguins.Core.Code.GameBoard
             Board = new ICell[sizeX, sizeY];
 
             shuffle();
-            if (TotalCells > 0)
-            {
-                var n = 0;
-                for (int i = 0; i < sizeX; i++)
-                {
-                    for (int j = 0; j < sizeY; j++)
-                    {
-                        Board[i, j] = AllCellsRandom[n];
-                        n++;
-                    }
-                }
 
-                TotalCells = TotalCells - 1;
+            // places shuffled cells in the main board
+            var n = 0;
+            for (int i = 0; i < sizeX; i++)
+            {
+                for (int j = 0; j < sizeY; j++)
+                {
+                    Board[i, j] = AllCellsRandom[n];
+                    n++;
+                }
             }
         }
 
@@ -60,7 +57,7 @@ namespace Game.Penguins.Core.Code.GameBoard
 
             #region Randomise List
 
-            //RAndemises the liste of fishes
+            //Randomises the liste of fishes
             Random r = new Random();
             int randomIndex = 0;
             while (AllCells.Count > 0)
@@ -71,45 +68,6 @@ namespace Game.Penguins.Core.Code.GameBoard
             }
 
             #endregion Randomise List
-        }
-
-        /// <summary>
-        /// Generates a random cell type (water or whit 1 or 2 or 3 fish on it)
-        /// </summary>
-        /// <returns>Random Cell type</returns>
-        [Obsolete]
-        private Cell ChooseRandomCell()
-        {
-            Random rand = new Random();
-            var value = rand.Next(0, 3);
-
-            switch (value)
-            {
-                case 0:
-                    if (nb1fish > 0)
-                    {
-                        nb1fish = nb1fish - 1;
-                        return new Cell(CellType.Fish, 1);
-                    }
-                    break;
-
-                case 1:
-                    if (nb2fish > 0)
-                    {
-                        nb2fish = nb2fish - 1;
-                        return new Cell(CellType.Fish, 2);
-                    }
-                    break;
-
-                case 2:
-                    if (nb3fish > 0)
-                    {
-                        nb3fish = nb3fish - 1;
-                        return new Cell(CellType.Fish, 3);
-                    }
-                    break;
-            }
-            return new Cell(CellType.Empty);
         }
     }
 }

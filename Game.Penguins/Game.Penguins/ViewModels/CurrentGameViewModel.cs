@@ -51,7 +51,7 @@ namespace Game.Penguins.ViewModels
             {
                 if (value == null || game.CurrentPlayer.PlayerType != PlayerType.Human)
                     return;
-
+                //TODO
                 //// Check that the select is valid :
                 //if (game.NextAction == NextActionType.MovePenguin && selectFirst && value.Cell.CellType != CellType.FishWithPenguin)
                 //    return;
@@ -235,7 +235,7 @@ namespace Game.Penguins.ViewModels
             : base()
         {
             // TODO : Initialize with the right implementation
-            game = (IGame)null;
+            // game = (IGame)null;
             game = new MainGame();
             
             game.StateChanged += Game_StateChanged;
