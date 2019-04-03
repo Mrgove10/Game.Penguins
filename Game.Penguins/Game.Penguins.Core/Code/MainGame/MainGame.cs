@@ -4,19 +4,21 @@ using Game.Penguins.Core.Interfaces.Game.Players;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Game.Penguins.Core.Code.MainGame
 {
     public class MainGame : IGame
     {
         public IBoard Board { get; }
-        public NextActionType NextAction { get; }
-        public IPlayer CurrentPlayer { get; }
+        public NextActionType NextAction { get; set; }
+        public IPlayer CurrentPlayer { get; set; }
         public IList<IPlayer> Players { get; }
 
         public event EventHandler StateChanged;
 
-        public IList<IPlayer> PlayersPlayOrder;
+        private IList<IPlayer> PlayersPlayOrder;
+        private int CutrrentTurnNumber = 0;
 
         /// <summary>
         /// MainGame constructor
@@ -29,7 +31,9 @@ namespace Game.Penguins.Core.Code.MainGame
             Board = new Plateau(8, 8);
             Players = new List<IPlayer>();
             CurrentPlayer = null;
+#if DEBUG
             Console.WriteLine("Current Number Of players : " + Players.Count);
+#endif
         }
 
         /// <summary>
@@ -52,13 +56,11 @@ namespace Game.Penguins.Core.Code.MainGame
         /// </summary>
         public void StartGame()
         {
-            PlayersPlayOrder = GeneratePlayOrder();
-
-            //TODO: update penguis / player here
-
-            //     this.CurrentPlayer = PlayersPlayOrder[0].Identifier; //takes the first randomly selected player
-
-            #region DEBUG
+            PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
+            UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
+            CurrentPlayer = PlayersPlayOrder[0];
+            CutrrentTurnNumber = 0;
+#if DEBUG
 
             Console.WriteLine("-----CELLS------");
             foreach (ICell cell in Board.Board)
@@ -78,7 +80,40 @@ namespace Game.Penguins.Core.Code.MainGame
                 Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
             }
 
-            #endregion DEBUG
+#endif
+        }
+
+
+        /// <summary>
+        /// Updated the number of penguins per player
+        /// </summary>
+        /// <param name="NumberOfPenguins"></param>
+        private void UpdateNumberOfPenguins(int NumberOfPenguins)
+        {
+            int penguinsperplayer = 0;
+            switch (NumberOfPenguins)
+            {
+                case 1:
+                    throw new ArgumentOutOfRangeException();
+                    break;
+
+                case 2:
+                    penguinsperplayer = 4;
+                    break;
+
+                case 3:
+                    penguinsperplayer = 3;
+                    break;
+
+                case 4:
+                    penguinsperplayer = 2;
+                    break;
+            }
+
+            foreach (Player.Player player in Players)
+            {
+                player.Penguins = penguinsperplayer;
+            }
         }
 
         /// <summary>

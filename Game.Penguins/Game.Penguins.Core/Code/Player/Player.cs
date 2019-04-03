@@ -9,8 +9,8 @@ namespace Game.Penguins.Core.Code.Player
         public PlayerType PlayerType { get; }
         public PlayerColor Color { get; }
         public string Name { get; }
-        public int Points { get; }
-        public int Penguins { get; }
+        public int Points { get; set; }
+        public int Penguins { get; set; }
 
         public event EventHandler StateChanged;
 
@@ -39,6 +39,10 @@ namespace Game.Penguins.Core.Code.Player
             }
         }
 
+        /// <summary>
+        /// Generates the player color
+        /// </summary>
+        /// <returns></returns>
         private PlayerColor getPlayerColor()
         {
             Random rand = new Random();
