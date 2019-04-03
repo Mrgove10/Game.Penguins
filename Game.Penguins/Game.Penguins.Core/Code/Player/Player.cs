@@ -1,5 +1,7 @@
-﻿using Game.Penguins.Core.Interfaces.Game.Players;
+﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
+using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
+using System.Collections.Generic;
 
 namespace Game.Penguins.Core.Code.Player
 {
@@ -14,13 +16,14 @@ namespace Game.Penguins.Core.Code.Player
 
         public event EventHandler StateChanged;
 
+        public List<IPenguin> PlayerPenguinsList { get; set; }
+
         /// <summary>
         /// Constructor of the player object
         /// </summary>
         /// <param name="name"></param>
         /// <param name="playerType"></param>
-        /// <param name="numberOfPenguins"></param>
-        public Player(string name, PlayerType playerType, int numberOfPenguins)
+        public Player(string name, PlayerType playerType)
         {
             Guid guid = Guid.NewGuid();
             Identifier = guid;
@@ -28,15 +31,8 @@ namespace Game.Penguins.Core.Code.Player
             Color = getPlayerColor();
             Points = 0;
             PlayerType = playerType;
-
-            if (numberOfPenguins < 0 || numberOfPenguins > 4)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-            else
-            {
-                Penguins = numberOfPenguins;
-            }
+            Penguins = 0;
+            PlayerPenguinsList = new List<IPenguin>();
         }
 
         /// <summary>
@@ -47,29 +43,15 @@ namespace Game.Penguins.Core.Code.Player
         {
             Random rand = new Random();
             var randomNumber = rand.Next(0, 3);
+
+
+            
+
+
             return (PlayerColor)randomNumber;
 
             //TODO need to change this !!!!!
-            /*
-            List<PlayerColor> TakenColors = new List<PlayerColor>();
-            Random rand = new Random();
-            var randomNumber = rand.Next(0, 3);
-            PlayerColor FinalColor;
-            for (int i = 0; i < 3; i++)
-            {
-                FinalColor = (PlayerColor) randomNumber;
-                if ((PlayerColor)i == FinalColor)
-                {
-                    TakenColors.Add(FinalColor);
-                    return FinalColor;
-                }
-                else
-                {
-                    randomNumber = rand.Next(0, 3);
-                }
-            }
-
-            throw new Exception("Color geneation error");*/
+            
         }
     }
 }

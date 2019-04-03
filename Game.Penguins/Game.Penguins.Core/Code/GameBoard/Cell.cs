@@ -7,7 +7,7 @@ namespace Game.Penguins.Core.Code.GameBoard
     {
         public CellType CellType { get; }
         public int FishCount { get; }
-        public IPenguin CurrentPenguin { get; }
+        public IPenguin CurrentPenguin { get; set; }
 
         public event EventHandler StateChanged;
 

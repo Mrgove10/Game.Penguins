@@ -4,7 +4,6 @@ using Game.Penguins.Core.Interfaces.Game.Players;
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace Game.Penguins.Core.Code.MainGame
 {
@@ -18,7 +17,7 @@ namespace Game.Penguins.Core.Code.MainGame
         public event EventHandler StateChanged;
 
         private IList<IPlayer> PlayersPlayOrder;
-        private int CutrrentTurnNumber = 0;
+        private int CutrrentTurnNumber { get; set; }
 
         /// <summary>
         /// MainGame constructor
@@ -46,7 +45,7 @@ namespace Game.Penguins.Core.Code.MainGame
         {
             //initialises payer whit 0 penguins ( will be updated later)
             //TODO : need to make the penguins good
-            IPlayer tempPlayer = new Player.Player(playerName, playerType, 4);
+            IPlayer tempPlayer = new Player.Player(playerName, playerType);
             Players.Add(tempPlayer);//TODO :  unsure about this, verrify
             return tempPlayer;
         }
@@ -79,10 +78,10 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
             }
-
+            Console.WriteLine("-----PLAYERSTARTS------");
+            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
 #endif
         }
-
 
         /// <summary>
         /// Updated the number of penguins per player
@@ -113,6 +112,10 @@ namespace Game.Penguins.Core.Code.MainGame
             foreach (Player.Player player in Players)
             {
                 player.Penguins = penguinsperplayer;
+                for (int i = 0; i < penguinsperplayer; i++)
+                {
+                    player.PlayerPenguinsList.Add(new Penguin.Penguin(player));
+                }
             }
         }
 
@@ -144,7 +147,12 @@ namespace Game.Penguins.Core.Code.MainGame
         public void PlacePenguinManual(int x, int y)
         {
             Console.WriteLine("Player want's to place a penguin at x " + x + " y " + y);
-            ICell currentcell = Board.Board[x, y];
+            Cell currentcell = (Cell)Board.Board[x, y];
+            if (currentcell.CurrentPenguin == null)
+            {
+                currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
+            }
+            currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
             Console.WriteLine("curretn cellel type: " + currentcell.CellType + " " + currentcell.FishCount);
             throw new NotImplementedException();
         }
@@ -157,11 +165,19 @@ namespace Game.Penguins.Core.Code.MainGame
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Moves the penguin
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Moves the penguin
+        /// </summary>
         public void Move()
         {
             throw new NotImplementedException();
