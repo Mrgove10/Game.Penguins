@@ -5,6 +5,12 @@ namespace Game.Penguins.Core.Code.GameBoard
 {
     public class Cell : ICell
     {
+        public CellType CellType { get; }
+        public int FishCount { get; }
+        public IPenguin CurrentPenguin { get; }
+
+        public event EventHandler StateChanged;
+
         /// <summary>
         /// Cell Consructor for non fish cells
         /// </summary>
@@ -16,7 +22,7 @@ namespace Game.Penguins.Core.Code.GameBoard
                 CellType = type;
             }
         }
-    
+
         /// <summary>
         /// Cell Constructor for fish cells
         /// </summary>
@@ -41,11 +47,5 @@ namespace Game.Penguins.Core.Code.GameBoard
                 }
             }
         }
-
-        public CellType CellType { get; }
-        public int FishCount { get; }
-        public IPenguin CurrentPenguin { get; }
-
-        public event EventHandler StateChanged;
     }
 }
