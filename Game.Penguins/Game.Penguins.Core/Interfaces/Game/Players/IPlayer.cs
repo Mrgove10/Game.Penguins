@@ -33,7 +33,7 @@ namespace Game.Penguins.Core.Interfaces.Game.Players
         /// Number of available penguins
         /// </summary>
         int Penguins { get; }
-        
+
         /// <summary>
         /// Fired when the state has changed (Points, Penguins count ...)
         /// </summary>

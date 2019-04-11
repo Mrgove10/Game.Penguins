@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Game.Penguins.Core.Interfaces.Game.Players;
-
-namespace Game.Penguins.Core.Code.Helper
+﻿namespace Game.Penguins.Core.Code.Helper
 {
-    class PlayOrder
+    internal class PlayOrder
     {
         /// <summary>
         /// Randomises the Player turns

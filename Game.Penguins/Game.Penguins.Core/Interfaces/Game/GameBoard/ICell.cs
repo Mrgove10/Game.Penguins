@@ -8,7 +8,7 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// Type of the cell
         /// </summary>
         CellType CellType { get; }
-        
+
         /// <summary>
         /// Number of fish on this cell
         /// (0 by default if it's not a cell with some fish)

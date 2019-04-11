@@ -37,10 +37,9 @@ namespace Game.Penguins.Core.Code.MainGame
 #endif
             if (StateChanged != null)
             {
-                StateChanged.Invoke(this,null);
+                StateChanged.Invoke(this, null);
             }
         }
-
 
         /// <summary>
         /// Addes a player to the game
@@ -90,15 +89,13 @@ namespace Game.Penguins.Core.Code.MainGame
             Console.WriteLine("-----PLAYERSTARTS------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
 #endif
-          //  PlacePenguinManual(1, 1);
+            //  PlacePenguinManual(1, 1);
 
-        //    run();
+            //    run();
         }
+
         private void run()
         {
-          
-
-            
         }
 
         /// <summary>
@@ -111,8 +108,7 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 if (currentPlayer.PlayerType == PlayerType.Human)
                 {
-                        StateChanged.Invoke(this, null);
-                
+                    StateChanged.Invoke(this, null);
                 }
                 else
                 {
