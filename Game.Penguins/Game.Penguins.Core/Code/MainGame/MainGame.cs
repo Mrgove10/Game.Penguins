@@ -81,7 +81,16 @@ namespace Game.Penguins.Core.Code.MainGame
             Console.WriteLine("-----PLAYERSTARTS------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
 #endif
+            PlacePenguinManual(1,1);
         }
+
+        
+        private void turn()
+        {
+
+        }
+
+
 
         /// <summary>
         /// Updated the number of penguins per player
@@ -153,8 +162,8 @@ namespace Game.Penguins.Core.Code.MainGame
                 currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
             }
             currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
-            Console.WriteLine("curretn cellel type: " + currentcell.CellType + " " + currentcell.FishCount);
-            throw new NotImplementedException();
+            Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
+           // throw new NotImplementedException();
         }
 
         /// <summary>

@@ -44,10 +44,6 @@ namespace Game.Penguins.Core.Code.Player
             Random rand = new Random();
             var randomNumber = rand.Next(0, 3);
 
-
-            
-
-
             return (PlayerColor)randomNumber;
 
             //TODO need to change this !!!!!

@@ -8,7 +8,7 @@ namespace Game.Penguins.AI.UnitTests
     [TestClass]
     public class PlayerTests
     {
-        [TestMethod]
+      /*  [TestMethod]
         public void CreatePlayerNormalName()
         {
             Player m = new Player("Adrien", PlayerType.Human,  1);
@@ -48,6 +48,6 @@ namespace Game.Penguins.AI.UnitTests
         {
             Player m = new Player("Adrien", PlayerType.Human,  1);
             Assert.IsTrue(m.Points == 0);
-        }
+        }*/
     }
 }
