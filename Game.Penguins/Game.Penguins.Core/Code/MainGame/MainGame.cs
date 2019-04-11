@@ -4,7 +4,6 @@ using Game.Penguins.Core.Interfaces.Game.Players;
 
 using System;
 using System.Collections.Generic;
-using Game.Penguins.Core.Code.Helper;
 
 namespace Game.Penguins.Core.Code.MainGame
 {
@@ -21,6 +20,7 @@ namespace Game.Penguins.Core.Code.MainGame
         private int CurrentPlayerNumber = 0;
         private int turnNumber = 0;
         private int penguinsPerPlayer = 0;
+
         /// <summary>
         /// MainGame constructor
         /// </summary>
@@ -35,7 +35,12 @@ namespace Game.Penguins.Core.Code.MainGame
 #if DEBUG
             Console.WriteLine("Current Number Of players : " + Players.Count);
 #endif
+            if (StateChanged != null)
+            {
+                StateChanged.Invoke(this,null);
+            }
         }
+
 
         /// <summary>
         /// Addes a player to the game
@@ -60,7 +65,8 @@ namespace Game.Penguins.Core.Code.MainGame
             PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
             UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
             CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
-          //  getPlayerColor();
+            StateChanged.Invoke(this, null);
+            //  getPlayerColor();
 #if DEBUG
 
             Console.WriteLine("-----CELLS------");
@@ -83,14 +89,14 @@ namespace Game.Penguins.Core.Code.MainGame
             Console.WriteLine("-----PLAYERSTARTS------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
 #endif
-            PlacePenguinManual(1, 1);
-            run();
+          //  PlacePenguinManual(1, 1);
+
+        //    run();
         }
 
         private void run()
         {
-            while (true)//need to change for function that checkes the win
-            {
+          
 #if DEBUG
                 Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
 #endif
@@ -101,36 +107,48 @@ namespace Game.Penguins.Core.Code.MainGame
                 }
                 else
                 {
-                    CurrentPlayerNumber = 0;    
+                    CurrentPlayerNumber = 0;
                     turnNumber++;
                 }
                 CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
-            }
+            
         }
 
         /// <summary>
         /// Runs the turn of a player
         /// </summary>
         /// <param name="Player"></param>
-        private void turn(int turnNumber, IPlayer Player)
+        private void turn(int turnNumber, IPlayer currentPlayer)
         {
-
-            if (turnNumber < Players.Count())
+            if (turnNumber < Players.Count) //this means we are in a placement turn
             {
-
+                if (currentPlayer.PlayerType == PlayerType.Human)
+                {
+                    if (StateChanged != null)
+                    {
+                        StateChanged.Invoke(this, null);
+                        //  RaisePropertyChanged(nameof(PlayerName));
+                    
+                    }
+                }
+                else
+                {
+                    PlacePenguin();
+                }
             }
-            switch (penguinsPerPlayer)
+            else
             {
-                
+                if (currentPlayer.PlayerType == PlayerType.Human)
+                {
+                    //   MoveManual();
+                }
+                else
+                {
+                    Move();
+                }
             }
-         
 
             //to stuff for each player turn
-        }
-
-        int calculatePlacementTurn()
-        {
-            
         }
 
         /// <summary>
@@ -152,8 +170,6 @@ namespace Game.Penguins.Core.Code.MainGame
 
             return RandomList;
         }
-
-
 
         /// <summary>
         /// Updated the number of penguins per player
@@ -213,7 +229,18 @@ namespace Game.Penguins.Core.Code.MainGame
         /// </summary>
         public void PlacePenguin()
         {
-            throw new NotImplementedException();
+            if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
+            {
+                //Easy AI place function here
+            }
+            else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
+            {
+                //Meduim AI place function here
+            }
+            else if (CurrentPlayer.PlayerType == PlayerType.AIHard)
+            {
+                //Hard AI place function here
+            }
         }
 
         /// <summary>
@@ -231,7 +258,18 @@ namespace Game.Penguins.Core.Code.MainGame
         /// </summary>
         public void Move()
         {
-            throw new NotImplementedException();
+            if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
+            {
+                //Easy AI move function here
+            }
+            else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
+            {
+                //Meduim AI move function here
+            }
+            else if (CurrentPlayer.PlayerType == PlayerType.AIHard)
+            {
+                //Hard AI move function here
+            }
         }
     }
 }
