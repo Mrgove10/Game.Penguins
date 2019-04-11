@@ -69,13 +69,14 @@ namespace Game.Penguins.Core.Code.MainGame
             //  getPlayerColor();
 #if DEBUG
 
+            /*
             Console.WriteLine("-----CELLS------");
             foreach (ICell cell in Board.Board)
             {
                 Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
             }
             Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-
+            */
             Console.WriteLine("-----PLAYER------");
             foreach (IPlayer player in Players)
             {
@@ -93,24 +94,10 @@ namespace Game.Penguins.Core.Code.MainGame
 
         //    run();
         }
-
         private void run()
         {
           
-#if DEBUG
-                Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
-#endif
-                turn(turnNumber, CurrentPlayer);
-                if (CurrentPlayerNumber < Players.Count - 1)
-                {
-                    CurrentPlayerNumber++;
-                }
-                else
-                {
-                    CurrentPlayerNumber = 0;
-                    turnNumber++;
-                }
-                CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
+
             
         }
 
@@ -124,30 +111,39 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 if (currentPlayer.PlayerType == PlayerType.Human)
                 {
-                    if (StateChanged != null)
-                    {
                         StateChanged.Invoke(this, null);
-                        //  RaisePropertyChanged(nameof(PlayerName));
-                    
-                    }
+                
                 }
                 else
                 {
-                    PlacePenguin();
+                    PlacePenguin(); //AI
                 }
             }
             else
             {
                 if (currentPlayer.PlayerType == PlayerType.Human)
                 {
-                    //   MoveManual();
+                    StateChanged.Invoke(this, null);
                 }
                 else
                 {
-                    Move();
+                    Move(); //AI
                 }
             }
+#if DEBUG
+            Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
+#endif
 
+            if (CurrentPlayerNumber < Players.Count - 1)
+            {
+                CurrentPlayerNumber++;
+            }
+            else
+            {
+                CurrentPlayerNumber = 0;
+                turnNumber++;
+            }
+            CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
             //to stuff for each player turn
         }
 
