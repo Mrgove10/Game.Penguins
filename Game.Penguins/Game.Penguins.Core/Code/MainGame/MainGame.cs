@@ -4,6 +4,7 @@ using Game.Penguins.Core.Interfaces.Game.Players;
 
 using System;
 using System.Collections.Generic;
+using Game.Penguins.Core.Code.Helper;
 
 namespace Game.Penguins.Core.Code.MainGame
 {
@@ -17,8 +18,9 @@ namespace Game.Penguins.Core.Code.MainGame
         public event EventHandler StateChanged;
 
         private IList<IPlayer> PlayersPlayOrder;
-        private int CutrrentTurnNumber { get; set; }
-
+        private int CurrentPlayerNumber = 0;
+        private int turnNumber = 0;
+        private int penguinsPerPlayer = 0;
         /// <summary>
         /// MainGame constructor
         /// </summary>
@@ -56,9 +58,9 @@ namespace Game.Penguins.Core.Code.MainGame
         public void StartGame()
         {
             PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
-            UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
-            CurrentPlayer = PlayersPlayOrder[0];
-            CutrrentTurnNumber = 0;
+            UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
+            CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
+          //  getPlayerColor();
 #if DEBUG
 
             Console.WriteLine("-----CELLS------");
@@ -81,51 +83,54 @@ namespace Game.Penguins.Core.Code.MainGame
             Console.WriteLine("-----PLAYERSTARTS------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
 #endif
-            PlacePenguinManual(1,1);
+            PlacePenguinManual(1, 1);
+            run();
         }
 
-        
-        private void turn()
+        private void run()
         {
-
+            while (true)//need to change for function that checkes the win
+            {
+#if DEBUG
+                Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
+#endif
+                turn(turnNumber, CurrentPlayer);
+                if (CurrentPlayerNumber < Players.Count - 1)
+                {
+                    CurrentPlayerNumber++;
+                }
+                else
+                {
+                    CurrentPlayerNumber = 0;    
+                    turnNumber++;
+                }
+                CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
+            }
         }
-
-
 
         /// <summary>
-        /// Updated the number of penguins per player
+        /// Runs the turn of a player
         /// </summary>
-        /// <param name="NumberOfPenguins"></param>
-        private void UpdateNumberOfPenguins(int NumberOfPenguins)
+        /// <param name="Player"></param>
+        private void turn(int turnNumber, IPlayer Player)
         {
-            int penguinsperplayer = 0;
-            switch (NumberOfPenguins)
+
+            if (turnNumber < Players.Count())
             {
-                case 1:
-                    throw new ArgumentOutOfRangeException();
-                    break;
 
-                case 2:
-                    penguinsperplayer = 4;
-                    break;
-
-                case 3:
-                    penguinsperplayer = 3;
-                    break;
-
-                case 4:
-                    penguinsperplayer = 2;
-                    break;
             }
-
-            foreach (Player.Player player in Players)
+            switch (penguinsPerPlayer)
             {
-                player.Penguins = penguinsperplayer;
-                for (int i = 0; i < penguinsperplayer; i++)
-                {
-                    player.PlayerPenguinsList.Add(new Penguin.Penguin(player));
-                }
+                
             }
+         
+
+            //to stuff for each player turn
+        }
+
+        int calculatePlacementTurn()
+        {
+            
         }
 
         /// <summary>
@@ -148,6 +153,43 @@ namespace Game.Penguins.Core.Code.MainGame
             return RandomList;
         }
 
+
+
+        /// <summary>
+        /// Updated the number of penguins per player
+        /// </summary>
+        /// <param name="numberOfPlayers"></param>
+        private void UpdateNumberOfPlayers(int numberOfPlayers)
+        {
+            switch (numberOfPlayers)
+            {
+                case 1:
+                    throw new ArgumentOutOfRangeException();
+                    break;
+
+                case 2:
+                    penguinsPerPlayer = 4;
+                    break;
+
+                case 3:
+                    penguinsPerPlayer = 3;
+                    break;
+
+                case 4:
+                    penguinsPerPlayer = 2;
+                    break;
+            }
+
+            foreach (Player.Player player in Players)
+            {
+                player.Penguins = penguinsPerPlayer;
+                for (int i = 0; i < penguinsPerPlayer; i++)
+                {
+                    player.PlayerPenguinsList.Add(new Penguin.Penguin(player));
+                }
+            }
+        }
+
         /// <summary>
         /// Places the penguins on the board whit an X and Y parametre
         /// </summary>
@@ -160,14 +202,14 @@ namespace Game.Penguins.Core.Code.MainGame
             if (currentcell.CurrentPenguin == null)
             {
                 currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
+                currentcell.CellType = CellType.FishWithPenguin;
             }
             currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
             Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
-           // throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Places a penguin on the cell
+        /// Call the AI to place his penguin
         /// </summary>
         public void PlacePenguin()
         {
@@ -185,7 +227,7 @@ namespace Game.Penguins.Core.Code.MainGame
         }
 
         /// <summary>
-        /// Moves the penguin
+        /// Execute a move for an AI
         /// </summary>
         public void Move()
         {

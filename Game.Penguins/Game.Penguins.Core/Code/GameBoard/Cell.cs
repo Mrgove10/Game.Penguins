@@ -5,7 +5,7 @@ namespace Game.Penguins.Core.Code.GameBoard
 {
     public class Cell : ICell
     {
-        public CellType CellType { get; }
+        public CellType CellType { get; set; }
         public int FishCount { get; }
         public IPenguin CurrentPenguin { get; set; }
 

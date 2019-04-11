@@ -9,7 +9,7 @@ namespace Game.Penguins.Core.Code.Player
     {
         public Guid Identifier { get; }
         public PlayerType PlayerType { get; }
-        public PlayerColor Color { get; }
+        public PlayerColor Color { get; set; }
         public string Name { get; }
         public int Points { get; set; }
         public int Penguins { get; set; }
@@ -47,7 +47,6 @@ namespace Game.Penguins.Core.Code.Player
             return (PlayerColor)randomNumber;
 
             //TODO need to change this !!!!!
-            
         }
     }
 }
