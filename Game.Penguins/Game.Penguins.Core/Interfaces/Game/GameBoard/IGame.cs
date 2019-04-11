@@ -1,5 +1,4 @@
-﻿using Game.Penguins.Core.Interfaces.Game.Actions;
-using Game.Penguins.Core.Interfaces.Game.Players;
+﻿using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
 
@@ -26,7 +25,7 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// Informations about players
         /// </summary>
         IList<IPlayer> Players { get; }
-        
+
         /// <summary>
         /// Fired when the state has changed (Current player, ...)
         /// </summary>
@@ -48,7 +47,7 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// </summary>
         void StartGame();
 
-        #endregion
+        #endregion Initialization
 
         #region Place penguins actions
 
@@ -66,7 +65,7 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// <param name="playerType"></param>
         void PlacePenguin();
 
-        #endregion
+        #endregion Place penguins actions
 
         #region Move penguin
 
@@ -84,6 +83,6 @@ namespace Game.Penguins.Core.Interfaces.Game.GameBoard
         /// <param name="action"></param>
         void Move();
 
-        #endregion
+        #endregion Move penguin
     }
 }
