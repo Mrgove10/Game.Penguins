@@ -9,7 +9,7 @@ namespace Game.Penguins.Core.Code.MainGame
 {
     public class MainGame : IGame
     {
-        public IAI AIEasy;  
+        public IAI AIEasy;
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -104,29 +104,15 @@ namespace Game.Penguins.Core.Code.MainGame
         /// Runs the turn of a player
         /// </summary>
         /// <param name="Player"></param>
-        private void turn(int turnNumber, IPlayer currentPlayer)
+        private void turn()
         {
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
-                if (currentPlayer.PlayerType == PlayerType.Human)
-                {
-                    StateChanged.Invoke(this, null);
-                }
-                else
-                {
-                    PlacePenguin(); //AI
-                }
+                Console.WriteLine("Placement Turn");
             }
             else
             {
-                if (currentPlayer.PlayerType == PlayerType.Human)
-                {
-                    StateChanged.Invoke(this, null);
-                }
-                else
-                {
-                    Move(); //AI
-                }
+                Console.WriteLine("Normal Turn");
             }
 #if DEBUG
             Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
