@@ -1,4 +1,4 @@
-﻿using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 
@@ -162,6 +162,12 @@ namespace Game.Penguins.Core.Code.MainGame
                 CopyStartList.RemoveAt(randomIndex);
             }
 
+            int i = 0;
+            foreach (Player.Player play in CopyStartList)
+            {
+                play.Color = (PlayerColor)i;
+                i++;
+            }
             return RandomList;
         }
 
@@ -207,15 +213,16 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            Console.WriteLine("Player want's to place a penguin at x " + x + " y " + y);
+            turn();
+            Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentcell = (Cell)Board.Board[x, y];
             if (currentcell.CurrentPenguin == null)
             {
                 currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
                 currentcell.CellType = CellType.FishWithPenguin;
             }
-            currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
             Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
+            StateChanged.Invoke(this, null);
         }
 
         /// <summary>
@@ -254,7 +261,7 @@ namespace Game.Penguins.Core.Code.MainGame
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                AIEasy.DetectionCases(int posX, int posY)
+                //Easy AI move function here
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
@@ -264,6 +271,33 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 //Hard AI move function here
             }
+        }
+
+        /// <summary>
+        /// Print Debug info
+        /// </summary>
+        private void debug()
+        {
+            /*
+Console.WriteLine("-----CELLS------");
+foreach (ICell cell in Board.Board)
+{
+    Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
+}
+Console.WriteLine("Total cells on the board : " + Board.Board.Length);
+*/
+            Console.WriteLine("-----PLAYER------");
+            foreach (IPlayer player in Players)
+            {
+                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
+            }
+            Console.WriteLine("-----PLAYERSHUFFLED------");
+            foreach (IPlayer player in PlayersPlayOrder)
+            {
+                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
+            }
+            Console.WriteLine("-----PLAYERSTARTS------");
+            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
         }
     }
 }
