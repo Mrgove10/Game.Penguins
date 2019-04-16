@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Penguins.AI", "Game.Pe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Penguins.AI.UnitTests", "Game.Penguins.AI.UnitTests\Game.Penguins.AI.UnitTests.csproj", "{843FCEF1-D6E3-4B00-A1BE-0BC50E01565A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game.Penguins.UnitTests", "Game.Penguins.UnitTests\Game.Penguins.UnitTests.csproj", "{E98921F3-3249-41A7-BD0D-5D1BE359AFFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{843FCEF1-D6E3-4B00-A1BE-0BC50E01565A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{843FCEF1-D6E3-4B00-A1BE-0BC50E01565A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{843FCEF1-D6E3-4B00-A1BE-0BC50E01565A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98921F3-3249-41A7-BD0D-5D1BE359AFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98921F3-3249-41A7-BD0D-5D1BE359AFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98921F3-3249-41A7-BD0D-5D1BE359AFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98921F3-3249-41A7-BD0D-5D1BE359AFFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{89458A26-17DC-45C9-9495-7B261A987DDE} = {A9EFB1D3-9717-4CA2-8420-70854B3E20ED}
 		{2B262BE3-FC17-47DF-BA3A-A50CE65C4999} = {89458A26-17DC-45C9-9495-7B261A987DDE}
 		{843FCEF1-D6E3-4B00-A1BE-0BC50E01565A} = {E6664B06-DAAB-405E-B9F5-1404124DEBE8}
+		{E98921F3-3249-41A7-BD0D-5D1BE359AFFF} = {E6664B06-DAAB-405E-B9F5-1404124DEBE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C6E57245-376D-4A0B-BA2B-1D4B5A3BB14C}
