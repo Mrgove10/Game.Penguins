@@ -1,9 +1,9 @@
+using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
-using Game.Penguins.AI.Code;
 using System;
 using System.Collections.Generic;
 
@@ -43,7 +43,7 @@ namespace Game.Penguins.Services
         }
 
         /// <summary>
-        /// Addes a player to the game
+        /// Adds a player to the game
         /// </summary>
         /// <param name="playerName"></param>
         /// <param name="playerType"></param>
@@ -198,9 +198,9 @@ namespace Game.Penguins.Services
                 aiEasy.PlacementPenguin();
 
 #if DEBUG
-                Console.WriteLine("L'IA choisi sa position : [" + AIEasy.PlacementPenguinX + ", " + AIEasy.PlacementPenguinY + "]");
+                Console.WriteLine("L'IA choisi sa position : [" + aiEasy.PlacementPenguinX + ", " + aiEasy.PlacementPenguinY + "]");
 #endif
-                Cell cellPenguin = (Cell)Board.Board[AIEasy.PlacementPenguinX, AIEasy.PlacementPenguinY];
+                Cell cellPenguin = (Cell)Board.Board[aiEasy.PlacementPenguinX, aiEasy.PlacementPenguinY];
 
                 cellPenguin.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                 cellPenguin.CellType = CellType.FishWithPenguin;
