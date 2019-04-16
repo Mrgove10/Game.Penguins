@@ -63,11 +63,10 @@ namespace Game.Penguins.Core.Code.MainGame
             PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
             UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
             CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
-            turn(CurrentPlayer);
-            //  getPlayerColor();
+            turn();
+            StateChanged.Invoke(this, null);//game 
 #if DEBUG
-
-            debug();
+     //       debug();
 #endif
         }
 
@@ -75,30 +74,16 @@ namespace Game.Penguins.Core.Code.MainGame
         /// Runs the turn of a player
         /// </summary>
         /// <param name="Player"></param>
-        private void turn(IPlayer currentPlayer)
+        private void turn()
         {
             Console.WriteLine("Current turn : " + turnNumber);
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
-                if (currentPlayer.PlayerType == PlayerType.Human)
-                {
-                    StateChanged.Invoke(this, null);
-                }
-                else
-                {
-                    PlacePenguin(); //AI
-                }
-            }
+                Console.WriteLine("Placement Turn");
+            } 
             else
             {
-                if (currentPlayer.PlayerType == PlayerType.Human)
-                {
-                    StateChanged.Invoke(this, null);
-                }
-                else
-                {
-                    Move(); //AI
-                }
+                Console.WriteLine("Standard Play Turn");
             }
 #if DEBUG
             Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
@@ -179,6 +164,7 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
+            turn();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentcell = (Cell)Board.Board[x, y];
             if (currentcell.CurrentPenguin == null)
@@ -187,7 +173,6 @@ namespace Game.Penguins.Core.Code.MainGame
                 currentcell.CellType = CellType.FishWithPenguin;
             }
             Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
-            turn(CurrentPlayer);
             StateChanged.Invoke(this, null);
         }
 
@@ -239,9 +224,8 @@ namespace Game.Penguins.Core.Code.MainGame
             }
         }
 
-
         /// <summary>
-        /// Debug info
+        /// Print Debug info
         /// </summary>
         private void debug()
         {

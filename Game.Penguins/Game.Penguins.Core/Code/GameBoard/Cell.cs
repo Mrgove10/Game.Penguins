@@ -5,9 +5,33 @@ namespace Game.Penguins.Core.Code.GameBoard
 {
     public class Cell : ICell
     {
-        public CellType CellType { get; set; }
+        private CellType cellu;
+        public CellType CellType {
+            get
+            {
+                return cellu;
+            }
+            set
+            {
+                cellu = value; //value acces the object created by set
+                StateChanged.Invoke(this, null);
+            }
+        }
         public int FishCount { get; }
-        public IPenguin CurrentPenguin { get; set; }
+
+        private IPenguin pengu;
+        public IPenguin CurrentPenguin
+        {
+            get
+            {
+                return pengu;
+            }
+            set
+            {
+                pengu = value; //value acces the object created by set
+                StateChanged.Invoke(this,null);
+            }
+        }
 
         public event EventHandler StateChanged;
 
@@ -47,5 +71,6 @@ namespace Game.Penguins.Core.Code.GameBoard
                 }
             }
         }
+        
     }
 }
