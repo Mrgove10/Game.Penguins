@@ -1,14 +1,17 @@
+using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
+using Game.Penguins.AI.Code;
 using System;
 using System.Collections.Generic;
 
-namespace Game.Penguins.Core.Code.MainGame
+namespace Game.Penguins.Services
 {
     public class MainGame : IGame
     {
-        public IAI AIEasy;
+        private IAI aiEasy;
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -49,7 +52,7 @@ namespace Game.Penguins.Core.Code.MainGame
         {
             //initialise player whit 0 penguins ( will be updated later)
             //TODO : need to make the penguins good
-            IPlayer tempPlayer = new Player.Player(playerName, playerType);
+            IPlayer tempPlayer = new Player(playerName, playerType);
             Players.Add(tempPlayer);//TODO :  unsure about this, verify
             return tempPlayer;
         }
@@ -60,7 +63,7 @@ namespace Game.Penguins.Core.Code.MainGame
         public void StartGame()
         {
             playersPlayOrder = GeneratePlayOrder(); //randomizes the play order
-            UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
+            UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
             StateChanged?.Invoke(this, null);
 #if DEBUG
@@ -118,7 +121,7 @@ namespace Game.Penguins.Core.Code.MainGame
             int i = 0;
             foreach (var player in randomList) //Generates the color for each player
             {
-                var play = (Player.Player)player;
+                var play = (Player)player;
                 play.Color = (PlayerColor)i;
                 i++;
             }
@@ -129,7 +132,7 @@ namespace Game.Penguins.Core.Code.MainGame
         /// Updated the number of penguins per player
         /// </summary>
         /// <param name="numberOfPlayers"></param>
-        private void UpdateNumberOfPlayers(int numberOfPlayers)
+        private void UpdateNumberOfPenguins(int numberOfPlayers)
         {
             switch (numberOfPlayers)
             {
@@ -151,11 +154,11 @@ namespace Game.Penguins.Core.Code.MainGame
 
             foreach (var player1 in Players)
             {
-                var player = (Player.Player)player1;
+                var player = (Player)player1;
                 player.Penguins = penguinsPerPlayer;
                 for (int i = 0; i < penguinsPerPlayer; i++)
                 {
-                    player.PlayerPenguinsList.Add(new Penguin.Penguin(player));
+                    player.PlayerPenguinsList.Add(new Penguin(player));
                 }
             }
         }
@@ -174,7 +177,7 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 if (currentCell.CurrentPenguin == null)
                 {
-                    currentCell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
+                    currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                     currentCell.CellType = CellType.FishWithPenguin;
                 }
             }
@@ -190,15 +193,17 @@ namespace Game.Penguins.Core.Code.MainGame
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
                 //Easy AI place function here
-                AIEasy.PlacementPenguin();
+
+                aiEasy = new AIEasy(/*TODO : add arguments here*/);
+                aiEasy.PlacementPenguin();
 
 #if DEBUG
                 Console.WriteLine("L'IA choisi sa position : [" + AIEasy.PlacementPenguinX + ", " + AIEasy.PlacementPenguinY + "]");
 #endif
                 Cell cellPenguin = (Cell)Board.Board[AIEasy.PlacementPenguinX, AIEasy.PlacementPenguinY];
 
-                cellPenguin.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
-                cellPenguin.CellType = CellType.FishWithPenguin;         
+                cellPenguin.CurrentPenguin = new Penguin((Player)CurrentPlayer);
+                cellPenguin.CellType = CellType.FishWithPenguin;
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
@@ -273,6 +278,16 @@ namespace Game.Penguins.Core.Code.MainGame
             Console.WriteLine("-----PLAYER START------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
             */
+        }
+
+        private class Penguin : IPenguin
+        {
+            private Player player;
+
+            public Penguin(Player player)
+            {
+                this.player = player;
+            }
         }
     }
 }

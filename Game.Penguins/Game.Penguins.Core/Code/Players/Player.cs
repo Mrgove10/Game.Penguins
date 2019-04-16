@@ -3,7 +3,7 @@ using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
 
-namespace Game.Penguins.Core.Code.Player
+namespace Game.Penguins.Core.Code.Players
 {
     public class Player : IPlayer
     {

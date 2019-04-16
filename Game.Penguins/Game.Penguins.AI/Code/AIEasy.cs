@@ -6,7 +6,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 
 namespace Game.Penguins.AI.Code
 {
-    class AIEasy : IAI
+    public class AIEasy : IAI
     {
         public int PlacementPenguinX { get; set; }
         public int PlacementPenguinY { get; set; }

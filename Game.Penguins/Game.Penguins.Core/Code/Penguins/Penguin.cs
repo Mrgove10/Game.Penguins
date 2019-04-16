@@ -1,7 +1,7 @@
 ﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 
-namespace Game.Penguins.Core.Code.Penguin
+namespace Game.Penguins.Core.Code.Penguins
 {
     internal class Penguin : IPenguin
     {
