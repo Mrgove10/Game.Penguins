@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Game.Penguins.AI.Code
+﻿namespace Game.Penguins.AI.Code
 {
-    class AINormal
+    internal class AINormal
     {
     }
 }

@@ -1,6 +1,7 @@
 using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
@@ -194,7 +195,7 @@ namespace Game.Penguins.Services
             {
                 //Easy AI place function here
 
-                aiEasy = new AIEasy(/*TODO : add arguments here*/);
+                aiEasy = new AIEasy(Board, null/*TODO : add arguments here*/);
                 aiEasy.PlacementPenguin();
 
 #if DEBUG
@@ -278,16 +279,6 @@ namespace Game.Penguins.Services
             Console.WriteLine("-----PLAYER START------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
             */
-        }
-
-        private class Penguin : IPenguin
-        {
-            private Player player;
-
-            public Penguin(Player player)
-            {
-                this.player = player;
-            }
         }
     }
 }

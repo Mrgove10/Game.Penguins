@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Game.Penguins.Core;
+﻿using Game.Penguins.Core;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
+using System;
 
 namespace Game.Penguins.AI.Code
 {
@@ -14,7 +12,7 @@ namespace Game.Penguins.AI.Code
         public IBoard plateau { get; }
         public IPenguin penguin { get; }
 
-        int[] tabDirection = new int[6];
+        private int[] tabDirection = new int[6];
 
         public AIEasy(IBoard plateauParam, IPenguin penguinParam)
         {
@@ -34,7 +32,7 @@ namespace Game.Penguins.AI.Code
 
             while (search)
             {
-                if (plateau.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && plateau.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1 )
+                if (plateau.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && plateau.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1)
                 {
                     //PlacePenguin[randomX, randomY];
                     search = false;
@@ -48,11 +46,9 @@ namespace Game.Penguins.AI.Code
                     PlacementPenguinY = rndY.Next(7);
                 }
             }
-            
         }
 
-
-        public void DetectionCases(int posX , int posY)
+        public void DetectionCases(int posX, int posY)
         {
 #if DEBUG
             Console.WriteLine("-- ON DETERMINE LES DEPLACEMENTS DISPONIBLES --");
@@ -62,7 +58,7 @@ namespace Game.Penguins.AI.Code
 #if DEBUG
                 Console.WriteLine(" - On test la direction : " + Enum.GetName(typeof(Direction), direction));
 #endif
-                ICell oui = plateau.Board[posX,posY];
+                ICell oui = plateau.Board[posX, posY];
                 bool count = true;
 
                 while (count)

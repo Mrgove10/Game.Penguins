@@ -3,7 +3,7 @@ using Game.Penguins.Core.Interfaces.Game.Players;
 
 namespace Game.Penguins.Core.Code.Penguins
 {
-    internal class Penguin : IPenguin
+    public class Penguin : IPenguin
     {
         public IPlayer Player { get; set; }
 
