@@ -1,6 +1,7 @@
 ﻿using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
+
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +9,8 @@ namespace Game.Penguins.Core.Code.MainGame
 {
     public class MainGame : IGame
     {
+        public IAI AIEasy;  
+
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -49,7 +52,7 @@ namespace Game.Penguins.Core.Code.MainGame
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
             //initialises payer whit 0 penguins ( will be updated later)
-            //TODO : need to make the penguins 
+            //TODO : need to make the penguins good
             IPlayer tempPlayer = new Player.Player(playerName, playerType);
             Players.Add(tempPlayer);//TODO :  unsure about this, verrify
             return tempPlayer;
@@ -63,27 +66,67 @@ namespace Game.Penguins.Core.Code.MainGame
             PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
             UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
             CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
-            turn();
-            StateChanged.Invoke(this, null);//game 
+            StateChanged.Invoke(this, null);
+            //  getPlayerColor();
 #if DEBUG
-     //       debug();
+
+            /*
+            Console.WriteLine("-----CELLS------");
+            foreach (ICell cell in Board.Board)
+            {
+                Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
+            }
+            Console.WriteLine("Total cells on the board : " + Board.Board.Length);
+            */
+            Console.WriteLine("-----PLAYER------");
+            foreach (IPlayer player in Players)
+            {
+                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
+            }
+            Console.WriteLine("-----PLAYERSHUFFLED------");
+            foreach (IPlayer player in PlayersPlayOrder)
+            {
+                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
+            }
+            Console.WriteLine("-----PLAYERSTARTS------");
+            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
 #endif
+            //  PlacePenguinManual(1, 1);
+
+            //    run();
+        }
+
+        private void run()
+        {
         }
 
         /// <summary>
         /// Runs the turn of a player
         /// </summary>
         /// <param name="Player"></param>
-        private void turn()
+        private void turn(int turnNumber, IPlayer currentPlayer)
         {
-            Console.WriteLine("Current turn : " + turnNumber);
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
-                Console.WriteLine("Placement Turn");
-            } 
+                if (currentPlayer.PlayerType == PlayerType.Human)
+                {
+                    StateChanged.Invoke(this, null);
+                }
+                else
+                {
+                    PlacePenguin(); //AI
+                }
+            }
             else
             {
-                Console.WriteLine("Standard Play Turn");
+                if (currentPlayer.PlayerType == PlayerType.Human)
+                {
+                    StateChanged.Invoke(this, null);
+                }
+                else
+                {
+                    Move(); //AI
+                }
             }
 #if DEBUG
             Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
@@ -164,16 +207,15 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            turn();
-            Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
+            Console.WriteLine("Player want's to place a penguin at x " + x + " y " + y);
             Cell currentcell = (Cell)Board.Board[x, y];
             if (currentcell.CurrentPenguin == null)
             {
                 currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
                 currentcell.CellType = CellType.FishWithPenguin;
             }
+            currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
             Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
-            StateChanged.Invoke(this, null);
         }
 
         /// <summary>
@@ -212,7 +254,7 @@ namespace Game.Penguins.Core.Code.MainGame
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                //Easy AI move function here
+                AIEasy.DetectionCases(int posX, int posY)
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
@@ -222,33 +264,6 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 //Hard AI move function here
             }
-        }
-
-        /// <summary>
-        /// Print Debug info
-        /// </summary>
-        private void debug()
-        {
-            /*
-Console.WriteLine("-----CELLS------");
-foreach (ICell cell in Board.Board)
-{
-    Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
-}
-Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-*/
-            Console.WriteLine("-----PLAYER------");
-            foreach (IPlayer player in Players)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYERSHUFFLED------");
-            foreach (IPlayer player in PlayersPlayOrder)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYERSTARTS------");
-            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
         }
     }
 }

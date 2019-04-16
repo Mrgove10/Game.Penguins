@@ -1,6 +1,6 @@
 ﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
 
-namespace Game.Penguins.AI.Interface
+namespace Game.Penguins.Core
 {
     public interface IAI
     {
