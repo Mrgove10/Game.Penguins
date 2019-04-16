@@ -18,8 +18,8 @@ namespace Game.Penguins.Core.Code.MainGame
 
         public event EventHandler StateChanged;
 
-        private IList<IPlayer> PlayersPlayOrder;
-        private int CurrentPlayerNumber = 0;
+        private IList<IPlayer> playersPlayOrder;
+        private int currentPlayerNumber = 0;
         private int turnNumber = 0;
         private int penguinsPerPlayer = 0;
 
@@ -37,10 +37,7 @@ namespace Game.Penguins.Core.Code.MainGame
 #if DEBUG
             Console.WriteLine("Current Number Of players : " + Players.Count);
 #endif
-            if (StateChanged != null)
-            {
-                StateChanged.Invoke(this, null);
-            }
+            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -51,10 +48,10 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <returns></returns>
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
-            //initialises payer whit 0 penguins ( will be updated later)
+            //initialise player whit 0 penguins ( will be updated later)
             //TODO : need to make the penguins good
             IPlayer tempPlayer = new Player.Player(playerName, playerType);
-            Players.Add(tempPlayer);//TODO :  unsure about this, verrify
+            Players.Add(tempPlayer);//TODO :  unsure about this, verify
             return tempPlayer;
         }
 
@@ -63,48 +60,20 @@ namespace Game.Penguins.Core.Code.MainGame
         /// </summary>
         public void StartGame()
         {
-            PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
+            playersPlayOrder = GeneratePlayOrder(); //randomizes the play order
             UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
-            CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
-            StateChanged.Invoke(this, null);
-            //  getPlayerColor();
+            CurrentPlayer = playersPlayOrder[currentPlayerNumber];
+            StateChanged?.Invoke(this, null);
 #if DEBUG
-
-            /*
-            Console.WriteLine("-----CELLS------");
-            foreach (ICell cell in Board.Board)
-            {
-                Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
-            }
-            Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-            */
-            Console.WriteLine("-----PLAYER------");
-            foreach (IPlayer player in Players)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYERSHUFFLED------");
-            foreach (IPlayer player in PlayersPlayOrder)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYERSTARTS------");
-            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
+            //   debug();
 #endif
-            //  PlacePenguinManual(1, 1);
-
-            //    run();
-        }
-
-        private void run()
-        {
         }
 
         /// <summary>
         /// Runs the turn of a player
         /// </summary>
         /// <param name="Player"></param>
-        private void turn()
+        private void Turn()
         {
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
@@ -115,46 +84,48 @@ namespace Game.Penguins.Core.Code.MainGame
                 Console.WriteLine("Normal Turn");
             }
 #if DEBUG
-            Console.WriteLine("Current player to play : " + CurrentPlayerNumber);
+            Console.WriteLine("Current player to play : " + currentPlayerNumber);
 #endif
 
-            if (CurrentPlayerNumber < Players.Count - 1)
+            if (currentPlayerNumber < Players.Count - 1)
             {
-                CurrentPlayerNumber++;
+                currentPlayerNumber++;
             }
             else
             {
-                CurrentPlayerNumber = 0;
+                currentPlayerNumber = 0;
                 turnNumber++;
             }
-            CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
+            CurrentPlayer = playersPlayOrder[currentPlayerNumber];
             //to stuff for each player turn
         }
 
         /// <summary>
-        /// Randomises the Player turns
+        /// Randomizes the Player turns
         /// </summary>
         /// <returns></returns>
         private IList<IPlayer> GeneratePlayOrder()
         {
-            IList<IPlayer> CopyStartList = new List<IPlayer>(Players); //local copy only for thsi function
-            List<IPlayer> RandomList = new List<IPlayer>();
+            IList<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
+            List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
             int randomIndex = 0;
-            while (CopyStartList.Count > 0)
+            while (copyStartList.Count > 0)
             {
-                randomIndex = r.Next(0, CopyStartList.Count);
-                RandomList.Add(CopyStartList[randomIndex]);
-                CopyStartList.RemoveAt(randomIndex);
+                randomIndex = r.Next(0, copyStartList.Count);
+                randomList.Add(copyStartList[randomIndex]);
+                copyStartList.RemoveAt(randomIndex);
             }
 
             int i = 0;
-            foreach (Player.Player play in CopyStartList)
+            foreach (var player in randomList)
             {
+                var play = (Player.Player)player;
                 play.Color = (PlayerColor)i;
+                Console.WriteLine("-----" + i);
                 i++;
             }
-            return RandomList;
+            return randomList;
         }
 
         /// <summary>
@@ -199,16 +170,16 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            turn();
+            Turn();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
-            Cell currentcell = (Cell)Board.Board[x, y];
-            if (currentcell.CurrentPenguin == null)
+            Cell currentCell = (Cell)Board.Board[x, y];
+            if (currentCell.CurrentPenguin == null)
             {
-                currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
-                currentcell.CellType = CellType.FishWithPenguin;
+                currentCell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
+                currentCell.CellType = CellType.FishWithPenguin;
             }
-            Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
-            StateChanged.Invoke(this, null);
+            Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
+            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -278,7 +249,7 @@ Console.WriteLine("Total cells on the board : " + Board.Board.Length);
                 Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
             }
             Console.WriteLine("-----PLAYERSHUFFLED------");
-            foreach (IPlayer player in PlayersPlayOrder)
+            foreach (IPlayer player in playersPlayOrder)
             {
                 Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
             }
