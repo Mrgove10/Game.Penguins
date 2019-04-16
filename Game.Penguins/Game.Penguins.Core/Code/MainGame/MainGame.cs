@@ -18,10 +18,9 @@ namespace Game.Penguins.Core.Code.MainGame
         public event EventHandler StateChanged;
 
         private IList<IPlayer> playersPlayOrder;
-        private int currentPlayerNumber = 0;
-        private int turnNumber = 0;
-        private int penguinsPerPlayer = 0;
-        private bool placementDone = false;
+        private int currentPlayerNumber;
+        private int turnNumber;
+        private int penguinsPerPlayer;
 
         /// <summary>
         /// MainGame constructor
@@ -117,11 +116,10 @@ namespace Game.Penguins.Core.Code.MainGame
             }
 
             int i = 0;
-            foreach (var player in randomList) //Generated the colo for each player
+            foreach (var player in randomList) //Generates the color for each player
             {
                 var play = (Player.Player)player;
                 play.Color = (PlayerColor)i;
-                Console.WriteLine("-----" + i);
                 i++;
             }
             return randomList;
@@ -151,8 +149,9 @@ namespace Game.Penguins.Core.Code.MainGame
                     break;
             }
 
-            foreach (Player.Player player in Players)
+            foreach (var player1 in Players)
             {
+                var player = (Player.Player) player1;
                 player.Penguins = penguinsPerPlayer;
                 for (int i = 0; i < penguinsPerPlayer; i++)
                 {
@@ -209,8 +208,12 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
+            Console.WriteLine("initial cell :"+origin.++);
 
-            throw new NotImplementedException();
+
+
+            StateChanged?.Invoke(this, null);
+           
         }
 
         /// <summary>

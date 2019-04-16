@@ -33,12 +33,15 @@ namespace Game.Penguins.Core.Code.GameBoard
 
         public event EventHandler StateChanged;
 
+        public int xPos;
+        public int yPos;
+
         /// <summary>
         /// Cell Constructor for fish cells
         /// </summary>
         /// <param name="type"></param>
         /// <param name="numberOfFish"></param>
-        public Cell(CellType type, int numberOfFish)
+        public Cell(CellType type, int numberOfFish,int xPosParam,int yPosParam)
         {
             CellType = type;
             if (type != CellType.Fish)
