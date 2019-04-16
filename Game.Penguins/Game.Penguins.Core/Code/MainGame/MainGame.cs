@@ -1,7 +1,6 @@
 ﻿using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
-
 using System;
 using System.Collections.Generic;
 
@@ -50,7 +49,7 @@ namespace Game.Penguins.Core.Code.MainGame
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
             //initialises payer whit 0 penguins ( will be updated later)
-            //TODO : need to make the penguins good
+            //TODO : need to make the penguins 
             IPlayer tempPlayer = new Player.Player(playerName, playerType);
             Players.Add(tempPlayer);//TODO :  unsure about this, verrify
             return tempPlayer;
@@ -64,46 +63,21 @@ namespace Game.Penguins.Core.Code.MainGame
             PlayersPlayOrder = GeneratePlayOrder(); //randomises the play order
             UpdateNumberOfPlayers(Players.Count); // updated the number of penguins per player
             CurrentPlayer = PlayersPlayOrder[CurrentPlayerNumber];
-            StateChanged.Invoke(this, null);
+            turn(CurrentPlayer);
             //  getPlayerColor();
 #if DEBUG
 
-            /*
-            Console.WriteLine("-----CELLS------");
-            foreach (ICell cell in Board.Board)
-            {
-                Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
-            }
-            Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-            */
-            Console.WriteLine("-----PLAYER------");
-            foreach (IPlayer player in Players)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYERSHUFFLED------");
-            foreach (IPlayer player in PlayersPlayOrder)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYERSTARTS------");
-            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
+            debug();
 #endif
-            //  PlacePenguinManual(1, 1);
-
-            //    run();
-        }
-
-        private void run()
-        {
         }
 
         /// <summary>
         /// Runs the turn of a player
         /// </summary>
         /// <param name="Player"></param>
-        private void turn(int turnNumber, IPlayer currentPlayer)
+        private void turn(IPlayer currentPlayer)
         {
+            Console.WriteLine("Current turn : " + turnNumber);
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
                 if (currentPlayer.PlayerType == PlayerType.Human)
@@ -205,15 +179,16 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            Console.WriteLine("Player want's to place a penguin at x " + x + " y " + y);
+            Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentcell = (Cell)Board.Board[x, y];
             if (currentcell.CurrentPenguin == null)
             {
                 currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
                 currentcell.CellType = CellType.FishWithPenguin;
             }
-            currentcell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
             Console.WriteLine("current cell type: " + currentcell.CellType + " " + currentcell.FishCount);
+            turn(CurrentPlayer);
+            StateChanged.Invoke(this, null);
         }
 
         /// <summary>
@@ -262,6 +237,34 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 //Hard AI move function here
             }
+        }
+
+
+        /// <summary>
+        /// Debug info
+        /// </summary>
+        private void debug()
+        {
+            /*
+Console.WriteLine("-----CELLS------");
+foreach (ICell cell in Board.Board)
+{
+    Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
+}
+Console.WriteLine("Total cells on the board : " + Board.Board.Length);
+*/
+            Console.WriteLine("-----PLAYER------");
+            foreach (IPlayer player in Players)
+            {
+                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
+            }
+            Console.WriteLine("-----PLAYERSHUFFLED------");
+            foreach (IPlayer player in PlayersPlayOrder)
+            {
+                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
+            }
+            Console.WriteLine("-----PLAYERSTARTS------");
+            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
         }
     }
 }
