@@ -6,5 +6,6 @@ namespace Game.Penguins.Core
     {
         IBoard plateau { get; }
 
+        void DetectionCases(int posX, int posY);
     }
 }

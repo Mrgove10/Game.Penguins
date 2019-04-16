@@ -220,7 +220,8 @@ namespace Game.Penguins.Core.Code.MainGame
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                //Easy AI move function here
+                //AIEasy.DetectionCases(posX, posY);
+                //TODO TEST CETTE FONCTION AVEC POSX ET POSY
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {

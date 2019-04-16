@@ -9,13 +9,45 @@ namespace Game.Penguins.AI.Code
     class AIEasy : IAI
     {
         public IBoard plateau { get; }
+        public IPenguin penguin { get; }
 
         int[] tabDirection = new int[6];
 
-        public AIEasy(IBoard plateauParam)
+        public AIEasy(IBoard plateauParam, IPenguin penguinParam)
         {
             plateau = plateauParam;
+            penguin = penguinParam;
         }
+
+        public void PlacementIA(int IAx, int IAy)
+        {
+            Random rndX = new Random();
+            IAx = rndX.Next(7);
+
+            Random rndY = new Random();
+            IAy = rndY.Next(7);
+
+            bool search = true;
+
+            while (search)
+            {
+                if (plateau.Board[IAx, IAy].CellType == CellType.Fish && plateau.Board[IAx, IAy].FishCount == 1 )
+                {
+                    //PlacePenguin[randomX, randomY];
+                    search = false;
+                }
+                else
+                {
+                    rndX = new Random();
+                    IAx = rndX.Next(7);
+
+                    rndY = new Random();
+                    IAy = rndY.Next(7);
+                }
+            }
+            
+        }
+
 
         public void DetectionCases(int posX , int posY)
         {
