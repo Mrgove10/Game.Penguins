@@ -41,7 +41,7 @@ namespace Game.Penguins.Core.Code.GameBoard
         /// </summary>
         /// <param name="type"></param>
         /// <param name="numberOfFish"></param>
-        public Cell(CellType type, int numberOfFish,int xPosParam,int yPosParam)
+        public Cell(CellType type, int numberOfFish)
         {
             CellType = type;
             if (type != CellType.Fish)

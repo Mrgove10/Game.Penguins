@@ -22,8 +22,6 @@ namespace Game.Penguins.Core.Code.MainGame
         private int turnNumber;
         private int penguinsPerPlayer;
 
-        
-
         /// <summary>
         /// MainGame constructor
         /// </summary>
@@ -153,7 +151,7 @@ namespace Game.Penguins.Core.Code.MainGame
 
             foreach (var player1 in Players)
             {
-                var player = (Player.Player) player1;
+                var player = (Player.Player)player1;
                 player.Penguins = penguinsPerPlayer;
                 for (int i = 0; i < penguinsPerPlayer; i++)
                 {
@@ -181,7 +179,7 @@ namespace Game.Penguins.Core.Code.MainGame
                 }
             }
             Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
-            StateChanged?.Invoke(this, null);
+            StateChanged?.Invoke(this, null);//TODO:check this
         }
 
         /// <summary>
@@ -192,20 +190,15 @@ namespace Game.Penguins.Core.Code.MainGame
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
                 //Easy AI place function here
-#if DEBUG
-                Console.Write("L'IA choisi sa position : [");
-#endif
                 AIEasy.PlacementPenguin();
+
 #if DEBUG
-                Console.WriteLine(AIEasy.PlacementPenguinX + ", " + AIEasy.PlacementPenguinY + "]");
+                Console.WriteLine("L'IA choisi sa position : [" + AIEasy.PlacementPenguinX + ", " + AIEasy.PlacementPenguinY + "]");
 #endif
                 Cell cellPenguin = (Cell)Board.Board[AIEasy.PlacementPenguinX, AIEasy.PlacementPenguinY];
 
                 cellPenguin.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
-                cellPenguin.CellType = CellType.FishWithPenguin;
-
-                StateChanged?.Invoke(this, null);
-
+                cellPenguin.CellType = CellType.FishWithPenguin;         
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
@@ -215,6 +208,7 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 //Hard AI place function here
             }
+            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -224,12 +218,12 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
-            Console.WriteLine("initial cell :"+origin.++);
-
-
+            Cell originCell = (Cell)origin;
+            Cell destinationCell = (Cell)origin;
+            Console.WriteLine("initial cell :" + originCell.xPos + ":" + originCell.yPos);
+            Console.WriteLine("Destination cell :" + destinationCell.xPos + ":" + destinationCell.yPos);
 
             StateChanged?.Invoke(this, null);
-           
         }
 
         /// <summary>
@@ -257,14 +251,15 @@ namespace Game.Penguins.Core.Code.MainGame
         /// </summary>
         private void Debug()
         {
-            /*
             Console.WriteLine("-----CELLS------");
             foreach (ICell cell in Board.Board)
             {
-                Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
+                Cell c = (Cell)cell;
+                Console.WriteLine(c.xPos + ":" + c.yPos + " type : " + cell.CellType + " fishCount : " + cell.FishCount);
             }
             Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-            */
+
+            /*
             Console.WriteLine("-----PLAYER------");
             foreach (IPlayer player in Players)
             {
@@ -277,6 +272,7 @@ namespace Game.Penguins.Core.Code.MainGame
             }
             Console.WriteLine("-----PLAYER START------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
+            */
         }
     }
 }

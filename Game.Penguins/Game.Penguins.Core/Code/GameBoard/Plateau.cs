@@ -6,16 +6,15 @@ namespace Game.Penguins.Core.Code.GameBoard
 {
     public class Plateau : IBoard
     {
-        private int TotalCells = 64;
         private int nb1fish = 34;
         private int nb2fish = 20;
         private int nb3fish = 10;
-        private List<Cell> AllCells = new List<Cell>();
-        private List<Cell> AllCellsRandom = new List<Cell>();
+        private readonly List<Cell> allCells = new List<Cell>();
+        private readonly List<Cell> allCellsRandom = new List<Cell>();
         public ICell[,] Board { get; }
 
         /// <summary>
-        /// Board construtor, randomly generates a board
+        /// Board constructor, randomly generates a board
         /// </summary>
         /// <param name="sizeX"></param>
         /// <param name="sizeY"></param>
@@ -23,7 +22,7 @@ namespace Game.Penguins.Core.Code.GameBoard
         {
             Board = new ICell[sizeX, sizeY];
 
-            shuffle();
+            Shuffle();
 
             // places shuffled cells in the main board
             var n = 0;
@@ -31,40 +30,41 @@ namespace Game.Penguins.Core.Code.GameBoard
             {
                 for (int j = 0; j < sizeY; j++)
                 {
-                    Board[i, j] = AllCellsRandom[n];
+                    Board[i, j] = allCellsRandom[n];
+                    allCellsRandom[n].xPos = i;
+                    allCellsRandom[n].yPos = j;
                     n++;
                 }
             }
         }
 
         /// <summary>
-        /// Shuffles the listof fish to be random
+        /// Shuffles the list of fish to be random
         /// </summary>
-        private void shuffle()
+        private void Shuffle()
         {
             for (int i = 0; i < nb1fish; i++)
             {
-                AllCells.Add(new Cell(CellType.Fish, 1));
+                allCells.Add(new Cell(CellType.Fish, 1));
             }
             for (int o = 0; o < nb2fish; o++)
             {
-                AllCells.Add(new Cell(CellType.Fish, 2));
+                allCells.Add(new Cell(CellType.Fish, 2));
             }
             for (int p = 0; p < nb3fish; p++)
             {
-                AllCells.Add(new Cell(CellType.Fish, 3));
+                allCells.Add(new Cell(CellType.Fish, 3));
             }
 
             #region Randomise List
 
-            //Randomises the liste of fishes
+            //Randomizes the list of fishes
             Random r = new Random();
-            int randomIndex = 0;
-            while (AllCells.Count > 0)
+            while (allCells.Count > 0)
             {
-                randomIndex = r.Next(0, AllCells.Count);
-                AllCellsRandom.Add(AllCells[randomIndex]);
-                AllCells.RemoveAt(randomIndex);
+                var randomIndex = r.Next(0, allCells.Count);
+                allCellsRandom.Add(allCells[randomIndex]);
+                allCells.RemoveAt(randomIndex);
             }
 
             #endregion Randomise List
