@@ -8,6 +8,9 @@ namespace Game.Penguins.AI.Code
 {
     class AIEasy : IAI
     {
+        public int PlacementPenguinX { get; set; }
+        public int PlacementPenguinY { get; set; }
+
         public IBoard plateau { get; }
         public IPenguin penguin { get; }
 
@@ -19,19 +22,19 @@ namespace Game.Penguins.AI.Code
             penguin = penguinParam;
         }
 
-        public void PlacementIA(int IAx, int IAy)
+        public void PlacementPenguin()
         {
             Random rndX = new Random();
-            IAx = rndX.Next(7);
+            PlacementPenguinX = rndX.Next(7);
 
             Random rndY = new Random();
-            IAy = rndY.Next(7);
+            PlacementPenguinY = rndY.Next(7);
 
             bool search = true;
 
             while (search)
             {
-                if (plateau.Board[IAx, IAy].CellType == CellType.Fish && plateau.Board[IAx, IAy].FishCount == 1 )
+                if (plateau.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && plateau.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1 )
                 {
                     //PlacePenguin[randomX, randomY];
                     search = false;
@@ -39,10 +42,10 @@ namespace Game.Penguins.AI.Code
                 else
                 {
                     rndX = new Random();
-                    IAx = rndX.Next(7);
+                    PlacementPenguinX = rndX.Next(7);
 
                     rndY = new Random();
-                    IAy = rndY.Next(7);
+                    PlacementPenguinY = rndY.Next(7);
                 }
             }
             

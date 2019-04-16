@@ -22,6 +22,8 @@ namespace Game.Penguins.Core.Code.MainGame
         private int turnNumber;
         private int penguinsPerPlayer;
 
+        
+
         /// <summary>
         /// MainGame constructor
         /// </summary>
@@ -190,6 +192,20 @@ namespace Game.Penguins.Core.Code.MainGame
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
                 //Easy AI place function here
+#if DEBUG
+                Console.Write("L'IA choisi sa position : [");
+#endif
+                AIEasy.PlacementPenguin();
+#if DEBUG
+                Console.WriteLine(AIEasy.PlacementPenguinX + ", " + AIEasy.PlacementPenguinY + "]");
+#endif
+                Cell cellPenguin = (Cell)Board.Board[AIEasy.PlacementPenguinX, AIEasy.PlacementPenguinY];
+
+                cellPenguin.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
+                cellPenguin.CellType = CellType.FishWithPenguin;
+
+                StateChanged?.Invoke(this, null);
+
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
