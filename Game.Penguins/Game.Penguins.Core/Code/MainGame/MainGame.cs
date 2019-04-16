@@ -1,7 +1,6 @@
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
-
 using System;
 using System.Collections.Generic;
 
@@ -22,13 +21,14 @@ namespace Game.Penguins.Core.Code.MainGame
         private int currentPlayerNumber = 0;
         private int turnNumber = 0;
         private int penguinsPerPlayer = 0;
+        private bool placementDone = false;
 
         /// <summary>
         /// MainGame constructor
         /// </summary>
         public MainGame()
         {
-            /*8x8 Board , cordenates go from
+            /*8x8 Board , coordinates go from
             0,0 on the upper left to
             7,7 on the bottom right*/
             Board = new Plateau(8, 8);
@@ -72,21 +72,22 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <summary>
         /// Runs the turn of a player
         /// </summary>
-        /// <param name="Player"></param>
         private void Turn()
         {
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
                 Console.WriteLine("Placement Turn");
+                NextAction = NextActionType.PlacePenguin;
             }
             else
             {
                 Console.WriteLine("Normal Turn");
+                NextAction = NextActionType.MovePenguin;
             }
 #if DEBUG
             Console.WriteLine("Current player to play : " + currentPlayerNumber);
 #endif
-
+            //calculates the current player
             if (currentPlayerNumber < Players.Count - 1)
             {
                 currentPlayerNumber++;
@@ -97,7 +98,6 @@ namespace Game.Penguins.Core.Code.MainGame
                 turnNumber++;
             }
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-            //to stuff for each player turn
         }
 
         /// <summary>
@@ -109,16 +109,15 @@ namespace Game.Penguins.Core.Code.MainGame
             IList<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
             List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
-            int randomIndex = 0;
             while (copyStartList.Count > 0)
             {
-                randomIndex = r.Next(0, copyStartList.Count);
+                int randomIndex = r.Next(0, copyStartList.Count);
                 randomList.Add(copyStartList[randomIndex]);
                 copyStartList.RemoveAt(randomIndex);
             }
 
             int i = 0;
-            foreach (var player in randomList)
+            foreach (var player in randomList) //Generated the colo for each player
             {
                 var play = (Player.Player)player;
                 play.Color = (PlayerColor)i;
@@ -138,7 +137,6 @@ namespace Game.Penguins.Core.Code.MainGame
             {
                 case 1:
                     throw new ArgumentOutOfRangeException();
-                    break;
 
                 case 2:
                     penguinsPerPlayer = 4;
@@ -164,7 +162,7 @@ namespace Game.Penguins.Core.Code.MainGame
         }
 
         /// <summary>
-        /// Places the penguins on the board whit an X and Y parametre
+        /// Places the penguins on the board whit an X and Y parameter
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -173,10 +171,13 @@ namespace Game.Penguins.Core.Code.MainGame
             Turn();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
-            if (currentCell.CurrentPenguin == null)
+            if (currentCell.FishCount == 1)
             {
-                currentCell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
-                currentCell.CellType = CellType.FishWithPenguin;
+                if (currentCell.CurrentPenguin == null)
+                {
+                    currentCell.CurrentPenguin = new Penguin.Penguin(CurrentPlayer);
+                    currentCell.CellType = CellType.FishWithPenguin;
+                }
             }
             Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
             StateChanged?.Invoke(this, null);
@@ -208,6 +209,7 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
+
             throw new NotImplementedException();
         }
 
@@ -233,27 +235,27 @@ namespace Game.Penguins.Core.Code.MainGame
         /// <summary>
         /// Print Debug info
         /// </summary>
-        private void debug()
+        private void Debug()
         {
             /*
-Console.WriteLine("-----CELLS------");
-foreach (ICell cell in Board.Board)
-{
-    Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
-}
-Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-*/
+            Console.WriteLine("-----CELLS------");
+            foreach (ICell cell in Board.Board)
+            {
+                Console.WriteLine("type : " + cell.CellType + " fishCount : " + cell.FishCount);
+            }
+            Console.WriteLine("Total cells on the board : " + Board.Board.Length);
+            */
             Console.WriteLine("-----PLAYER------");
             foreach (IPlayer player in Players)
             {
                 Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
             }
-            Console.WriteLine("-----PLAYERSHUFFLED------");
+            Console.WriteLine("-----PLAYER SHUFFLED------");
             foreach (IPlayer player in playersPlayOrder)
             {
                 Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
             }
-            Console.WriteLine("-----PLAYERSTARTS------");
+            Console.WriteLine("-----PLAYER START------");
             Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
         }
     }
