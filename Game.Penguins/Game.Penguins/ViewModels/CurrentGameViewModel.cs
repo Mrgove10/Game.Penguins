@@ -3,7 +3,7 @@ using Game.Penguins.Core.Interfaces.Game.Actions;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using Game.Penguins.Core.Code.GameBoard;
-using Game.Penguins.Core.Code.MainGame;
+using Game.Penguins.Services;
 using Game.Penguins.Framework;
 using System;
 using System.Collections.Generic;

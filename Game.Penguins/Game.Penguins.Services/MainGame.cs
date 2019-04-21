@@ -75,12 +75,12 @@ namespace Game.Penguins.Services
         /// <summary>
         /// Runs the turn of a player
         /// </summary>
-        private void Turn()
+        private void WhatIsNextTurn()
         {
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
                 Console.WriteLine("Placement Turn");
-                NextAction = NextActionType.PlacePenguin;
+                NextAction = NextActionType.PlacePenguin;//TODO : correct ?
             }
             else
             {
@@ -90,6 +90,10 @@ namespace Game.Penguins.Services
 #if DEBUG
             Console.WriteLine("Current player to play : " + currentPlayerNumber);
 #endif
+        }
+
+        private void CalculateCurrentPlayerNumber()
+        {
             //calculates the current player
             if (currentPlayerNumber < Players.Count - 1)
             {
@@ -152,7 +156,6 @@ namespace Game.Penguins.Services
                     penguinsPerPlayer = 2;
                     break;
             }
-
             foreach (var player1 in Players)
             {
                 var player = (Player)player1;
@@ -171,7 +174,7 @@ namespace Game.Penguins.Services
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            Turn();
+            CalculateCurrentPlayerNumber();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
             if (currentCell.FishCount == 1)
@@ -180,10 +183,11 @@ namespace Game.Penguins.Services
                 {
                     currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                     currentCell.CellType = CellType.FishWithPenguin;
+                    StateChanged?.Invoke(this, null);
                 }
             }
             Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
-            StateChanged?.Invoke(this, null);//TODO:check this
+            WhatIsNextTurn();
         }
 
         /// <summary>
@@ -205,6 +209,7 @@ namespace Game.Penguins.Services
 
                 cellPenguin.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                 cellPenguin.CellType = CellType.FishWithPenguin;
+                StateChanged?.Invoke(this, null);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
@@ -214,7 +219,6 @@ namespace Game.Penguins.Services
             {
                 //Hard AI place function here
             }
-            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -228,7 +232,6 @@ namespace Game.Penguins.Services
             Cell destinationCell = (Cell)origin;
             Console.WriteLine("initial cell :" + originCell.xPos + ":" + originCell.yPos);
             Console.WriteLine("Destination cell :" + destinationCell.xPos + ":" + destinationCell.yPos);
-
             StateChanged?.Invoke(this, null);
         }
 
