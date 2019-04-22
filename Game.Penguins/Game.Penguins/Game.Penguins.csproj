@@ -41,6 +41,9 @@
     <Reference Include="AdonisUI.ClassicTheme, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AdonisUI.ClassicTheme.1.9.0\lib\net40\AdonisUI.ClassicTheme.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
     <Reference Include="HexGridControl">
       <HintPath>..\libs\HexGridControl.dll</HintPath>
     </Reference>
