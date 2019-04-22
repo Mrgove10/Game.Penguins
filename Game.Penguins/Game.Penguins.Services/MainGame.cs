@@ -1,3 +1,4 @@
+using Common.Logging;
 using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
@@ -7,7 +8,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
-using Common.Logging;
+using Common.Logging.Configuration;
 
 namespace Game.Penguins.Services
 {
@@ -27,15 +28,15 @@ namespace Game.Penguins.Services
         private int turnNumber;
         private int penguinsPerPlayer;
 
-        ILog log = LogManager.GetCurrentClassLogger(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
-
+        private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
+        
         /// <summary>
         /// MainGame constructor
         /// </summary>
         public MainGame()
         {
-            log.Debug("hello world");
-
+            Log.Debug("hello world");
+            Log.Warn("caca");
             // log.Debug("Starting Game");
             /*8x8 Board , coordinates go from
             0,0 on the upper left to
