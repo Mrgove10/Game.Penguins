@@ -98,6 +98,18 @@ namespace Game.Penguins.ViewModels
             }
         }
 
+        #region Colors
+
+        public bool IsBlue { get; private set; }
+
+        public bool IsYellow { get; private set; }
+
+        public bool IsGreen { get; private set; }
+
+        public bool IsRed { get; private set; }
+
+        #endregion
+
         #endregion
 
         #region Actions
@@ -304,6 +316,16 @@ namespace Game.Penguins.ViewModels
             IsMoveMyPenguinAction = game.NextAction == NextActionType.MovePenguin &&
                                     game.CurrentPlayer.PlayerType == PlayerType.Human;
 
+
+            IsBlue = game.CurrentPlayer.Color == PlayerColor.Blue;
+            IsYellow = game.CurrentPlayer.Color == PlayerColor.Yellow;
+            IsGreen = game.CurrentPlayer.Color == PlayerColor.Green;
+            IsRed = game.CurrentPlayer.Color == PlayerColor.Red;
+
+            RaisePropertyChanged(nameof(IsBlue));
+            RaisePropertyChanged(nameof(IsYellow));
+            RaisePropertyChanged(nameof(IsGreen));
+            RaisePropertyChanged(nameof(IsRed));
         }
 
         public IApplicationContentView GetPreviousView()
