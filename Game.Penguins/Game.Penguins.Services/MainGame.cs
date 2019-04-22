@@ -7,6 +7,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
+using Common.Logging;
 
 namespace Game.Penguins.Services
 {
@@ -26,11 +27,16 @@ namespace Game.Penguins.Services
         private int turnNumber;
         private int penguinsPerPlayer;
 
+        ILog log = LogManager.GetCurrentClassLogger(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
+
         /// <summary>
         /// MainGame constructor
         /// </summary>
         public MainGame()
         {
+            log.Debug("hello world");
+
+            // log.Debug("Starting Game");
             /*8x8 Board , coordinates go from
             0,0 on the upper left to
             7,7 on the bottom right*/
@@ -79,7 +85,7 @@ namespace Game.Penguins.Services
         {
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
-                Console.WriteLine("Placement Turn");
+                Console.WriteLine("Plac ement Turn");
                 NextAction = NextActionType.PlacePenguin;//TODO : correct ?
             }
             else

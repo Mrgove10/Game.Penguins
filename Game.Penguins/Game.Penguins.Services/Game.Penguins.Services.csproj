@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Common.Logging" Version="3.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Game.Penguins.AI\Game.Penguins.AI.csproj" />
     <ProjectReference Include="..\Game.Penguins.Core\Game.Penguins.Core.csproj" />
   </ItemGroup>
