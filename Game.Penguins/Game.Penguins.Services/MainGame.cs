@@ -1,15 +1,3 @@
-using Common.Logging;
-using Game.Penguins.AI.Code;
-using Game.Penguins.Core;
-using Game.Penguins.Core.Code.GameBoard;
-using Game.Penguins.Core.Code.Penguins;
-using Game.Penguins.Core.Code.Players;
-using Game.Penguins.Core.Interfaces.Game.GameBoard;
-using Game.Penguins.Core.Interfaces.Game.Players;
-using System;
-using System.Collections.Generic;
-using Common.Logging.Configuration;
-
 namespace Game.Penguins.Services
 {
     public class MainGame : IGame
@@ -24,12 +12,12 @@ namespace Game.Penguins.Services
         public event EventHandler StateChanged;
 
         private IList<IPlayer> playersPlayOrder;
-        private int currentPlayerNumber;
+        private int currentPlayerNumber = 0;
         private int turnNumber;
         private int penguinsPerPlayer;
 
         private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
-        
+
         /// <summary>
         /// MainGame constructor
         /// </summary>
@@ -44,9 +32,7 @@ namespace Game.Penguins.Services
             Board = new Plateau(8, 8);
             Players = new List<IPlayer>();
             CurrentPlayer = null;
-#if DEBUG
-            Console.WriteLine("Current Number Of players : " + Players.Count);
-#endif
+
             StateChanged?.Invoke(this, null);
         }
 
@@ -72,11 +58,14 @@ namespace Game.Penguins.Services
         {
             playersPlayOrder = GeneratePlayOrder(); //randomizes the play order
             UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
+            CalculateCurrentPlayerNumber();
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-            StateChanged?.Invoke(this, null);
 #if DEBUG
-            //   debug();
+            Console.WriteLine("Current Number Of players : " + Players.Count);
+             //   debug();
 #endif
+            StateChanged?.Invoke(this, null);
+
         }
 
         /// <summary>
@@ -86,12 +75,12 @@ namespace Game.Penguins.Services
         {
             if (turnNumber < Players.Count) //this means we are in a placement turn
             {
-                Console.WriteLine("Plac ement Turn");
+                Log.Debug("Next turn is a Placement Turn");
                 NextAction = NextActionType.PlacePenguin;//TODO : correct ?
             }
             else
             {
-                Console.WriteLine("Normal Turn");
+                Console.WriteLine("Next turn is a Normal Turn");
                 NextAction = NextActionType.MovePenguin;
             }
 #if DEBUG
@@ -101,6 +90,7 @@ namespace Game.Penguins.Services
 
         private void CalculateCurrentPlayerNumber()
         {
+            Log.Debug("Current player is " + currentPlayerNumber);
             //calculates the current player
             if (currentPlayerNumber < Players.Count - 1)
             {
@@ -112,6 +102,7 @@ namespace Game.Penguins.Services
                 turnNumber++;
             }
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
+            Log.Debug("Current player is now" + currentPlayerNumber);
         }
 
         /// <summary>
@@ -184,17 +175,21 @@ namespace Game.Penguins.Services
             CalculateCurrentPlayerNumber();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
-            if (currentCell.FishCount == 1)
+            bool correctcell = false;
+            if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin)
             {
-                if (currentCell.CurrentPenguin == null)
-                {
-                    currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
-                    currentCell.CellType = CellType.FishWithPenguin;
-                    StateChanged?.Invoke(this, null);
-                }
+                currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
+                currentCell.CellType = CellType.FishWithPenguin;
+                Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
+                WhatIsNextTurn();
+                StateChanged?.Invoke(this, null);
             }
-            Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
-            WhatIsNextTurn();
+            else
+            {
+                Log.Error("Cell has more then 1 penguin");
+                throw new Exception();
+            }
+            
         }
 
         /// <summary>
@@ -221,10 +216,12 @@ namespace Game.Penguins.Services
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
                 //Meduim AI place function here
+                StateChanged?.Invoke(this, null);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIHard)
             {
                 //Hard AI place function here
+                StateChanged?.Invoke(this, null);
             }
         }
 
