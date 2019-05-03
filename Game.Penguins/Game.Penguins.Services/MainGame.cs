@@ -1,3 +1,14 @@
+using System;
+using System.Collections.Generic;
+using Common.Logging;
+using Game.Penguins.AI.Code;
+using Game.Penguins.Core;
+using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.Penguins;
+using Game.Penguins.Core.Code.Players;
+using Game.Penguins.Core.Interfaces.Game.GameBoard;
+using Game.Penguins.Core.Interfaces.Game.Players;
+
 namespace Game.Penguins.Services
 {
     public class MainGame : IGame
@@ -175,7 +186,6 @@ namespace Game.Penguins.Services
             CalculateCurrentPlayerNumber();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
-            bool correctcell = false;
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin)
             {
                 currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
