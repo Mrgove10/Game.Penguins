@@ -18,7 +18,6 @@ namespace Game.Penguins.Services
     public class MainGame : IGame
     {
         #region Declarations
-
         private readonly IAI _aiEasy;
         private IAI _aiMedium;
         private IAI _aiHard;
