@@ -15,17 +15,26 @@ namespace Game.Penguins.AI.UnitTests
             Assert.IsTrue(c.FishCount == 3);
         }
 
+        //TESTS NUMBER OF FISHES - CORRECT
         [TestMethod]
-        public void Celle()
+        public void NumberOfFishTrue()
         {
-            
+            Cell cell = new Cell(CellType.Fish, 2);
+            Assert.IsTrue(cell.FishCount == 2);
+        }
+        //TESTS NUMBER OF FISHES - INCORRECT
+        [TestMethod]
+        public void NumberOfFishFalse()
+        {
+            Cell cell = new Cell(CellType.Fish, 3 );
+            Assert.IsFalse(cell.FishCount == 2);
         }
 
         /* [TestMethod]
          public void CellCreationError()
          {
              Cell c = new Cell(CellType.Fish, 5);
-         //    Assert.ThrowsException<ArgumentOutOfRangeException>(System.Action);
+         //    Assert.IsTru(ThrowsException<ArgumentOutOfRangeException>(System.Action));
          }*/
     }
 }
