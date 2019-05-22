@@ -15,14 +15,14 @@ namespace Game.Penguins.AI.UnitTests
             Assert.IsTrue(c.FishCount == 3);
         }
 
-        //TESTS NUMBER OF FISHES - CORRECT
+        //TEST NUMBER OF FISHES - CORRECT
         [TestMethod]
         public void NumberOfFishTrue()
         {
             Cell cell = new Cell(CellType.Fish, 2);
             Assert.IsTrue(cell.FishCount == 2);
         }
-        //TESTS NUMBER OF FISHES - INCORRECT
+        //TEST NUMBER OF FISHES - INCORRECT
         [TestMethod]
         public void NumberOfFishFalse()
         {
@@ -30,6 +30,18 @@ namespace Game.Penguins.AI.UnitTests
             Assert.IsFalse(cell.FishCount == 2);
         }
 
+        //TODO
+        //TEST DELETE CELLS - CORRECT
+        /*[TestMethod]
+        public void DeleteCellTrue()
+        {
+            Cell cell = new Cell(CellType.Fish, 3);
+            deleteCell(cell);
+            Assert.IsTrue(FishCount = 0);
+        }*/
+
+
+        //????
         /* [TestMethod]
          public void CellCreationError()
          {
