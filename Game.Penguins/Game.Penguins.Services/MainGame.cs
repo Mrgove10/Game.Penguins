@@ -8,6 +8,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 //using Game.Penguins.Core.Code.Helper.Points;
 
@@ -59,9 +60,8 @@ namespace Game.Penguins.Services
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
             //initialise player whit 0 penguins ( will be updated later)
-            //TODO : need to make the penguins good
             IPlayer tempPlayer = new Player(playerName, playerType);
-            Players.Add(tempPlayer);//TODO :  unsure about this, verify
+            Players.Add(tempPlayer);
             return tempPlayer;
         }
 
@@ -264,7 +264,7 @@ namespace Game.Penguins.Services
             }
             else
             {
-                Log.Warn("You cannont move to that cell");
+                Log.Warn("You can not move to that cell");
             }
         }
         
