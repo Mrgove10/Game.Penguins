@@ -197,7 +197,8 @@ namespace Game.Penguins.Services
             else
             {
                 Log.Error("Cell has more then 1 penguin");
-                throw new Exception();
+                NextAction = NextActionType.PlacePenguin;
+                // throw new Exception();
             }
             
         }
@@ -244,8 +245,8 @@ namespace Game.Penguins.Services
         {
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)origin;
-            Console.WriteLine("initial cell :" + originCell.xPos + ":" + originCell.yPos);
-            Console.WriteLine("Destination cell :" + destinationCell.xPos + ":" + destinationCell.yPos);
+            Console.WriteLine("initial cell :" + originCell.XPos + ":" + originCell.YPos);
+            Console.WriteLine("Destination cell :" + destinationCell.XPos + ":" + destinationCell.YPos);
             StateChanged?.Invoke(this, null);
         }
 
@@ -278,7 +279,7 @@ namespace Game.Penguins.Services
             foreach (ICell cell in Board.Board)
             {
                 Cell c = (Cell)cell;
-                Console.WriteLine(c.xPos + ":" + c.yPos + " type : " + cell.CellType + " fishCount : " + cell.FishCount);
+                Console.WriteLine(c.XPos + ":" + c.YPos + " type : " + cell.CellType + " fishCount : " + cell.FishCount);
             }
             Console.WriteLine("Total cells on the board : " + Board.Board.Length);
 
