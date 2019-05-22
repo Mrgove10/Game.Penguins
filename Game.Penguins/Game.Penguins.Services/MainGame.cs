@@ -8,6 +8,7 @@ using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
+//using Game.Penguins.Core.Code.Helper.Points;
 
 namespace Game.Penguins.Services
 {
@@ -71,10 +72,7 @@ namespace Game.Penguins.Services
             UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
             CalculateCurrentPlayerNumber();
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-#if DEBUG
-            Console.WriteLine("Current Number Of players : " + Players.Count);
-             //   debug();
-#endif
+            Log.Debug("Current Number Of players : " + Players.Count);
             StateChanged?.Invoke(this, null);
 
         }
@@ -84,10 +82,10 @@ namespace Game.Penguins.Services
         /// </summary>
         private void WhatIsNextTurn()
         {
-            if (turnNumber < Players.Count) //this means we are in a placement turn
+            if (turnNumber < penguinsPerPlayer) //this means we are in a placement turn
             {
                 Log.Debug("Next turn is a Placement Turn");
-                NextAction = NextActionType.PlacePenguin;//TODO : correct ?
+                NextAction = NextActionType.PlacePenguin;
             }
             else
             {
@@ -97,6 +95,9 @@ namespace Game.Penguins.Services
             Log.Debug("Current player to play : " + currentPlayerNumber);
         }
 
+        /// <summary>
+        /// Calculates what player can now play
+        /// </summary>
         private void CalculateCurrentPlayerNumber()
         {
             Log.Debug("Current player is " + currentPlayerNumber);
@@ -163,11 +164,12 @@ namespace Game.Penguins.Services
                     penguinsPerPlayer = 2;
                     break;
             }
-            foreach (var player1 in Players)
+
+            foreach (var p in Players)
             {
-                var player = (Player)player1;
+                var player = (Player)p;
                 player.Penguins = penguinsPerPlayer;
-                for (int i = 0; i < penguinsPerPlayer; i++)
+                for (int i = 0; i < penguinsPerPlayer; i++)//Adds the number fo penguins to the list of the player
                 {
                     player.PlayerPenguinsList.Add(new Penguin(player));
                 }
@@ -195,10 +197,8 @@ namespace Game.Penguins.Services
             else
             {
                 Log.Error("Cell has more then 1 penguin");
-                NextAction = NextActionType.PlacePenguin;// this prevents the game fom craching
-                // throw new Exception();
+                NextAction = NextActionType.PlacePenguin;// this prevents the game fom by returning it the the previous state
             }
-            
         }
 
         /// <summary>
@@ -243,8 +243,11 @@ namespace Game.Penguins.Services
         {
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)origin;
-            Console.WriteLine("initial cell :" + originCell.XPos + ":" + originCell.YPos);
-            Console.WriteLine("Destination cell :" + destinationCell.XPos + ":" + destinationCell.YPos);
+            Log.Debug("initial cell :" + originCell.XPos + ":" + originCell.YPos);
+            Log.Debug("Destination cell :" + destinationCell.XPos + ":" + destinationCell.YPos);
+
+            originCell.CellType = CellType.Water;
+            destinationCell.CellType = CellType.FishWithPenguin;
             StateChanged?.Invoke(this, null);
         }
 

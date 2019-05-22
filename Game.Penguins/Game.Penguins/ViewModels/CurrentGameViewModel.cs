@@ -204,7 +204,11 @@ namespace Game.Penguins.ViewModels
 
         public void PlayPlacePenguinHuman()
         {
-            game.PlacePenguinManual(SelectedCell.X, SelectedCell.Y);
+            if (SelectedCell != null)
+            {
+                game.PlacePenguinManual(SelectedCell.X, SelectedCell.Y);
+
+            }
 
             CheckActions();
         }
