@@ -4,20 +4,20 @@ using System;
 
 namespace Game.Penguins.AI.Code
 {
-    public class AIEasy : IAI
+    public class AiEasy : IAI
     {
         public int PlacementPenguinX { get; set; }
         public int PlacementPenguinY { get; set; }
 
         public IBoard plateau { get; }
-        public IPenguin penguin { get; }
+        public IPenguin Penguin { get; }
 
-        private int[] tabDirection = new int[6];
+        private readonly int[] _tabDirection = new int[6];
 
-        public AIEasy(IBoard plateauParam, IPenguin penguinParam)
+        public AiEasy(IBoard plateauParam, IPenguin penguinParam)
         {
             plateau = plateauParam;
-            penguin = penguinParam;
+            Penguin = penguinParam;
         }
 
         public void PlacementPenguin()
@@ -65,7 +65,7 @@ namespace Game.Penguins.AI.Code
                 {
                     if (plateau.Board[posX, posY].CellType != CellType.Water || plateau.Board[posX, posY].CellType != CellType.FishWithPenguin)
                     {
-                        tabDirection[(int)Direction.Droite]++;
+                        _tabDirection[(int)Direction.Droite]++;
                     }
                     else
                     {
@@ -73,7 +73,7 @@ namespace Game.Penguins.AI.Code
                     }
                 }
 #if DEBUG
-                Console.WriteLine(Enum.GetName(typeof(Direction), direction) + " : " + tabDirection[(int)Direction.Droite]);
+                Console.WriteLine(Enum.GetName(typeof(Direction), direction) + " : " + _tabDirection[(int)Direction.Droite]);
 #endif
             }
 #if DEBUG
