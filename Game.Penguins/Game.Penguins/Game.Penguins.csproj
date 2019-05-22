@@ -143,10 +143,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Game.Penguins.AI\Game.Penguins.AI.csproj">
-      <Project>{2b262be3-fc17-47df-ba3a-a50ce65c4999}</Project>
-      <Name>Game.Penguins.AI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Game.Penguins.Core\Game.Penguins.Core.csproj">
       <Project>{80c125c4-2e4e-4ab0-a0a0-f084808683dd}</Project>
       <Name>Game.Penguins.Core</Name>

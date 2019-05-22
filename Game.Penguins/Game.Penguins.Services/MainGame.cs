@@ -1,5 +1,4 @@
 using Common.Logging;
-using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
@@ -9,6 +8,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
+using Game.Penguins.AI.Code;
 
 //using Game.Penguins.Core.Code.Helper.Points;
 
