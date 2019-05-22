@@ -243,18 +243,26 @@ namespace Game.Penguins.Services
         {
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
-            if (originCell != destinationCell/*originCell.XPos != destinationCell.XPos && originCell.YPos != destinationCell.YPos*/)
+            //todo: if teh cell is not water
+            if (destinationCell.CellType == CellType.Fish)
             {
-                Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
-                Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
-                destinationCell.CellType = CellType.FishWithPenguin;
-                destinationCell.CurrentPenguin = originCell.CurrentPenguin;
-                originCell.deleteCell();
-                StateChanged?.Invoke(this, null);
+                if (originCell != destinationCell)
+                {
+                    Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
+                    Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
+                    destinationCell.CellType = CellType.FishWithPenguin;
+                    destinationCell.CurrentPenguin = originCell.CurrentPenguin;
+                    originCell.deleteCell();
+                    StateChanged?.Invoke(this, null);
+                }
+                else
+                {
+                    Log.Warn("Origin cell can not be the same as the destination cell");
+                }
             }
             else
             {
-                Log.Warn("Origin cell can not be the same as the destination cell");
+                Log.Warn("You cannont move to that cell");
             }
         }
 
