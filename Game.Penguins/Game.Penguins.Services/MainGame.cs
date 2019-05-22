@@ -74,7 +74,6 @@ namespace Game.Penguins.Services
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
             Log.Debug("Current Number Of players : " + Players.Count);
             StateChanged?.Invoke(this, null);
-
         }
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace Game.Penguins.Services
                 turnNumber++;
             }
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-            Log.Debug("Current player is now" + currentPlayerNumber);
+            Log.Debug("Current player is now " + currentPlayerNumber);
         }
 
         /// <summary>
@@ -242,9 +241,9 @@ namespace Game.Penguins.Services
         public void MoveManual(ICell origin, ICell destination)
         {
             Cell originCell = (Cell)origin;
-            Cell destinationCell = (Cell)origin;
-            Log.Debug("initial cell :" + originCell.XPos + ":" + originCell.YPos);
-            Log.Debug("Destination cell :" + destinationCell.XPos + ":" + destinationCell.YPos);
+            Cell destinationCell = (Cell)destination;
+            Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
+            Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
 
             originCell.CellType = CellType.Water;
             destinationCell.CellType = CellType.FishWithPenguin;
