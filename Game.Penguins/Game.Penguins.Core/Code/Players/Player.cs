@@ -28,25 +28,11 @@ namespace Game.Penguins.Core.Code.Players
             Guid guid = Guid.NewGuid();
             Identifier = guid;
             Name = name;
-            Color = getPlayerColor();
+            Color = PlayerColor.Red;
             Points = 0;
             PlayerType = playerType;
             Penguins = 0;
             PlayerPenguinsList = new List<IPenguin>();
         }
-
-        /// <summary>
-        /// Generates the player color
-        /// </summary>
-        /// <returns></returns>
-       /* private PlayerColor getPlayerColor()
-        {
-            Random rand = new Random();
-            var randomNumber = rand.Next(0, 3);
-
-            return (PlayerColor)randomNumber;
-
-            //TODO need to change this !!!!!
-        }*/
     }
 }
