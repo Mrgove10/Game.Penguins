@@ -31,8 +31,8 @@ namespace Game.Penguins.Core.Code.GameBoard
                 for (int j = 0; j < sizeY; j++)
                 {
                     Board[i, j] = allCellsRandom[n];
-                    allCellsRandom[n].xPos = i;
-                    allCellsRandom[n].yPos = j;
+                    allCellsRandom[n].XPos = i;
+                    allCellsRandom[n].YPos = j;
                     n++;
                 }
             }

@@ -33,8 +33,8 @@ namespace Game.Penguins.Core.Code.GameBoard
 
         public event EventHandler StateChanged;
 
-        public int xPos;
-        public int yPos;
+        public int XPos;//X position of the cell
+        public int YPos;//Y position of the cell
 
         /// <summary>
         /// Cell Constructor for fish cells
