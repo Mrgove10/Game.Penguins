@@ -16,10 +16,11 @@ namespace Game.Penguins.Services
 {
     public class MainGame : IGame
     {
-        private IAI AiEasy;
-        private IAI AiMedium;
-        private IAI AiHard;
         #region Declarations
+        private readonly IAI _aiEasy;
+        private IAI _aiMedium;
+        private IAI _aiHard;
+        
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -49,7 +50,7 @@ namespace Game.Penguins.Services
             0,0 on the upper left to
             7,7 on the bottom right*/
             Board = new Plateau(8, 8);
-            AiEasy = new AiEasy(Board);
+            _aiEasy = new AiEasy(Board);
             // AiMedium = new AiMedium(Board);
             //  AiHard = new AiHard(Board);
             Players = new List<IPlayer>();
@@ -216,7 +217,7 @@ namespace Game.Penguins.Services
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                int[] p = AiEasy.PlacementPenguin();
+                int[] p = _aiEasy.PlacementPenguin();
                 PlacePenguinManual(p[0], p[1]);
                 // StateChanged?.Invoke(this, null);
             }
