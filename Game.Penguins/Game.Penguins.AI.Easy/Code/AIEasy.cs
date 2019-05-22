@@ -27,23 +27,25 @@ namespace Game.Penguins.AI.Code
         public int[] PlacementPenguin()
         {
             Random rnd = new Random();
-            PlacementPenguinX = rnd.Next(7);
-            PlacementPenguinY = rnd.Next(7);
-
             bool search = true;
 
             while (search) //while it is in a searching state
             {
-                if (MainBoard.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && MainBoard.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1)
+                PlacementPenguinX = rnd.Next(7);
+                PlacementPenguinY = rnd.Next(7);
+                ICell c = MainBoard.Board[PlacementPenguinX, PlacementPenguinY];
+
+                if (c.CellType == CellType.Fish && c.FishCount == 1)
                 {
                     int[] tab = new int[2];
                     tab[0] = PlacementPenguinX;
                     tab[1] = PlacementPenguinY;
+                    search = false;
+                    Log.Debug("AI will place itself at x: " + PlacementPenguinX + " , y: " + PlacementPenguinY);
                     return tab;
                 }
-                PlacementPenguinX = rnd.Next(7);
-                PlacementPenguinY = rnd.Next(7);
             }
+            Log.Error("no cell found");
             return null; //TODO: change this
         }
 

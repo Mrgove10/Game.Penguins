@@ -8,6 +8,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Game.Penguins.AI.Code;
 
 //using Game.Penguins.Core.Code.Helper.Points;
@@ -17,11 +18,11 @@ namespace Game.Penguins.Services
     public class MainGame : IGame
     {
         #region Declarations
+
         private readonly IAI _aiEasy;
         private IAI _aiMedium;
         private IAI _aiHard;
         
-
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -52,7 +53,7 @@ namespace Game.Penguins.Services
             Board = new Plateau(8, 8);
             _aiEasy = new AiEasy(Board);
             // AiMedium = new AiMedium(Board);
-            //  AiHard = new AiHard(Board);
+            // AiHard = new AiHard(Board);
             Players = new List<IPlayer>();
             CurrentPlayer = null;
 
@@ -109,7 +110,6 @@ namespace Game.Penguins.Services
         /// </summary>
         private void CalculateCurrentPlayerNumber()
         {
-            Log.Debug("Current player is " + currentPlayerNumber);
             //calculates the current player
             if (currentPlayerNumber < Players.Count - 1) //increments the current player
             {
@@ -162,15 +162,15 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    penguinsPerPlayer = 1;//4
+                    penguinsPerPlayer = 4;//4
                     break;
 
                 case 3:
-                    penguinsPerPlayer = 1;//3
+                    penguinsPerPlayer = 3;//3
                     break;
 
                 case 4:
-                    penguinsPerPlayer = 1;//2
+                    penguinsPerPlayer = 2;//2
                     break;
             }
 
@@ -199,8 +199,8 @@ namespace Game.Penguins.Services
                 currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                 currentCell.CellType = CellType.FishWithPenguin;
                 Log.Debug("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
-                WhatIsNextTurn();
                 CalculateCurrentPlayerNumber();
+                WhatIsNextTurn();
                 StateChanged?.Invoke(this, null);
             }
             else
@@ -215,11 +215,12 @@ namespace Game.Penguins.Services
         /// </summary>
         public void PlacePenguin()
         {
+            Log.Debug("AI Placement");
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
+                Log.Debug("Easy AI");
                 int[] p = _aiEasy.PlacementPenguin();
                 PlacePenguinManual(p[0], p[1]);
-                // StateChanged?.Invoke(this, null);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
