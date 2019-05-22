@@ -16,7 +16,9 @@ namespace Game.Penguins.Services
 {
     public class MainGame : IGame
     {
-        private IAI aiEasy;
+        private IAI AiEasy;
+        private IAI AiMedium;
+        private IAI AiHard;
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -39,13 +41,14 @@ namespace Game.Penguins.Services
         /// </summary>
         public MainGame()
         {
-            Log.Debug("hello world");
-            Log.Warn("caca");
-            // log.Debug("Starting Game");
+            Log.Debug("Starting Game");
             /*8x8 Board , coordinates go from
             0,0 on the upper left to
             7,7 on the bottom right*/
             Board = new Plateau(8, 8);
+            AiEasy = new AiEasy(Board);
+            // AiMedium = new AiMedium(Board);
+            //  AiHard = new AiHard(Board);
             Players = new List<IPlayer>();
             CurrentPlayer = null;
 
@@ -210,19 +213,9 @@ namespace Game.Penguins.Services
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                //Easy AI place function here
-
-                aiEasy = new AIEasy(Board, null/*TODO : add arguments here*/);
-                aiEasy.PlacementPenguin();
-
-#if DEBUG
-                Console.WriteLine("L'IA choisi sa position : [" + aiEasy.PlacementPenguinX + ", " + aiEasy.PlacementPenguinY + "]");
-#endif
-                Cell cellPenguin = (Cell)Board.Board[aiEasy.PlacementPenguinX, aiEasy.PlacementPenguinY];
-
-                cellPenguin.CurrentPenguin = new Penguin((Player)CurrentPlayer);
-                cellPenguin.CellType = CellType.FishWithPenguin;
-                StateChanged?.Invoke(this, null);
+                int[] p = AiEasy.PlacementPenguin();
+                PlacePenguinManual(p[0], p[1]);
+                // StateChanged?.Invoke(this, null);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {

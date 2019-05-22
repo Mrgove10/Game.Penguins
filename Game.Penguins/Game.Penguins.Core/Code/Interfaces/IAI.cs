@@ -6,9 +6,9 @@ namespace Game.Penguins.Core
     {
         int PlacementPenguinX { get; set; }
         int PlacementPenguinY { get; set; }
-        IBoard plateau { get; }
+        IBoard MainBoard { get; }
 
-        void PlacementPenguin();
+        int[] PlacementPenguin();
 
         void DetectionCases(int posX, int posY);
     }

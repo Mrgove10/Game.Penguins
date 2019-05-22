@@ -1,4 +1,5 @@
-﻿using Game.Penguins.Core;
+﻿using Common.Logging;
+using Game.Penguins.Core;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using System;
 
@@ -6,64 +7,64 @@ namespace Game.Penguins.AI.Code
 {
     public class AiEasy : IAI
     {
+        private readonly ILog Log = LogManager.GetLogger<AiEasy>();
         public int PlacementPenguinX { get; set; }
         public int PlacementPenguinY { get; set; }
 
-        public IBoard plateau { get; }
+        public IBoard MainBoard { get; }
         public IPenguin Penguin { get; }
 
         private readonly int[] _tabDirection = new int[6];
 
-        public AiEasy(IBoard plateauParam, IPenguin penguinParam)
+        public AiEasy(IBoard plateauParam)
         {
-            plateau = plateauParam;
-            Penguin = penguinParam;
+            MainBoard = plateauParam;
         }
 
-        public void PlacementPenguin()
+        /// <summary>
+        /// Places a penguin
+        /// </summary>
+        public int[] PlacementPenguin()
         {
-            Random rndX = new Random();
-            PlacementPenguinX = rndX.Next(7);
-
-            Random rndY = new Random();
-            PlacementPenguinY = rndY.Next(7);
+            Random rnd = new Random();
+            PlacementPenguinX = rnd.Next(7);
+            PlacementPenguinY = rnd.Next(7);
 
             bool search = true;
 
-            while (search)
+            while (search) //while it is in a searching state
             {
-                if (plateau.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && plateau.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1)
+                if (MainBoard.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && MainBoard.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1)
                 {
-                    //PlacePenguin[randomX, randomY];
-                    search = false;
+                    int[] tab = new int[2];
+                    tab[0] = PlacementPenguinX;
+                    tab[1] = PlacementPenguinY;
+                    return tab;
                 }
-                else
-                {
-                    rndX = new Random();
-                    PlacementPenguinX = rndX.Next(7);
-
-                    rndY = new Random();
-                    PlacementPenguinY = rndY.Next(7);
-                }
+                PlacementPenguinX = rnd.Next(7);
+                PlacementPenguinY = rnd.Next(7);
             }
+            return null; //TODO: change this
         }
 
+        /// <summary>
+        /// Determines wheere a penguin can move
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
         public void DetectionCases(int posX, int posY)
         {
-#if DEBUG
-            Console.WriteLine("-- ON DETERMINE LES DEPLACEMENTS DISPONIBLES --");
-#endif
+            Log.Debug("-- ON DETERMINE LES DEPLACEMENTS DISPONIBLES --");
+
             for (int direction = 0; direction <= 5; direction++)
             {
-#if DEBUG
-                Console.WriteLine(" - On test la direction : " + Enum.GetName(typeof(Direction), direction));
-#endif
-                ICell oui = plateau.Board[posX, posY];
+                Log.Debug(" - On test la direction : " + Enum.GetName(typeof(Direction), direction));
+                ICell oui = MainBoard.Board[posX, posY];
                 bool count = true;
 
                 while (count)
                 {
-                    if (plateau.Board[posX, posY].CellType != CellType.Water || plateau.Board[posX, posY].CellType != CellType.FishWithPenguin)
+                    if (MainBoard.Board[posX, posY].CellType != CellType.Water || MainBoard.Board[posX, posY].CellType != CellType.FishWithPenguin)
                     {
                         _tabDirection[(int)Direction.Droite]++;
                     }
@@ -72,13 +73,9 @@ namespace Game.Penguins.AI.Code
                         count = false;
                     }
                 }
-#if DEBUG
-                Console.WriteLine(Enum.GetName(typeof(Direction), direction) + " : " + _tabDirection[(int)Direction.Droite]);
-#endif
+                Log.Debug(Enum.GetName(typeof(Direction), direction) + " : " + _tabDirection[(int)Direction.Droite]);
             }
-#if DEBUG
-            Console.WriteLine("-- DEPLACEMENTS DISPONIBLES TERMINES --");
-#endif
+            Log.Debug("-- DEPLACEMENTS DISPONIBLES TERMINES --");
         }
     }
 }
