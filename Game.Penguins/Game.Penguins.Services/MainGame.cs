@@ -155,15 +155,15 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    penguinsPerPlayer = 4;
+                    penguinsPerPlayer = 1;//4
                     break;
 
                 case 3:
-                    penguinsPerPlayer = 3;
+                    penguinsPerPlayer = 1;//3
                     break;
 
                 case 4:
-                    penguinsPerPlayer = 2;
+                    penguinsPerPlayer = 1;//2
                     break;
             }
 
@@ -194,7 +194,6 @@ namespace Game.Penguins.Services
                 Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
                 WhatIsNextTurn();
                 CalculateCurrentPlayerNumber();
-                PointManager.UpdatePlayerPoints(CurrentPlayer, currentCell.FishCount);
                 StateChanged?.Invoke(this, null);
             }
             else
@@ -244,6 +243,7 @@ namespace Game.Penguins.Services
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
+            //TODO: you can mouve any player
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
             //todo: if teh cell is not water
@@ -253,6 +253,7 @@ namespace Game.Penguins.Services
                 {
                     Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
                     Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
+                    PointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
                     destinationCell.CellType = CellType.FishWithPenguin;
                     destinationCell.CurrentPenguin = originCell.CurrentPenguin;
                     originCell.deleteCell();
