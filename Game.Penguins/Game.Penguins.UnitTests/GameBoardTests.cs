@@ -7,10 +7,12 @@ namespace Game.Penguins.UnitTests
    [TestClass]
     public class GameBoardTest
     {
+        //TODO
+        //TESTING IF THE BOARD IS UPDATED
        /* [TestMethod]
         public void GbCreation()
         {
-            /*bonneClasse*/./*EventHandler*/ /*+= delegate (object sender, System.EventArgs e)
+            MainGame EventHandler += delegate (object sender, System.EventArgs e)
             {
                 statsUpdated = true;
             };
