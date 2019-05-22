@@ -28,7 +28,6 @@ namespace Game.Penguins.Services
         private IList<IPlayer> playersPlayOrder;
         private int currentPlayerNumber = 0;
         private int turnNumber;
-        private int score;
         private int penguinsPerPlayer;
 
         private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
@@ -193,7 +192,7 @@ namespace Game.Penguins.Services
                 Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
                 WhatIsNextTurn();
                 CalculateCurrentPlayerNumber();
-                UpdatePlayerPoints(6);
+                UpdatePlayerPoints(currentCell.FishCount);
                 StateChanged?.Invoke(this, null);
             }
             else
@@ -273,23 +272,11 @@ namespace Game.Penguins.Services
         /// </summary>
         /// <param name="score"></param>
         /// <returns></returns>
-        public void UpdatePlayerPoints(int score) 
-        {
-            int currentCount = CurrentPlayer.Points;
-            int newCount;
-
-            if(currentCount == 0)
-            {
-                newCount = score;
-            } 
-            else 
-            {
-                newCount = currentCount + score;
-            }
-            //TODO
-           // CurrentPlayer.Points = newCount;
+        public void UpdatePlayerPoints(int pointToAdd)
+        { 
+            Player cp = (Player) CurrentPlayer;
+            cp.Points += pointToAdd;
             StateChanged?.Invoke(this, null);
-
         }
 
         /// <summary>
