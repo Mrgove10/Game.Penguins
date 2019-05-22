@@ -39,7 +39,7 @@ namespace Game.Penguins.Core.Code.Players
         /// Generates the player color
         /// </summary>
         /// <returns></returns>
-        private PlayerColor getPlayerColor()
+       /* private PlayerColor getPlayerColor()
         {
             Random rand = new Random();
             var randomNumber = rand.Next(0, 3);
@@ -47,6 +47,6 @@ namespace Game.Penguins.Core.Code.Players
             return (PlayerColor)randomNumber;
 
             //TODO need to change this !!!!!
-        }
+        }*/
     }
 }

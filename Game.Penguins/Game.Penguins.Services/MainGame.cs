@@ -2,13 +2,13 @@ using Common.Logging;
 using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 //using Game.Penguins.Core.Code.Helper.Points;
 
@@ -31,6 +31,8 @@ namespace Game.Penguins.Services
         private int penguinsPerPlayer;
 
         private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
+
+        private PointHelper PointManager = new PointHelper();
 
         /// <summary>
         /// MainGame constructor
@@ -192,7 +194,7 @@ namespace Game.Penguins.Services
                 Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
                 WhatIsNextTurn();
                 CalculateCurrentPlayerNumber();
-                UpdatePlayerPoints(currentCell.FishCount);
+                PointManager.UpdatePlayerPoints(CurrentPlayer, currentCell.FishCount);
                 StateChanged?.Invoke(this, null);
             }
             else
@@ -265,18 +267,6 @@ namespace Game.Penguins.Services
             {
                 Log.Warn("You can not move to that cell");
             }
-        }
-        
-        /// <summary>
-        /// Updates the player's points count
-        /// </summary>
-        /// <param name="score"></param>
-        /// <returns></returns>
-        public void UpdatePlayerPoints(int pointToAdd)
-        { 
-            Player cp = (Player) CurrentPlayer;
-            cp.Points += pointToAdd;
-            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
