@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Common.Logging;
 using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
@@ -8,6 +6,9 @@ using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
+using System;
+using System.Collections.Generic;
+
 //using Game.Penguins.Core.Code.Helper.Points;
 
 namespace Game.Penguins.Services
@@ -242,12 +243,19 @@ namespace Game.Penguins.Services
         {
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
-            Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
-            Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
-
-            originCell.CellType = CellType.Water;
-            destinationCell.CellType = CellType.FishWithPenguin;
-            StateChanged?.Invoke(this, null);
+            if (originCell != destinationCell/*originCell.XPos != destinationCell.XPos && originCell.YPos != destinationCell.YPos*/)
+            {
+                Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
+                Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
+                destinationCell.CellType = CellType.FishWithPenguin;
+                destinationCell.CurrentPenguin = originCell.CurrentPenguin;
+                originCell.deleteCell();
+                StateChanged?.Invoke(this, null);
+            }
+            else
+            {
+                Log.Warn("Origin cell can not be the same as the destination cell");
+            }
         }
 
         /// <summary>

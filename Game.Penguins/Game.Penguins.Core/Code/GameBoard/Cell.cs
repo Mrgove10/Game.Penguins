@@ -17,7 +17,7 @@ namespace Game.Penguins.Core.Code.GameBoard
             }
         }
 
-        public int FishCount { get; }
+        public int FishCount { get; set; }
 
         private IPenguin pengu;
 
@@ -59,6 +59,13 @@ namespace Game.Penguins.Core.Code.GameBoard
                     FishCount = numberOfFish;
                 }
             }
+        }
+
+        public void deleteCell()
+        {
+            CurrentPenguin = null;
+            FishCount = 0;
+            CellType = CellType.Water;
         }
     }
 }
