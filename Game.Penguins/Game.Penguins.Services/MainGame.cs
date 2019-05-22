@@ -16,7 +16,11 @@ namespace Game.Penguins.Services
 {
     public class MainGame : IGame
     {
+        #region Declarations
+
         private IAI aiEasy;
+        private IAI aiMedium;
+        private IAI aiHard;
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -32,7 +36,9 @@ namespace Game.Penguins.Services
 
         private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
 
-        private PointHelper PointManager = new PointHelper();
+        private readonly PointHelper _pointManager = new PointHelper();
+
+        #endregion Declarations
 
         /// <summary>
         /// MainGame constructor
@@ -41,7 +47,6 @@ namespace Game.Penguins.Services
         {
             Log.Debug("hello world");
             Log.Warn("caca");
-            // log.Debug("Starting Game");
             /*8x8 Board , coordinates go from
             0,0 on the upper left to
             7,7 on the bottom right*/
@@ -60,7 +65,7 @@ namespace Game.Penguins.Services
         /// <returns></returns>
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
-            //initialise player whit 0 penguins ( will be updated later)
+            //initialise player whit 0 penguins & a default color( will be updated later) 
             IPlayer tempPlayer = new Player(playerName, playerType);
             Players.Add(tempPlayer);
             return tempPlayer;
@@ -185,13 +190,13 @@ namespace Game.Penguins.Services
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
+            Log.Debug(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin)
             {
                 currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                 currentCell.CellType = CellType.FishWithPenguin;
-                Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
+                Log.Debug("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
                 WhatIsNextTurn();
                 CalculateCurrentPlayerNumber();
                 StateChanged?.Invoke(this, null);
@@ -214,10 +219,7 @@ namespace Game.Penguins.Services
 
                 aiEasy = new AIEasy(Board, null/*TODO : add arguments here*/);
                 aiEasy.PlacementPenguin();
-
-#if DEBUG
-                Console.WriteLine("L'IA choisi sa position : [" + aiEasy.PlacementPenguinX + ", " + aiEasy.PlacementPenguinY + "]");
-#endif
+                Log.Debug("L'IA choisi sa position : [" + aiEasy.PlacementPenguinX + ", " + aiEasy.PlacementPenguinY + "]");
                 Cell cellPenguin = (Cell)Board.Board[aiEasy.PlacementPenguinX, aiEasy.PlacementPenguinY];
 
                 cellPenguin.CurrentPenguin = new Penguin((Player)CurrentPlayer);
@@ -246,14 +248,13 @@ namespace Game.Penguins.Services
             //TODO: you can mouve any player
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
-            //todo: if teh cell is not water
             if (destinationCell.CellType == CellType.Fish)
             {
                 if (originCell != destinationCell)
                 {
                     Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
                     Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
-                    PointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
+                    _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
                     destinationCell.CellType = CellType.FishWithPenguin;
                     destinationCell.CurrentPenguin = originCell.CurrentPenguin;
                     originCell.deleteCell();
@@ -261,12 +262,12 @@ namespace Game.Penguins.Services
                 }
                 else
                 {
-                    Log.Warn("Origin cell can not be the same as the destination cell");
+                    Log.Debug("Origin cell can not be the same as the destination cell");
                 }
             }
             else
             {
-                Log.Warn("You can not move to that cell");
+                Log.Debug("You can not move to that cell");
             }
         }
 
@@ -288,35 +289,6 @@ namespace Game.Penguins.Services
             {
                 //Hard AI move function here
             }
-        }
-
-        /// <summary>
-        /// Print Debug info
-        /// </summary>
-        private void Debug()
-        {
-            Console.WriteLine("-----CELLS------");
-            foreach (ICell cell in Board.Board)
-            {
-                Cell c = (Cell)cell;
-                Console.WriteLine(c.XPos + ":" + c.YPos + " type : " + cell.CellType + " fishCount : " + cell.FishCount);
-            }
-            Console.WriteLine("Total cells on the board : " + Board.Board.Length);
-
-            /*
-            Console.WriteLine("-----PLAYER------");
-            foreach (IPlayer player in Players)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYER SHUFFLED------");
-            foreach (IPlayer player in playersPlayOrder)
-            {
-                Console.WriteLine(player.Identifier + " : " + player.Name + " is " + player.PlayerType + " has " + player.Penguins + " Penguins");
-            }
-            Console.WriteLine("-----PLAYER START------");
-            Console.WriteLine(CurrentPlayer.Identifier + " : " + CurrentPlayer.Name);
-            */
         }
     }
 }
