@@ -91,23 +91,21 @@ namespace Game.Penguins.Services
             }
             else
             {
-                Console.WriteLine("Next turn is a Normal Turn");
+                Log.Debug("Next turn is a Normal Turn");
                 NextAction = NextActionType.MovePenguin;
             }
-#if DEBUG
-            Console.WriteLine("Current player to play : " + currentPlayerNumber);
-#endif
+            Log.Debug("Current player to play : " + currentPlayerNumber);
         }
 
         private void CalculateCurrentPlayerNumber()
         {
             Log.Debug("Current player is " + currentPlayerNumber);
             //calculates the current player
-            if (currentPlayerNumber < Players.Count - 1)
+            if (currentPlayerNumber < Players.Count - 1) //increments the current player
             {
                 currentPlayerNumber++;
             }
-            else
+            else //If we arrive at the end of the players we start from the beginning
             {
                 currentPlayerNumber = 0;
                 turnNumber++;
@@ -183,7 +181,6 @@ namespace Game.Penguins.Services
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            CalculateCurrentPlayerNumber();
             Console.WriteLine(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin)
@@ -192,12 +189,13 @@ namespace Game.Penguins.Services
                 currentCell.CellType = CellType.FishWithPenguin;
                 Console.WriteLine("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
                 WhatIsNextTurn();
+                CalculateCurrentPlayerNumber();
                 StateChanged?.Invoke(this, null);
             }
             else
             {
                 Log.Error("Cell has more then 1 penguin");
-                NextAction = NextActionType.PlacePenguin;
+                NextAction = NextActionType.PlacePenguin;// this prevents the game fom craching
                 // throw new Exception();
             }
             
