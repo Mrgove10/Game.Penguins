@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game.Penguins.AI\Game.Penguins.AI.csproj" />
+    <ProjectReference Include="..\Game.Penguins.AI.Easy\Game.Penguins.AI.Easy.csproj" />
+    <ProjectReference Include="..\Game.Penguins.AI.Hard\Game.Penguins.AI.Hard.csproj" />
+    <ProjectReference Include="..\Game.Penguins.AI.Medium\Game.Penguins.AI.Medium.csproj" />
     <ProjectReference Include="..\Game.Penguins.Core\Game.Penguins.Core.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,6 @@
-﻿namespace Game.Penguins.AI.Easy
+﻿using System;
+
+namespace Medium
 {
     public class Class1
     {
