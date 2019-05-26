@@ -31,6 +31,7 @@ namespace Game.Penguins.AI.Code
 
             while (search) //while it is in a searching state
             {
+                Log.Debug("starting the search of a suitable case");
                 PlacementPenguinX = rnd.Next(7);
                 PlacementPenguinY = rnd.Next(7);
                 ICell c = MainBoard.Board[PlacementPenguinX, PlacementPenguinY];

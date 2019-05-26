@@ -205,7 +205,6 @@ namespace Game.Penguins.Services
             else
             {
                 Log.Error("Cell has more then 1 penguin");
-                NextAction = NextActionType.PlacePenguin;// this prevents the game fom by returning it the the previous state
             }
         }
 
@@ -256,6 +255,10 @@ namespace Game.Penguins.Services
                         destinationCell.CurrentPenguin = originCell.CurrentPenguin;
                         originCell.deleteCell();
                         StateChanged?.Invoke(this, null);
+                    }
+                    else
+                    {
+                        Log.Debug("This is not the penguin of the player");
                     }
                 }
                 else
