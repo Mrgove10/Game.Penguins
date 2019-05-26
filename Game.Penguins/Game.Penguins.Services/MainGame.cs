@@ -247,13 +247,16 @@ namespace Game.Penguins.Services
             {
                 if (originCell != destinationCell)
                 {
-                    Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
-                    Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
-                    _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
-                    destinationCell.CellType = CellType.FishWithPenguin;
-                    destinationCell.CurrentPenguin = originCell.CurrentPenguin;
-                    originCell.deleteCell();
-                    StateChanged?.Invoke(this, null);
+                    if (CurrentPlayer == originCell.CurrentPenguin.Player)
+                    {
+                        Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
+                        Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
+                        _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
+                        destinationCell.CellType = CellType.FishWithPenguin;
+                        destinationCell.CurrentPenguin = originCell.CurrentPenguin;
+                        originCell.deleteCell();
+                        StateChanged?.Invoke(this, null);
+                    }
                 }
                 else
                 {
