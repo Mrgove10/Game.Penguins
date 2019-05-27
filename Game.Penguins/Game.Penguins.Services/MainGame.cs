@@ -270,6 +270,7 @@ namespace Game.Penguins.Services
             {
                 Log.Debug("You can not move to that cell");
             }
+            VerifyIsolement(originCell);
         }
 
         /// <summary>
@@ -292,9 +293,31 @@ namespace Game.Penguins.Services
             }
         }
 
-        public void EndGame()
+        public void VerifyIsolement(Cell cellule)
         {
-            
+            //Si isolement == true -> suppr case + penguin. (player.penguins -= 1)
+        }
+
+        public void VerifyEndGame()
+        {
+            int PlayerAlive = 0;
+
+            //TODO si penguin == 0;
+            foreach (IPlayer player in Players)
+            {
+                if (player.Penguins > 0)
+                {
+                    PlayerAlive += 1;
+                }
+            }
+
+            if (PlayerAlive == 0)
+            {
+                //GAMEOVER
+                Log.Debug(" -- FIN DU JEU -- ");
+            }
+
+            //Next actionType == nothing
         }
     }
 }
