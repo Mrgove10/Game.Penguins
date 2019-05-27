@@ -1,4 +1,5 @@
 ﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
+using System.Collections.Generic;
 
 namespace Game.Penguins.Core
 {
@@ -8,8 +9,8 @@ namespace Game.Penguins.Core
         int PlacementPenguinY { get; set; }
         IBoard MainBoard { get; }
 
-        int[] PlacementPenguin();
+        List<int> PlacementPenguin();
 
-        void DetectionCases(int posX, int posY);
+        List<int> DetectionCases(int posX, int posY);
     }
 }

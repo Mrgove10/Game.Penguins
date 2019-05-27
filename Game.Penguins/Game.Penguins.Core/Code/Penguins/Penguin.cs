@@ -8,13 +8,13 @@ namespace Game.Penguins.Core.Code.Penguins
     {
         public IPlayer Player { get; set; }
         public Guid ID { get; set; }
-        public int Xpos;
-        public int Ypos;
+        public int XPos;
+        public int YPos;
         public Penguin(IPlayer PlayerAppartenance)
         {
             ID = new Guid();
-            Xpos = 0;
-            Ypos = 0;
+            XPos = 0;
+            YPos = 0;
             Player = PlayerAppartenance;
         }
     }
