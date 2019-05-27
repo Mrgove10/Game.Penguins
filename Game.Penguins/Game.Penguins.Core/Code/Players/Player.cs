@@ -11,7 +11,16 @@ namespace Game.Penguins.Core.Code.Players
         public PlayerType PlayerType { get; }
         public PlayerColor Color { get; set; }
         public string Name { get; }
-        public int Points { get; set; }
+
+        private int points;
+        public int Points {
+            get => points;
+            set
+            {
+                points = value; //value = access the object created by set
+                StateChanged?.Invoke(this, null);
+            }
+        }
         public int Penguins { get; set; }
 
         public event EventHandler StateChanged;

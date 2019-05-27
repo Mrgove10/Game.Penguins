@@ -291,5 +291,10 @@ namespace Game.Penguins.Services
                 //Hard AI move function here
             }
         }
+
+        public void EndGame()
+        {
+            
+        }
     }
 }
