@@ -17,8 +17,6 @@ namespace Game.Penguins.Services
         #region Declarations
 
         private readonly IAI _aiEasy;
-        private readonly IAI _aiMedium;
-        private readonly IAI _aiHard;
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -34,7 +32,6 @@ namespace Game.Penguins.Services
         private readonly ILog _log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
 
         private readonly PointHelper _pointManager;
-        private readonly MovementVerificationHelper _movementManager;
         private readonly IsolementVerificationHelper _isolationHelper;
 
         #endregion Declarations
@@ -51,7 +48,6 @@ namespace Game.Penguins.Services
             Board = new Plateau(8, 8);
 
             _pointManager = new PointHelper();
-            _movementManager = new MovementVerificationHelper(Board);
             _isolationHelper = new IsolementVerificationHelper(Board);
 
             _aiEasy = new AiEasy(Board);
@@ -249,7 +245,7 @@ namespace Game.Penguins.Services
                         _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
                         destinationCell.CellType = CellType.FishWithPenguin;
                         destinationCell.CurrentPenguin = originCell.CurrentPenguin;
-                        originCell.deleteCell();
+                        originCell.DeleteCell();
                         StateChanged?.Invoke(this, null);
                     }
                     else

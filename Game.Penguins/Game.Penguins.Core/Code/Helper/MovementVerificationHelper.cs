@@ -61,6 +61,8 @@ namespace Game.Penguins.Core.Code.Helper
             return possibleCellsRight;
         }
 
+
+
         //todo: make a fucntion that can do and X and Y  whit a certain X and y , i dont understand shit 
     }
 }
