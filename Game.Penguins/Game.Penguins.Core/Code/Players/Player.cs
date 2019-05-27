@@ -1,4 +1,4 @@
-﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
+﻿using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,9 @@ namespace Game.Penguins.Core.Code.Players
         public string Name { get; }
 
         private int points;
-        public int Points {
+
+        public int Points
+        {
             get => points;
             set
             {
@@ -21,7 +23,10 @@ namespace Game.Penguins.Core.Code.Players
                 StateChanged?.Invoke(this, null);
             }
         }
+
         public int Penguins { get; set; }
+
+        public List<Penguin> ListPenguins { get; set; }
 
         public event EventHandler StateChanged;
 
@@ -39,6 +44,7 @@ namespace Game.Penguins.Core.Code.Players
             Points = 0;
             PlayerType = playerType;
             Penguins = 0;
+            ListPenguins = new List<Penguin>();
         }
     }
 }

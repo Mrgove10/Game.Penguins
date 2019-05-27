@@ -37,18 +37,17 @@ namespace Game.Penguins.AI.Code
             while (search) //while it is in a searching state
             {
                 Log.Debug("starting the search of a suitable case");
-                PlacementPenguinX = rnd.Next(7);
-                PlacementPenguinY = rnd.Next(7);
+                PlacementPenguinX = rnd.Next(8);
+                PlacementPenguinY = rnd.Next(8);
                 ICell c = MainBoard.Board[PlacementPenguinX, PlacementPenguinY];
 
                 if (c.CellType == CellType.Fish && c.FishCount == 1 && c.CurrentPenguin == null)
                 {
-                    List<int> tab = new List<int>(2)
+                    List<int> tab = new List<int>
                     {
-                        [0] = PlacementPenguinX,
-                        [1] = PlacementPenguinY
+                        PlacementPenguinX,
+                        PlacementPenguinY
                     };
-                    search = false;
                     Log.Debug("AI will place itself at x: " + PlacementPenguinX + " , y: " + PlacementPenguinY);
                     return tab;
                 }
