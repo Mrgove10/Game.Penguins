@@ -25,8 +25,6 @@ namespace Game.Penguins.Core.Code.Players
 
         public event EventHandler StateChanged;
 
-        public List<IPenguin> PlayerPenguinsList { get; set; }
-
         /// <summary>
         /// Constructor of the player object
         /// </summary>
@@ -41,7 +39,6 @@ namespace Game.Penguins.Core.Code.Players
             Points = 0;
             PlayerType = playerType;
             Penguins = 0;
-            PlayerPenguinsList = new List<IPenguin>();
         }
     }
 }

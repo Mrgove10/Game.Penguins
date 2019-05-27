@@ -1,4 +1,5 @@
 using Common.Logging;
+using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
@@ -8,20 +9,17 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Game.Penguins.AI.Code;
-
-//using Game.Penguins.Core.Code.Helper.Points;
 
 namespace Game.Penguins.Services
 {
     public class MainGame : IGame
     {
         #region Declarations
+
         private readonly IAI _aiEasy;
-        private IAI _aiMedium;
-        private IAI _aiHard;
-        
+        private readonly IAI _aiMedium;
+        private readonly IAI _aiHard;
+
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -31,12 +29,14 @@ namespace Game.Penguins.Services
 
         private IList<IPlayer> playersPlayOrder;
         private int currentPlayerNumber = 0;
-        private int turnNumber;
+
+        //private int turnNumber = 0;
         private int penguinsPerPlayer;
 
-        private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
+        private readonly ILog _log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
 
-        private readonly PointHelper _pointManager = new PointHelper();
+        private readonly PointHelper _pointManager;
+        private readonly MovementVerificationHelper _movementManager;
 
         #endregion Declarations
 
@@ -45,11 +45,14 @@ namespace Game.Penguins.Services
         /// </summary>
         public MainGame()
         {
-            Log.Debug("Starting Game");
+            _log.Debug("Starting Game");
             /*8x8 Board , coordinates go from
             0,0 on the upper left to
             7,7 on the bottom right*/
             Board = new Plateau(8, 8);
+            _pointManager = new PointHelper();
+            _movementManager = new MovementVerificationHelper(Board);
+
             _aiEasy = new AiEasy(Board);
             // AiMedium = new AiMedium(Board);
             // AiHard = new AiHard(Board);
@@ -67,7 +70,7 @@ namespace Game.Penguins.Services
         /// <returns></returns>
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
-            //initialise player whit 0 penguins & a default color( will be updated later) 
+            //initialise player whit 0 penguins & a default color( will be updated later)
             IPlayer tempPlayer = new Player(playerName, playerType);
             Players.Add(tempPlayer);
             return tempPlayer;
@@ -81,27 +84,29 @@ namespace Game.Penguins.Services
             playersPlayOrder = GeneratePlayOrder(); //randomizes the play order
             UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
             CalculateCurrentPlayerNumber();
+            WhatIsNextTurn();
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-            Log.Debug("Current Number Of players : " + Players.Count);
+            _log.Debug("Current Number Of players : " + Players.Count);
             StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
-        /// Runs the turn of a player
+        /// Runs the current turn number
         /// </summary>
         private void WhatIsNextTurn()
         {
-            if (turnNumber < penguinsPerPlayer) //this means we are in a placement turn
+            _log.Debug("===Turn ===");
+            if (CurrentPlayer.Penguins < penguinsPerPlayer) //this means we are in a placement turn
             {
-                Log.Debug("Next turn is a Placement Turn");
+                _log.Debug("Next turn is a Placement Turn");
                 NextAction = NextActionType.PlacePenguin;
             }
             else
             {
-                Log.Debug("Next turn is a Normal Turn");
+                _log.Debug("Next turn is a Normal Turn");
                 NextAction = NextActionType.MovePenguin;
             }
-            Log.Debug("Current player to play : " + currentPlayerNumber);
+            _log.Debug("Current player to play : " + currentPlayerNumber + " (" + CurrentPlayer.Name + ")");
         }
 
         /// <summary>
@@ -117,10 +122,9 @@ namespace Game.Penguins.Services
             else //If we arrive at the end of the players we start from the beginning
             {
                 currentPlayerNumber = 0;
-                turnNumber++;
             }
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-            Log.Debug("Current player is now " + currentPlayerNumber);
+            _log.Debug("Current player is now " + currentPlayerNumber + " (" + CurrentPlayer.Name + ")");
         }
 
         /// <summary>
@@ -129,7 +133,7 @@ namespace Game.Penguins.Services
         /// <returns></returns>
         private IList<IPlayer> GeneratePlayOrder()
         {
-            IList<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
+            List<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
             List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
             while (copyStartList.Count > 0)
@@ -161,26 +165,16 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    penguinsPerPlayer = 4;//4
+                    penguinsPerPlayer = 4;//4 penguins per player
                     break;
 
                 case 3:
-                    penguinsPerPlayer = 3;//3
+                    penguinsPerPlayer = 3;//3 penguins per player
                     break;
 
                 case 4:
-                    penguinsPerPlayer = 2;//2
+                    penguinsPerPlayer = 2;//2 penguins per player
                     break;
-            }
-
-            foreach (var p in Players)
-            {
-                var player = (Player)p;
-                player.Penguins = penguinsPerPlayer;
-                for (int i = 0; i < penguinsPerPlayer; i++)//Adds the number fo penguins to the list of the player
-                {
-                    player.PlayerPenguinsList.Add(new Penguin(player));
-                }
             }
         }
 
@@ -191,20 +185,20 @@ namespace Game.Penguins.Services
         /// <param name="y"></param>
         public void PlacePenguinManual(int x, int y)
         {
-            Log.Debug(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
+            _log.Debug(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin)
             {
                 currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                 currentCell.CellType = CellType.FishWithPenguin;
-                Log.Debug("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
+                ((Player)CurrentPlayer).Penguins++;
                 CalculateCurrentPlayerNumber();
                 WhatIsNextTurn();
                 StateChanged?.Invoke(this, null);
             }
             else
             {
-                Log.Error("Cell has more then 1 penguin");
+                _log.Error("Cell has more then 1 penguin");
             }
         }
 
@@ -213,11 +207,9 @@ namespace Game.Penguins.Services
         /// </summary>
         public void PlacePenguin()
         {
-            Log.Debug("AI Placement");
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                Log.Debug("Easy AI");
-                int[] p = _aiEasy.PlacementPenguin();
+                List<int> p = _aiEasy.PlacementPenguin();
                 PlacePenguinManual(p[0], p[1]);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
@@ -239,7 +231,6 @@ namespace Game.Penguins.Services
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
-            //TODO: you can mouve any player
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
             if (destinationCell.CellType == CellType.Fish)
@@ -248,8 +239,8 @@ namespace Game.Penguins.Services
                 {
                     if (CurrentPlayer == originCell.CurrentPenguin.Player)
                     {
-                        Log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
-                        Log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
+                        _log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
+                        _log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
                         _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
                         destinationCell.CellType = CellType.FishWithPenguin;
                         destinationCell.CurrentPenguin = originCell.CurrentPenguin;
@@ -258,17 +249,17 @@ namespace Game.Penguins.Services
                     }
                     else
                     {
-                        Log.Debug("This is not the penguin of the player");
+                        _log.Debug("This is not the penguin of the player");
                     }
                 }
                 else
                 {
-                    Log.Debug("Origin cell can not be the same as the destination cell");
+                    _log.Debug("Origin cell can not be the same as the destination cell");
                 }
             }
             else
             {
-                Log.Debug("You can not move to that cell");
+                _log.Debug("You can not move to that cell");
             }
             VerifyIsolement(originCell);
         }
@@ -280,8 +271,7 @@ namespace Game.Penguins.Services
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                //AIEasy.DetectionCases(posX, posY);
-                //TODO TEST CETTE FONCTION AVEC POSX ET POSY
+                
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
