@@ -1,7 +1,7 @@
-﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
-using System.Collections.Generic;
+﻿using Game.Penguins.Core.Code.Helper;
+using Game.Penguins.Core.Interfaces.Game.GameBoard;
 
-namespace Game.Penguins.Core
+namespace Game.Penguins.Core.Code.Interfaces
 {
     public interface IAI
     {
@@ -9,8 +9,8 @@ namespace Game.Penguins.Core
         int PlacementPenguinY { get; set; }
         IBoard MainBoard { get; }
 
-        List<int> PlacementPenguin();
+        Coordinates PlacementPenguin();
 
-        List<int> DetectionCases(int posX, int posY);
+        Coordinates ChoseFinalDestinationCell(int posX, int posY);
     }
 }

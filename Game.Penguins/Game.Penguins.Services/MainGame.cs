@@ -1,8 +1,8 @@
 using Common.Logging;
 using Game.Penguins.AI.Code;
-using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
+using Game.Penguins.Core.Code.Interfaces;
 using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Code.Players;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
@@ -163,7 +163,7 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    _penguinsPerPlayer = 4;//4 penguins per player
+                    _penguinsPerPlayer = 1;//4 penguins per player
                     break;
 
                 case 3:
@@ -210,8 +210,8 @@ namespace Game.Penguins.Services
         {
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                List<int> p = _aiEasy.PlacementPenguin();
-                PlacePenguinManual(p[0], p[1]);
+                Coordinates pos = _aiEasy.PlacementPenguin();
+                PlacePenguinManual(pos.X, pos.Y);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
@@ -232,6 +232,7 @@ namespace Game.Penguins.Services
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
+            _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
             if (destinationCell.CellType == CellType.Fish)
@@ -275,9 +276,9 @@ namespace Game.Penguins.Services
             {
                 Player currentPlayer = (Player)CurrentPlayer;
                 Penguin penguinToMove = currentPlayer.ListPenguins[new Random().Next(currentPlayer.ListPenguins.Count)];
-                List<int> posCell = _aiEasy.DetectionCases(penguinToMove.XPos, penguinToMove.YPos);
+                Coordinates posCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos);
 
-                MoveManual(Board.Board[penguinToMove.XPos, penguinToMove.YPos], Board.Board[posCell[0], posCell[1]]);
+                MoveManual(Board.Board[penguinToMove.XPos, penguinToMove.YPos], Board.Board[posCell.X, posCell.Y]);
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {

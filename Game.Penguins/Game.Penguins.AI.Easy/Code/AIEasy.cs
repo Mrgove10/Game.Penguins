@@ -1,10 +1,9 @@
 ﻿using Common.Logging;
-using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
+using Game.Penguins.Core.Code.Interfaces;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using System;
-using System.Collections.Generic;
 
 namespace Game.Penguins.AI.Code
 {
@@ -29,7 +28,7 @@ namespace Game.Penguins.AI.Code
         /// <summary>
         /// Places a penguin randomly on the board
         /// </summary>
-        public List<int> PlacementPenguin()
+        public Coordinates PlacementPenguin()
         {
             Random rnd = new Random();
             bool search = true;
@@ -43,13 +42,12 @@ namespace Game.Penguins.AI.Code
 
                 if (c.CellType == CellType.Fish && c.FishCount == 1 && c.CurrentPenguin == null)
                 {
-                    List<int> tab = new List<int>
-                    {
-                        PlacementPenguinX,
-                        PlacementPenguinY
-                    };
                     Log.Debug("AI will place itself at x: " + PlacementPenguinX + " , y: " + PlacementPenguinY);
-                    return tab;
+                    return new Coordinates()
+                    {
+                        X = PlacementPenguinX,
+                        Y = PlacementPenguinY
+                    };
                 }
             }
             Log.Error("no cell found");
@@ -61,17 +59,16 @@ namespace Game.Penguins.AI.Code
         /// </summary>
         /// <param name="posX"></param>
         /// <param name="posY"></param>
-        public List<int> DetectionCases(int posX, int posY)
+        public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
             Cell ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
 
-            List<int> tab = new List<int>(2)
+            return new Coordinates()
             {
-                [0] = PlacementPenguinX,
-                [1] = PlacementPenguinY
+                X = PlacementPenguinX,
+                Y = PlacementPenguinY
             };
-            return tab;
         }
     }
 }
