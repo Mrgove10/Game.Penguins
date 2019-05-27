@@ -35,6 +35,7 @@ namespace Game.Penguins.Services
 
         private readonly PointHelper _pointManager;
         private readonly MovementVerificationHelper _movementManager;
+        private readonly IsolementVerificationHelper _isolationHelper;
 
         #endregion Declarations
 
@@ -48,8 +49,10 @@ namespace Game.Penguins.Services
             0,0 on the upper left to
             7,7 on the bottom right*/
             Board = new Plateau(8, 8);
+
             _pointManager = new PointHelper();
             _movementManager = new MovementVerificationHelper(Board);
+            _isolationHelper = new IsolementVerificationHelper(Board);
 
             _aiEasy = new AiEasy(Board);
             // AiMedium = new AiMedium(Board);
@@ -264,7 +267,7 @@ namespace Game.Penguins.Services
                 _log.Debug("You can not move to that cell");
             }
 
-            VerifyIsolate(destinationCell);
+            _isolationHelper.VerifyIsolate(destinationCell); //deletes the penguin and the cell
         }
 
         /// <summary>
@@ -282,7 +285,7 @@ namespace Game.Penguins.Services
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {
-                //Meduim AI move function here
+                //Medium AI move function here
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIHard)
             {
@@ -292,6 +295,7 @@ namespace Game.Penguins.Services
 
         public void VerifyEndGame()
         {
+
             int PlayerAlive = 0;
 
             //TODO si penguin == 0;

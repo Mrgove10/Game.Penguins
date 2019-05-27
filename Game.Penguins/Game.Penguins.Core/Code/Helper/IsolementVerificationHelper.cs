@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Game.Penguins.Core.Code.Helper
 {
-    class IsolementVerificationHelper
+    public class IsolementVerificationHelper
     {
         private bool Isolate = false;
         private readonly IBoard gameBoard = null;
