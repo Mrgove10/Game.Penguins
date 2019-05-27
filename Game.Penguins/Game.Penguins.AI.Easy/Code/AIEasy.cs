@@ -36,7 +36,7 @@ namespace Game.Penguins.AI.Code
                 PlacementPenguinY = rnd.Next(7);
                 ICell c = MainBoard.Board[PlacementPenguinX, PlacementPenguinY];
 
-                if (c.CellType == CellType.Fish && c.FishCount == 1)
+                if (c.CellType == CellType.Fish && c.FishCount == 1 && c.CurrentPenguin==null)
                 {
                     int[] tab = new int[2];
                     tab[0] = PlacementPenguinX;

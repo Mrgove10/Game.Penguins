@@ -1,4 +1,5 @@
 using Common.Logging;
+using Game.Penguins.AI.Code;
 using Game.Penguins.Core;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
@@ -8,8 +9,6 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Game.Penguins.AI.Code;
 
 //using Game.Penguins.Core.Code.Helper.Points;
 
@@ -18,10 +17,11 @@ namespace Game.Penguins.Services
     public class MainGame : IGame
     {
         #region Declarations
+
         private readonly IAI _aiEasy;
         private IAI _aiMedium;
         private IAI _aiHard;
-        
+
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -31,7 +31,8 @@ namespace Game.Penguins.Services
 
         private IList<IPlayer> playersPlayOrder;
         private int currentPlayerNumber = 0;
-        private int turnNumber;
+
+        //private int turnNumber = 0;
         private int penguinsPerPlayer;
 
         private readonly ILog Log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
@@ -67,7 +68,7 @@ namespace Game.Penguins.Services
         /// <returns></returns>
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
-            //initialise player whit 0 penguins & a default color( will be updated later) 
+            //initialise player whit 0 penguins & a default color( will be updated later)
             IPlayer tempPlayer = new Player(playerName, playerType);
             Players.Add(tempPlayer);
             return tempPlayer;
@@ -81,17 +82,19 @@ namespace Game.Penguins.Services
             playersPlayOrder = GeneratePlayOrder(); //randomizes the play order
             UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
             CalculateCurrentPlayerNumber();
+            WhatIsNextTurn();
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
             Log.Debug("Current Number Of players : " + Players.Count);
             StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
-        /// Runs the turn of a player
+        /// Runs the current turn number
         /// </summary>
         private void WhatIsNextTurn()
         {
-            if (turnNumber < penguinsPerPlayer) //this means we are in a placement turn
+            Log.Debug("===Turn ===");
+            if (CurrentPlayer.Penguins < penguinsPerPlayer) //this means we are in a placement turn
             {
                 Log.Debug("Next turn is a Placement Turn");
                 NextAction = NextActionType.PlacePenguin;
@@ -101,7 +104,7 @@ namespace Game.Penguins.Services
                 Log.Debug("Next turn is a Normal Turn");
                 NextAction = NextActionType.MovePenguin;
             }
-            Log.Debug("Current player to play : " + currentPlayerNumber);
+            Log.Debug("Current player to play : " + currentPlayerNumber + " (" + CurrentPlayer.Name + ")");
         }
 
         /// <summary>
@@ -117,10 +120,9 @@ namespace Game.Penguins.Services
             else //If we arrive at the end of the players we start from the beginning
             {
                 currentPlayerNumber = 0;
-                turnNumber++;
             }
             CurrentPlayer = playersPlayOrder[currentPlayerNumber];
-            Log.Debug("Current player is now " + currentPlayerNumber);
+            Log.Debug("Current player is now " + currentPlayerNumber + " (" + CurrentPlayer.Name + ")");
         }
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace Game.Penguins.Services
         /// <returns></returns>
         private IList<IPlayer> GeneratePlayOrder()
         {
-            IList<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
+            List<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
             List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
             while (copyStartList.Count > 0)
@@ -161,26 +163,16 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    penguinsPerPlayer = 4;//4
+                    penguinsPerPlayer = 4;//4 penguins per player
                     break;
 
                 case 3:
-                    penguinsPerPlayer = 3;//3
+                    penguinsPerPlayer = 3;//3 penguins per player
                     break;
 
                 case 4:
-                    penguinsPerPlayer = 2;//2
+                    penguinsPerPlayer = 2;//2 penguins per player
                     break;
-            }
-
-            foreach (var p in Players)
-            {
-                var player = (Player)p;
-                player.Penguins = penguinsPerPlayer;
-                for (int i = 0; i < penguinsPerPlayer; i++)//Adds the number fo penguins to the list of the player
-                {
-                    player.PlayerPenguinsList.Add(new Penguin(player));
-                }
             }
         }
 
@@ -197,7 +189,7 @@ namespace Game.Penguins.Services
             {
                 currentCell.CurrentPenguin = new Penguin((Player)CurrentPlayer);
                 currentCell.CellType = CellType.FishWithPenguin;
-                Log.Debug("current cell type: " + currentCell.CellType + " " + currentCell.FishCount);
+                ((Player)CurrentPlayer).Penguins++;
                 CalculateCurrentPlayerNumber();
                 WhatIsNextTurn();
                 StateChanged?.Invoke(this, null);
@@ -213,10 +205,8 @@ namespace Game.Penguins.Services
         /// </summary>
         public void PlacePenguin()
         {
-            Log.Debug("AI Placement");
             if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
             {
-                Log.Debug("Easy AI");
                 int[] p = _aiEasy.PlacementPenguin();
                 PlacePenguinManual(p[0], p[1]);
             }
@@ -239,7 +229,6 @@ namespace Game.Penguins.Services
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
-            //TODO: you can mouve any player
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
             if (destinationCell.CellType == CellType.Fish)
@@ -294,7 +283,6 @@ namespace Game.Penguins.Services
 
         public void EndGame()
         {
-            
         }
     }
 }
