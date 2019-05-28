@@ -1,6 +1,5 @@
 ﻿using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
-using System.Collections.Generic;
 
 namespace Game.Penguins.Core.Code.Helper
 {
@@ -16,7 +15,6 @@ namespace Game.Penguins.Core.Code.Helper
 
         public bool VerifyIsolate(Cell originCell)
         {
-
             int x = originCell.XPos;
             int y = originCell.YPos;
 
@@ -48,7 +46,7 @@ namespace Game.Penguins.Core.Code.Helper
             originCell.XPos += xMove;
             originCell.YPos += yMove;
 
-            if(testedCell.CellType == CellType.Fish)
+            if (testedCell.CellType == CellType.Fish)
             {
                 Isolate = true;
             }

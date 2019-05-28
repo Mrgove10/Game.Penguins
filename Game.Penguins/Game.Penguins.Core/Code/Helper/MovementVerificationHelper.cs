@@ -53,21 +53,21 @@ namespace Game.Penguins.Core.Code.Helper
             return possibleCells;
         }
 
-      /*  public List<Cell> VerifyMovement(Cell originCell, int xMove, int yMove)
-        {
-            List<Cell> possibleCellsRight = new List<Cell>();
-            if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= 7 && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= 7)
-            {
-                Cell nextCell = (Cell)gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
+        /*  public List<Cell> VerifyMovement(Cell originCell, int xMove, int yMove)
+          {
+              List<Cell> possibleCellsRight = new List<Cell>();
+              if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= 7 && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= 7)
+              {
+                  Cell nextCell = (Cell)gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
 
-                if (nextCell.CellType == CellType.Fish)
-                {
-                    possibleCellsRight.Add(nextCell);
-                    possibleCellsRight.AddRange(VerifyMovement(nextCell, xMove, yMove)); //recursive function
-                }
-            }
-            return possibleCellsRight;
-        }*/
+                  if (nextCell.CellType == CellType.Fish)
+                  {
+                      possibleCellsRight.Add(nextCell);
+                      possibleCellsRight.AddRange(VerifyMovement(nextCell, xMove, yMove)); //recursive function
+                  }
+              }
+              return possibleCellsRight;
+          }*/
 
         public List<Cell> VerifyMovementv2(Cell originCell, Direction dir)
         {

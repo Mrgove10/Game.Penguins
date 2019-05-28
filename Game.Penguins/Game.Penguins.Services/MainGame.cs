@@ -291,7 +291,6 @@ namespace Game.Penguins.Services
 
         public void VerifyEndGame()
         {
-
             int PlayerAlive = 0;
 
             //TODO si penguin == 0;
