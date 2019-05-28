@@ -13,7 +13,7 @@ namespace Game.Penguins.AI.UnitTests
         [TestMethod]
         public void CreatePlayerNormal()
         {
-            Player p = new Player("Foo",PlayerType.Human);
+            Player p = new Player("Foo", PlayerType.Human);
             Assert.IsTrue(p.Name == "Foo" && p.PlayerType == PlayerType.Human);
         }
 

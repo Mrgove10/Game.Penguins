@@ -1,15 +1,16 @@
-﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
+﻿using Game.Penguins.Core.Code.Helper;
+using Game.Penguins.Core.Interfaces.Game.GameBoard;
 
-namespace Game.Penguins.Core
+namespace Game.Penguins.Core.Code.Interfaces
 {
     public interface IAI
     {
         int PlacementPenguinX { get; set; }
         int PlacementPenguinY { get; set; }
-        IBoard plateau { get; }
+        IBoard MainBoard { get; }
 
-        void PlacementPenguin();
+        Coordinates PlacementPenguin();
 
-        void DetectionCases(int posX, int posY);
+        Coordinates ChoseFinalDestinationCell(int posX, int posY);
     }
 }

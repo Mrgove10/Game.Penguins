@@ -13,10 +13,10 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
+    <PackageReference Include="NLog" Version="4.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game.Penguins.AI\Game.Penguins.AI.csproj" />
     <ProjectReference Include="..\Game.Penguins.Core\Game.Penguins.Core.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Penguins.Core.Code.GameBoard;
+﻿using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,7 +10,7 @@ namespace Game.Penguins.AI.UnitTests
         [TestMethod]
         public void CellCreation()
         {
-            Cell c = new Cell(CellType.Fish,3);
+            Cell c = new Cell(CellType.Fish, 3);
             Assert.IsTrue(c.FishCount == 3);
         }
 

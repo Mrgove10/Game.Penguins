@@ -1,4 +1,4 @@
-﻿using Game.Penguins.Core.Interfaces.Game.GameBoard;
+﻿using Game.Penguins.Core.Code.Penguins;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
@@ -11,12 +11,24 @@ namespace Game.Penguins.Core.Code.Players
         public PlayerType PlayerType { get; }
         public PlayerColor Color { get; set; }
         public string Name { get; }
-        public int Points { get; set; }
+
+        private int points;
+
+        public int Points
+        {
+            get => points;
+            set
+            {
+                points = value; //value = access the object created by set
+                StateChanged?.Invoke(this, null);
+            }
+        }
+
         public int Penguins { get; set; }
 
-        public event EventHandler StateChanged;
+        public List<Penguin> ListPenguins { get; set; }
 
-        public List<IPenguin> PlayerPenguinsList { get; set; }
+        public event EventHandler StateChanged;
 
         /// <summary>
         /// Constructor of the player object
@@ -32,7 +44,7 @@ namespace Game.Penguins.Core.Code.Players
             Points = 0;
             PlayerType = playerType;
             Penguins = 0;
-            PlayerPenguinsList = new List<IPenguin>();
+            ListPenguins = new List<Penguin>();
         }
     }
 }

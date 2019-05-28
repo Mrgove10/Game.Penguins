@@ -6,10 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="Common.Logging" Version="3.4.1" />
+    <PackageReference Include="NLog" Version="4.6.3" />
+    <PackageReference Include="NLog.Config" Version="4.6.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game.Penguins.AI\Game.Penguins.AI.csproj" />
+    <ProjectReference Include="..\Game.Penguins.AI.Easy\Game.Penguins.AI.Easy.csproj" />
+    <ProjectReference Include="..\Game.Penguins.AI.Hard\Game.Penguins.AI.Hard.csproj" />
+    <ProjectReference Include="..\Game.Penguins.AI.Medium\Game.Penguins.AI.Medium.csproj" />
     <ProjectReference Include="..\Game.Penguins.Core\Game.Penguins.Core.csproj" />
   </ItemGroup>
 

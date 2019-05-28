@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Game.Penguins.UnitTests
 {
-   [TestClass]
+    [TestClass]
     public class GameBoardTest
     {
         //TODO
