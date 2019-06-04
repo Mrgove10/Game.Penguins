@@ -81,8 +81,8 @@ namespace Game.Penguins.Core.Code.Helper
                 switch (dir)
                 {
                     case Direction.Right:
-                        xMove = 0;
-                        yMove = +1;
+                        xMove = +1;
+                        yMove = 0;
                         break;
 
                     case Direction.BottomRight:
@@ -91,23 +91,23 @@ namespace Game.Penguins.Core.Code.Helper
                         break;
 
                     case Direction.BottomLeft:
-                        xMove = +1;
-                        yMove = 0;
+                        xMove = 0;
+                        yMove = +1;
                         break;
 
                     case Direction.Left:
+                        xMove = -1;
+                        yMove = 0;
+                        break;
+
+                    case Direction.TopLeft:
                         xMove = 0;
                         yMove = -1;
                         break;
 
-                    case Direction.TopLeft:
-                        xMove = -1;
-                        yMove = 0;
-                        break;
-
                     case Direction.TopRight:
-                        xMove = -1;
-                        yMove = +1;
+                        xMove = +1;
+                        yMove = -1;
                         break;
 
                     default:
@@ -119,23 +119,23 @@ namespace Game.Penguins.Core.Code.Helper
                 switch (dir)
                 {
                     case Direction.Right:
-                        xMove = 0;
-                        yMove = +1;
-                        break;
-
-                    case Direction.BottomRight:
                         xMove = +1;
                         yMove = 0;
                         break;
 
+                    case Direction.BottomRight:
+                        xMove = 0;
+                        yMove = +1;
+                        break;
+
                     case Direction.BottomLeft:
-                        xMove = +1;
-                        yMove = -1;
+                        xMove = -1;
+                        yMove = +1;
                         break;
 
                     case Direction.Left:
-                        xMove = 0;
-                        yMove = -1;
+                        xMove = -1;
+                        yMove = 0;
                         break;
 
                     case Direction.TopLeft:
@@ -144,15 +144,15 @@ namespace Game.Penguins.Core.Code.Helper
                         break;
 
                     case Direction.TopRight:
-                        xMove = -1;
-                        yMove = 0;
+                        xMove = 0;
+                        yMove = -1;
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
                 }
             }
-            // if the next move is stil in the board
+            // if the next move is still in the board
             if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= 7 && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= 7)
             {
                 Cell nextCell = (Cell)_gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
