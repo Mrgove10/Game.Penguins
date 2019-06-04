@@ -38,6 +38,11 @@ namespace Game.Penguins.Core.Code.GameBoard
             }
         }
 
+        public Plateau(ICell[,] board)
+        {
+            Board = board;
+        }
+
         /// <summary>
         /// Shuffles the list of fish to be random
         /// </summary>

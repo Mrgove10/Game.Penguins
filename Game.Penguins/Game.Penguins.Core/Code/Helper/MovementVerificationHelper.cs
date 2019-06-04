@@ -24,11 +24,11 @@ namespace Game.Penguins.Core.Code.Helper
             List<Cell> possibleCells = new List<Cell>();
 
             possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Left)); //left movement
-            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopLeft)); //left top movement
-            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopRight)); //right top movement
-            //works possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
-            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomRight)); //right bottom movement
-           // possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
+            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopLeft)); //left top movement
+            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopRight)); //right top movement
+            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
+            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomRight)); //right bottom movement
+            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
 
             _log.Debug("total possible movement cells = " + possibleCells.Count);
             return possibleCells;
@@ -118,7 +118,7 @@ namespace Game.Penguins.Core.Code.Helper
                 }
             }
             // if the next move is still in the board
-            if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= 7 && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= 7)
+            if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= _gameBoard.Board.GetUpperBound(0) && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= _gameBoard.Board.GetUpperBound(0))
             {
                 Cell nextCell = (Cell)_gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
 
