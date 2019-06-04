@@ -32,11 +32,11 @@ namespace Game.Penguins.AI.UnitTests
 
         //TODO
         //TEST DELETE CELLS - CORRECT
-        /*[TestMethod]
+       /* [TestMethod]
         public void DeleteCellTrue()
         {
             Cell cell = new Cell(CellType.Fish, 3);
-            cell.DeleteCell;
+            DeleteCell();
             Assert.IsTrue(FishCount = 0);
         }*/
 
