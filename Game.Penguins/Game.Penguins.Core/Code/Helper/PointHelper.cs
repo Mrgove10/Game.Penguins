@@ -6,7 +6,7 @@ namespace Game.Penguins.Core.Code.Helper
 {
     public class PointHelper
     {
-        private readonly ILog Log = LogManager.GetLogger<PointHelper>();
+        private readonly ILog _log = LogManager.GetLogger<PointHelper>();
 
         /// <summary>
         /// Updates the player's points count
@@ -15,10 +15,10 @@ namespace Game.Penguins.Core.Code.Helper
         /// <param name="pointToAdd"></param>
         public void UpdatePlayerPoints(IPlayer player, int pointToAdd)
         {
-            Log.Debug("Current player has " + player.Points + " adding  " + pointToAdd);
+            _log.Debug("Current player has " + player.Points + " adding  " + pointToAdd);
             Player cp = (Player)player;
             cp.Points += pointToAdd; //adds the points to the current player score
-            Log.Debug("Player now has" + player.Points);
+            _log.Debug("Player now has" + player.Points);
         }
     }
 }

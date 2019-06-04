@@ -1,5 +1,7 @@
 ﻿using Common.Logging;
-using Game.Penguins.Core;
+using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Core.Code.Helper;
+using Game.Penguins.Core.Code.Interfaces;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using System;
 
@@ -15,35 +17,40 @@ namespace Game.Penguins.AI.Code
         public IPenguin Penguin { get; }
 
         private readonly int[] _tabDirection = new int[6];
+        private MovementVerificationHelper _movementManager;
 
         public AiEasy(IBoard plateauParam)
         {
             MainBoard = plateauParam;
+            _movementManager = new MovementVerificationHelper(MainBoard);
         }
 
         /// <summary>
-        /// Places a penguin
+        /// Places a penguin randomly on the board
         /// </summary>
-        public int[] PlacementPenguin()
+        public Coordinates PlacementPenguin()
         {
             Random rnd = new Random();
-            PlacementPenguinX = rnd.Next(7);
-            PlacementPenguinY = rnd.Next(7);
-
             bool search = true;
 
             while (search) //while it is in a searching state
             {
-                if (MainBoard.Board[PlacementPenguinX, PlacementPenguinY].CellType == CellType.Fish && MainBoard.Board[PlacementPenguinX, PlacementPenguinY].FishCount == 1)
+                Log.Debug("starting the search of a suitable case");
+                PlacementPenguinX = rnd.Next(8);
+                PlacementPenguinY = rnd.Next(8);
+                ICell c = MainBoard.Board[PlacementPenguinX, PlacementPenguinY];
+
+                if (c.CellType == CellType.Fish && c.FishCount == 1 && c.CurrentPenguin == null)
                 {
-                    int[] tab = new int[2];
-                    tab[0] = PlacementPenguinX;
-                    tab[1] = PlacementPenguinY;
-                    return tab;
+                    Log.Debug("AI will place itself at x: " + PlacementPenguinX + " , y: " + PlacementPenguinY);
+                    return new Coordinates()
+                    {
+                        X = PlacementPenguinX,
+                        Y = PlacementPenguinY
+                    };
                 }
-                PlacementPenguinX = rnd.Next(7);
-                PlacementPenguinY = rnd.Next(7);
             }
+            Log.Error("no cell found");
             return null; //TODO: change this
         }
 
@@ -52,30 +59,16 @@ namespace Game.Penguins.AI.Code
         /// </summary>
         /// <param name="posX"></param>
         /// <param name="posY"></param>
-        public void DetectionCases(int posX, int posY)
+        public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
-            Log.Debug("-- ON DETERMINE LES DEPLACEMENTS DISPONIBLES --");
+            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
+            Cell ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
 
-            for (int direction = 0; direction <= 5; direction++)
+            return new Coordinates()
             {
-                Log.Debug(" - On test la direction : " + Enum.GetName(typeof(Direction), direction));
-                ICell oui = MainBoard.Board[posX, posY];
-                bool count = true;
-
-                while (count)
-                {
-                    if (MainBoard.Board[posX, posY].CellType != CellType.Water || MainBoard.Board[posX, posY].CellType != CellType.FishWithPenguin)
-                    {
-                        _tabDirection[(int)Direction.Droite]++;
-                    }
-                    else
-                    {
-                        count = false;
-                    }
-                }
-                Log.Debug(Enum.GetName(typeof(Direction), direction) + " : " + _tabDirection[(int)Direction.Droite]);
-            }
-            Log.Debug("-- DEPLACEMENTS DISPONIBLES TERMINES --");
+                X = PlacementPenguinX,
+                Y = PlacementPenguinY
+            };
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Penguins.Core.Code.GameBoard;
+﻿using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,21 +10,42 @@ namespace Game.Penguins.AI.UnitTests
         [TestMethod]
         public void CellCreation()
         {
-            Cell c = new Cell(CellType.Fish,3);
+            Cell c = new Cell(CellType.Fish, 3);
             Assert.IsTrue(c.FishCount == 3);
         }
 
+        //TEST NUMBER OF FISHES - CORRECT
         [TestMethod]
-        public void Celle()
+        public void NumberOfFishTrue()
         {
-            
+            Cell cell = new Cell(CellType.Fish, 2);
+            Assert.IsTrue(cell.FishCount == 2);
         }
 
+        //TEST NUMBER OF FISHES - INCORRECT
+        [TestMethod]
+        public void NumberOfFishFalse()
+        {
+            Cell cell = new Cell(CellType.Fish, 3);
+            Assert.IsFalse(cell.FishCount == 2);
+        }
+
+        //TODO
+        //TEST DELETE CELLS - CORRECT
+        /*[TestMethod]
+        public void DeleteCellTrue()
+        {
+            Cell cell = new Cell(CellType.Fish, 3);
+            deleteCell(cell);
+            Assert.IsTrue(FishCount = 0);
+        }*/
+
+        //????
         /* [TestMethod]
          public void CellCreationError()
          {
              Cell c = new Cell(CellType.Fish, 5);
-         //    Assert.ThrowsException<ArgumentOutOfRangeException>(System.Action);
+         //    Assert.IsTru(ThrowsException<ArgumentOutOfRangeException>(System.Action));
          }*/
     }
 }
