@@ -23,12 +23,12 @@ namespace Game.Penguins.Core.Code.Helper
             int y = originCell.YPos;
             List<Cell> possibleCells = new List<Cell>();
 
-            // possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Left)); //left movement
+            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Left)); //left movement
             //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopLeft)); //left top movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopRight)); //right top movement
-            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
+            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopRight)); //right top movement
+            //works possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
             //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomRight)); //right bottom movement
-            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
+           // possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
 
             _log.Debug("total possible movement cells = " + possibleCells.Count);
             return possibleCells;
@@ -41,39 +41,38 @@ namespace Game.Penguins.Core.Code.Helper
             int xMove = 0;
             int yMove = 0;
 
-            if (originCell.YPos % 2 == 0)//means this is even in the Y axis
+            if (originCell.YPos % 2 == 0)//means this is even (pair) in the Y axis
             {
                 switch (dir)
                 {
                     case Direction.Right:
-                        _log.Debug("going " + Direction.Right);
-                        xMove = +1;
-                        yMove = 0;
+                        xMove = 0;
+                        yMove = +1;
                         break;
 
                     case Direction.BottomRight:
                         xMove = +1;
-                        yMove = +1;
-                        break;
-
-                    case Direction.BottomLeft:
-                        xMove = 0;
-                        yMove = +1;
-                        break;
-
-                    case Direction.Left:
-                        xMove = -1;
                         yMove = 0;
                         break;
 
-                    case Direction.TopLeft:
+                    case Direction.BottomLeft:
+                        xMove = +1;
+                        yMove = -1;
+                        break;
+
+                    case Direction.Left:
                         xMove = 0;
+                        yMove = -1;
+                        break;
+
+                    case Direction.TopLeft:
+                        xMove = -1;
                         yMove = -1;
                         break;
 
                     case Direction.TopRight:
-                        xMove = +1;
-                        yMove = -1;
+                        xMove = -1;
+                        yMove = 0;
                         break;
 
                     default:
@@ -85,33 +84,33 @@ namespace Game.Penguins.Core.Code.Helper
                 switch (dir)
                 {
                     case Direction.Right:
-                        xMove = +1;
-                        yMove = 0;
+                        xMove = 0;
+                        yMove = +1;
                         break;
 
                     case Direction.BottomRight:
-                        xMove = 0;
+                        xMove = +1;
                         yMove = +1;
                         break;
 
                     case Direction.BottomLeft:
-                        xMove = -1;
-                        yMove = +1;
+                        xMove = +1;
+                        yMove = 0;
                         break;
 
                     case Direction.Left:
-                        xMove = -1;
-                        yMove = 0;
+                        xMove = 0;
+                        yMove = 1;
                         break;
 
                     case Direction.TopLeft:
                         xMove = -1;
-                        yMove = -1;
+                        yMove = 0;
                         break;
 
                     case Direction.TopRight:
-                        xMove = 0;
-                        yMove = -1;
+                        xMove = -1;
+                        yMove = +1;
                         break;
 
                     default:
