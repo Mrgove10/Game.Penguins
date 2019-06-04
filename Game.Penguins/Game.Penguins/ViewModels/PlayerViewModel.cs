@@ -8,6 +8,7 @@ namespace Game.Penguins.ViewModels
         private readonly IPlayer player;
 
         private int points;
+
         public int Points
         {
             get => points;
@@ -22,6 +23,7 @@ namespace Game.Penguins.ViewModels
         }
 
         private string playerName;
+
         public string PlayerName
         {
             get => playerName;

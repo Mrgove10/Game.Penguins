@@ -1,14 +1,9 @@
 ﻿using Game.Penguins.Framework;
 using Game.Penguins.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.Penguins.Commands
 {
-    class MovePenguinSelectorViewModelCommand
+    internal class MovePenguinSelectorViewModelCommand
         : Command
     {
         private readonly CurrentGameViewModel currentGameViewModel;

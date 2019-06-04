@@ -75,7 +75,7 @@ namespace Game.Penguins.AI.Code
             }
             else
             {
-                return null; 
+                return null;
             }
         }
     }
