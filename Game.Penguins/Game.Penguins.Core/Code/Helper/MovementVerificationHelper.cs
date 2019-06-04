@@ -100,7 +100,7 @@ namespace Game.Penguins.Core.Code.Helper
 
                     case Direction.Left:
                         xMove = 0;
-                        yMove = 1;
+                        yMove = -1;
                         break;
 
                     case Direction.TopLeft:
