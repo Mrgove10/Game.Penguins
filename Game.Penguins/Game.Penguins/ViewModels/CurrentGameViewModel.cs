@@ -2,6 +2,8 @@
 using Game.Penguins.Core.Interfaces.Game.Actions;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
+using Game.Penguins.Core.Code.GameBoard;
+using Game.Penguins.Services;
 using Game.Penguins.Framework;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,7 @@ namespace Game.Penguins.ViewModels
 
         public bool HasNextView => false;
 
+       
         #region Interactions
 
         private bool selectFirst = true;
@@ -49,7 +52,7 @@ namespace Game.Penguins.ViewModels
             {
                 if (value == null || game.CurrentPlayer.PlayerType != PlayerType.Human)
                     return;
-
+                //TODO
                 //// Check that the select is valid :
                 //if (game.NextAction == NextActionType.MovePenguin && selectFirst && value.Cell.CellType != CellType.FishWithPenguin)
                 //    return;
@@ -201,7 +204,11 @@ namespace Game.Penguins.ViewModels
 
         public void PlayPlacePenguinHuman()
         {
-            game.PlacePenguinManual(SelectedCell.X, SelectedCell.Y);
+            if (SelectedCell != null)
+            {
+                game.PlacePenguinManual(SelectedCell.X, SelectedCell.Y);
+
+            }
 
             CheckActions();
         }
@@ -245,8 +252,8 @@ namespace Game.Penguins.ViewModels
             : base()
         {
             // TODO : Initialize with the right implementation
-            game = (IGame)null;
-            //game = new CustomGame();
+            // game = (IGame)null;
+            game = new MainGame();
             
             game.StateChanged += Game_StateChanged;
 
