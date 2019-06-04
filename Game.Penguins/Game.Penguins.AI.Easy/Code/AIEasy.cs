@@ -62,7 +62,7 @@ namespace Game.Penguins.AI.Code
         public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
-            Cell ChosenCell = possibleCells[new Random().Next(possibleCells.Count)]; //todo : correct the error here sometimes i dont wanna work on this anymore, IDGAF f we have a bad grade
+            Cell ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
 
             return new Coordinates()
             {

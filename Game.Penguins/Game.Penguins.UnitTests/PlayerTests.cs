@@ -8,7 +8,6 @@ namespace Game.Penguins.AI.UnitTests
     [TestClass]
     public class PlayerTests
     {
-
         // CREATE PLAYER
         [TestMethod]
         public void CreatePlayerNormal()
@@ -36,7 +35,6 @@ namespace Game.Penguins.AI.UnitTests
             PointManager.UpdatePlayerPoints(playerTest, pointsToAdd);
 
             Assert.IsTrue(playerTest.Points == 21);
-
         }
 
         [TestMethod]
@@ -50,10 +48,6 @@ namespace Game.Penguins.AI.UnitTests
             PointManager.UpdatePlayerPoints(playerTest, pointsToAdd);
 
             Assert.IsFalse(playerTest.Points == 21);
-
         }
-
     }
-
-
 }

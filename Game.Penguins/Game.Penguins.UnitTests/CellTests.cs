@@ -21,11 +21,12 @@ namespace Game.Penguins.AI.UnitTests
             Cell cell = new Cell(CellType.Fish, 2);
             Assert.IsTrue(cell.FishCount == 2);
         }
+
         //TEST NUMBER OF FISHES - INCORRECT
         [TestMethod]
         public void NumberOfFishFalse()
         {
-            Cell cell = new Cell(CellType.Fish, 3 );
+            Cell cell = new Cell(CellType.Fish, 3);
             Assert.IsFalse(cell.FishCount == 2);
         }
 
@@ -38,7 +39,6 @@ namespace Game.Penguins.AI.UnitTests
             cell.DeleteCell;
             Assert.IsTrue(FishCount = 0);
         }*/
-
 
         //????
         /* [TestMethod]
