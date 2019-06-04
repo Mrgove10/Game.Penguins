@@ -23,12 +23,12 @@ namespace Game.Penguins.Core.Code.Helper
             int y = originCell.YPos;
             List<Cell> possibleCells = new List<Cell>();
 
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Left)); //left movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopLeft)); //left top movement
+            // possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Left)); //left movement
+            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopLeft)); //left top movement
             possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopRight)); //right top movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomRight)); //right bottom movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
+            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
+            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomRight)); //right bottom movement
+            //possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
 
             /*if (y % 2 == 0)//means this is even in the Y axis
             {
@@ -81,6 +81,7 @@ namespace Game.Penguins.Core.Code.Helper
                 switch (dir)
                 {
                     case Direction.Right:
+                        _log.Debug("going " + Direction.Right);
                         xMove = +1;
                         yMove = 0;
                         break;
