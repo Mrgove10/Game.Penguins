@@ -32,7 +32,6 @@ namespace Game.Penguins.ViewModels
 
         public bool HasNextView => false;
 
-       
         #region Interactions
 
         private bool selectFirst = true;
@@ -209,7 +208,6 @@ namespace Game.Penguins.ViewModels
                 game.PlacePenguinManual(SelectedCell.X, SelectedCell.Y);
 
             }
-
             CheckActions();
         }
 
@@ -319,7 +317,6 @@ namespace Game.Penguins.ViewModels
                                     game.CurrentPlayer.PlayerType != PlayerType.Human;
             IsMoveMyPenguinAction = game.NextAction == NextActionType.MovePenguin &&
                                     game.CurrentPlayer.PlayerType == PlayerType.Human;
-
 
             IsBlue = game.CurrentPlayer.Color == PlayerColor.Blue;
             IsYellow = game.CurrentPlayer.Color == PlayerColor.Yellow;
