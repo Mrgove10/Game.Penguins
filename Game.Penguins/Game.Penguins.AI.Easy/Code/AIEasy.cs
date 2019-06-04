@@ -4,6 +4,7 @@ using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using System;
+using System.Linq;
 
 namespace Game.Penguins.AI.Code
 {
@@ -61,14 +62,21 @@ namespace Game.Penguins.AI.Code
         /// <param name="posY"></param>
         public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
+            Cell ChosenCell;
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
-            Cell ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
-
-            return new Coordinates()
+            if (possibleCells.Any())
             {
-                X = PlacementPenguinX,
-                Y = PlacementPenguinY
-            };
+                ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                return new Coordinates()
+                {
+                    X = ChosenCell.XPos,
+                    Y = ChosenCell.YPos
+                };
+            }
+            else
+            {
+                return null; 
+            }
         }
     }
 }

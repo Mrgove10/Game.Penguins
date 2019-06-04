@@ -185,7 +185,7 @@ namespace Game.Penguins.Services
         {
             _log.Debug(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
-            if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin)
+            if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin) // is empty and has only one penguin
             {
                 Player currentPlayer = (Player)CurrentPlayer;
                 Penguin createdPenguin = new Penguin(currentPlayer, x, y);
@@ -278,8 +278,14 @@ namespace Game.Penguins.Services
                 Player currentPlayer = (Player)CurrentPlayer;
                 Penguin penguinToMove = currentPlayer.ListPenguins[new Random().Next(currentPlayer.ListPenguins.Count)];
                 Coordinates posCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos);
-
-                MoveManual(Board.Board[penguinToMove.XPos, penguinToMove.YPos], Board.Board[posCell.X, posCell.Y]);
+                if (posCell != null)
+                {
+                    MoveManual(Board.Board[penguinToMove.XPos, penguinToMove.YPos], Board.Board[posCell.X, posCell.Y]);
+                }
+                else
+                {
+                    //a  player can not move anymore, end of game for him
+                }
             }
             else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
             {

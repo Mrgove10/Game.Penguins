@@ -14,7 +14,7 @@ namespace Game.Penguins.ViewModels
         {
             get
             {
-                return X + ";" + Y;
+                return Y + ";" + X;
             }
         }
 
