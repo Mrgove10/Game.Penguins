@@ -61,6 +61,13 @@ namespace Game.Penguins.Core.Code.GameBoard
             }
         }
 
+        public Cell(CellType type, int numberOfFish, int posX, int posY)
+        {
+            CellType = type;
+            XPos = posX;
+            YPos = posY;
+        }
+
         public void DeleteCell()
         {
             CurrentPenguin = null;

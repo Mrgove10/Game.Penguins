@@ -20,21 +20,21 @@ namespace Game.Penguins.Core.Code.Helper
 
             if (y % 2 == 0)//means this is even in the Y axis
             {
-                VerifyCells(originCell, 0, -1); //left mouvement
-                VerifyCells(originCell, -1, 0); //left top mouvement
-                VerifyCells(originCell, -1, +1); //right top mouvement
-                VerifyCells(originCell, 0, +1); //right mouvement
-                VerifyCells(originCell, +1, +1); //right botom mouvement
-                VerifyCells(originCell, +1, 0); //left botom mouvement
+                VerifyCells(originCell, 0, -1); //left movement
+                VerifyCells(originCell, -1, 0); //left top movement
+                VerifyCells(originCell, -1, +1); //right top movement
+                VerifyCells(originCell, 0, +1); //right movement
+                VerifyCells(originCell, +1, +1); //right bottom movement
+                VerifyCells(originCell, +1, 0); //left bottom movement
             }
             else if (y % 2 != 0) //means this is Odd in the Y axis
             {
-                VerifyCells(originCell, 0, -1); //left mouvement
-                VerifyCells(originCell, -1, -1); //left top mouvement
-                VerifyCells(originCell, -1, 0); //right top mouvement
-                VerifyCells(originCell, 0, +1); //right mouvement
-                VerifyCells(originCell, +1, 0); //right botom mouvement
-                VerifyCells(originCell, +1, -1); //left botom mouvement
+                VerifyCells(originCell, 0, -1); //left movement
+                VerifyCells(originCell, -1, -1); //left top movement
+                VerifyCells(originCell, -1, 0); //right top movement
+                VerifyCells(originCell, 0, +1); //right movement
+                VerifyCells(originCell, +1, 0); //right bottom movement
+                VerifyCells(originCell, +1, -1); //left bottom movement
             }
 
             return Isolate;
