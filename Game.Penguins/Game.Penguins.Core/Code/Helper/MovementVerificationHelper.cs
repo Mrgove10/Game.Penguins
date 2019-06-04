@@ -71,7 +71,7 @@ namespace Game.Penguins.Core.Code.Helper
 
         public List<Cell> VerifyMovementv2(Cell originCell, Direction dir)
         {
-            List<Cell> possibleCellsRight = new List<Cell>();
+            List<Cell> possibleCells = new List<Cell>();
 
             int xMove = 0;
             int yMove = 0;
@@ -152,7 +152,7 @@ namespace Game.Penguins.Core.Code.Helper
                         throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
                 }
             }
-
+            // if the next move is stil in the board
             if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= 7 && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= 7)
             {
                 Cell nextCell = (Cell)_gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
@@ -160,8 +160,8 @@ namespace Game.Penguins.Core.Code.Helper
                 if (nextCell.CellType == CellType.Fish)
                 {
                     _log.Debug("Adding cell " + nextCell.XPos + "|" + nextCell.YPos);
-                    possibleCellsRight.Add(nextCell);
-                    possibleCellsRight.AddRange(VerifyMovementv2(nextCell, dir)); //recursive function
+                    possibleCells.Add(nextCell);
+                    possibleCells.AddRange(VerifyMovementv2(nextCell, dir)); //recursive function
                 }
                 else
                 {
@@ -172,7 +172,7 @@ namespace Game.Penguins.Core.Code.Helper
             {
                 _log.Debug("cell is out of range");
             }
-            return possibleCellsRight;
+            return possibleCells;
         }
     }
 

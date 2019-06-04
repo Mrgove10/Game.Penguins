@@ -34,7 +34,10 @@ namespace Game.Penguins.Services
         private readonly PointHelper _pointManager;
         private readonly IsolementVerificationHelper _isolationHelper;
 
+        #endregion Declarations
+
         /// <summary>
+
         /// MainGame constructor
         /// </summary>
         public MainGame()
@@ -101,7 +104,7 @@ namespace Game.Penguins.Services
                 _log.Debug("Next turn is a Normal Turn");
                 NextAction = NextActionType.MovePenguin;
             }
-            _log.Debug("Current player to play : " + _currentPlayerNumber + " (" + CurrentPlayer.Name + ")");
+            _log.Debug("Current player to play : " + _currentPlayerNumber + " (" + CurrentPlayer.Name + ") " + CurrentPlayer.Color);
         }
 
         /// <summary>
