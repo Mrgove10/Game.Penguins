@@ -35,7 +35,7 @@ namespace Game.Penguins.AI.UnitTests
         public void DeleteCellTrue()
         {
             Cell cell = new Cell(CellType.Fish, 3);
-            deleteCell(cell);
+            cell.DeleteCell;
             Assert.IsTrue(FishCount = 0);
         }*/
 
