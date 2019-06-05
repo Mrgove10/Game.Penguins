@@ -233,7 +233,7 @@ namespace Game.Penguins.Services
                 case PlayerType.AIEasy:
                     {
                         Coordinates pos = _aiEasy.PlacementPenguin();
-                        PlacePenguinManual(pos.Y, pos.X);
+                        PlacePenguinManual(pos.X, pos.Y);
                         break;
                     }
 
