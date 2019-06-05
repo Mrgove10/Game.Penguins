@@ -68,7 +68,7 @@ namespace Game.Penguins.Services
         /// <returns></returns>
         IPlayer IGame.AddPlayer(string playerName, PlayerType playerType)
         {
-            //initialise player whit 0 penguins & a default color( will be updated later)
+            //initialise player with 0 penguins & a default color( will be updated later)
             IPlayer tempPlayer = new Player(playerName, playerType);
             Players.Add(tempPlayer);
             return tempPlayer;
@@ -81,9 +81,9 @@ namespace Game.Penguins.Services
         {
             _playersPlayOrder = GeneratePlayOrder(); //randomizes the play order
             UpdateNumberOfPenguins(Players.Count); // updated the number of penguins per player
-            CalculateCurrentPlayerNumber();
-            WhatIsNextTurn();
-            CurrentPlayer = _playersPlayOrder[_currentPlayerNumber];
+            CalculateCurrentPlayerNumber(); //calculates which player will now play
+            WhatIsNextTurn(); //attributes a number to the current turn
+            CurrentPlayer = _playersPlayOrder[_currentPlayerNumber]; //defines the current player
             _log.Debug("Current Number Of players : " + Players.Count);
             StateChanged?.Invoke(this, null);
         }
@@ -185,6 +185,7 @@ namespace Game.Penguins.Services
         {
             _log.Debug(CurrentPlayer.Name + " want's to place a penguin at x " + x + " y " + y);
             Cell currentCell = (Cell)Board.Board[x, y];
+
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin) // is empty and has only one penguin
             {
                 Player currentPlayer = (Player)CurrentPlayer;
@@ -236,33 +237,33 @@ namespace Game.Penguins.Services
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
             //todo: if teh cell is not water
-            if (destinationCell.CellType == CellType.Fish)
+            if (destinationCell.CellType == CellType.Fish) // if the current players selects a cell with fish to move to 
             {
-                if (originCell != destinationCell)
+                if (originCell != destinationCell) //the destination cell should not be the origin cell
                 {
-                    if (CurrentPlayer == originCell.CurrentPenguin.Player)
+                    if (CurrentPlayer == originCell.CurrentPenguin.Player) //the current player must be the one on the origin cell
                     {
                         _log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
                         _log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
-                        _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount);
-                        destinationCell.CellType = CellType.FishWithPenguin;
-                        destinationCell.CurrentPenguin = originCell.CurrentPenguin;
-                        originCell.DeleteCell();
-                        StateChanged?.Invoke(this, null);
+                        _pointManager.UpdatePlayerPoints(CurrentPlayer, originCell.FishCount); // the number of fish on the origin cell is added to the current player's score as he moves
+                        destinationCell.CellType = CellType.FishWithPenguin; // the destination cell becomes a "Fish + Penguin" type cell
+                        destinationCell.CurrentPenguin = originCell.CurrentPenguin; //the penguin moves
+                        originCell.DeleteCell(); //the origin cell is removed
+                        StateChanged?.Invoke(this, null); //board update
                     }
                     else
                     {
-                        _log.Debug("This is not the penguin of the player");
+                        _log.Debug("This is not the penguin of the player"); //if the current player tries to move from the wrong cell
                     }
                 }
                 else
                 {
-                    _log.Debug("Origin cell can not be the same as the destination cell");
+                    _log.Debug("Origin cell can not be the same as the destination cell"); //if the current player selects his origin cell to move to
                 }
             }
             else
             {
-                _log.Debug("You can not move to that cell");
+                _log.Debug("You can not move to that cell"); //if the destination cell is not eligible
             }
 
             _isolationHelper.VerifyIsolate(destinationCell); //deletes the penguin and the cell
