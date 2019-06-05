@@ -32,6 +32,8 @@ namespace Game.Penguins.Services
         private readonly ILog _log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
 
         private readonly PointHelper _pointManager;
+
+        //verifies if a cell has other cells around it or not 
         private readonly IsolationVerificationHelper _isolationHelper;
 
         #endregion Declarations
@@ -295,19 +297,19 @@ namespace Game.Penguins.Services
             {
                 case PlayerType.AIEasy:
                     //Easy AI movement
-                    Player currentPlayer = (Player)CurrentPlayer;
-                    Penguin penguinToMove = currentPlayer.ListPenguins[new Random().Next(currentPlayer.ListPenguins.Count)];
-                    Coordinates posCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos);
-                    Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
+                    Player currentPlayer = (Player)CurrentPlayer; //current player
+                    Penguin penguinToMove = currentPlayer.ListPenguins[new Random().Next(currentPlayer.ListPenguins.Count)]; //penguins to move
+                    Coordinates posCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos); //destination cell
+                    Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos]; // origin cell
 
                     if (posCell == null)//a  player can not move anymore, end of game for him
                     {
                         if (_isolationHelper.VerifyIsolation(originCell))
                         {
-                            //in this case then penguin is isolated
+                            //in this case the penguin is isolated
                             currentPlayer.Penguins--; //decreases the number of penguins for this player
-                            originCell.CurrentPenguin = null;
-                            originCell.CellType = CellType.Water;
+                            originCell.CurrentPenguin = null; //the cell doesn't have a penguin anymore
+                            originCell.CellType = CellType.Water; //the cell becomes water
                             _log.Warn("penguin at " + originCell.XPos + " - " + originCell.YPos + "is isolated");
                         }
                     }
@@ -315,7 +317,7 @@ namespace Game.Penguins.Services
                     {
                         Cell destinationCell = (Cell)Board.Board[posCell.X, posCell.Y];
                         MoveManual(originCell, destinationCell);
-
+                        //gets the destination cell and moves the penguin
                         penguinToMove.XPos = posCell.X;
                         penguinToMove.YPos = posCell.Y;
                     }
