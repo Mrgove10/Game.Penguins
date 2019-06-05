@@ -166,10 +166,10 @@ namespace Game.Penguins.UnitTests.Helper
 
             Assert.AreEqual(2, helperResults.Count); //compare le nombre de possibilités
 
-            Assert.AreEqual(1, helperResults[0].XPos); 
-            Assert.AreEqual(0, helperResults[0].YPos); 
+            Assert.AreEqual(1, helperResults[0].XPos);
+            Assert.AreEqual(0, helperResults[0].YPos);
 
-            Assert.AreEqual(0, helperResults[1].XPos); 
+            Assert.AreEqual(0, helperResults[1].XPos);
             Assert.AreEqual(1, helperResults[1].YPos);
         }
 
@@ -294,7 +294,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[3, 2] = new Cell(CellType.Water, 1, 3, 2);
             board[3, 3] = new Cell(CellType.Water, 1, 3, 3);
 
-
             Plateau TestBoard = new Plateau(board);
 
             MovementVerificationHelper helperTest = new MovementVerificationHelper(TestBoard);
@@ -312,6 +311,5 @@ namespace Game.Penguins.UnitTests.Helper
             Assert.AreEqual(3, helperResults[2].XPos);
             Assert.AreEqual(1, helperResults[2].YPos);
         }
-
     }
 }

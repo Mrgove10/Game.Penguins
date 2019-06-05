@@ -33,13 +33,13 @@ namespace Game.Penguins.AI.UnitTests
 
         //TODO
         //TEST DELETE CELLS - CORRECT
-       /* [TestMethod]
-        public void DeleteCellTrue()
-        {
-            Cell cell = new Cell(CellType.Fish, 3);
-            DeleteCell();
-            Assert.IsTrue(FishCount = 0);
-        }*/
+        /* [TestMethod]
+         public void DeleteCellTrue()
+         {
+             Cell cell = new Cell(CellType.Fish, 3);
+             DeleteCell();
+             Assert.IsTrue(FishCount = 0);
+         }*/
 
         //????
         /* [TestMethod]

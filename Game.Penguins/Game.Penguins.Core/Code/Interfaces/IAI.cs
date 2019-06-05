@@ -7,6 +7,7 @@ namespace Game.Penguins.Core.Code.Interfaces
     {
         //coordinates for AI's penguin placement (only)
         int PlacementPenguinX { get; set; }
+
         int PlacementPenguinY { get; set; }
         IBoard MainBoard { get; }
 
