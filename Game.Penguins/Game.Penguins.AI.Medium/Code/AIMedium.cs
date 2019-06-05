@@ -1,16 +1,23 @@
-﻿using System;
-using System.Linq;
-using Common.Logging;
+﻿using Common.Logging;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
+using System;
+using System.Linq;
 
-namespace Game.Penguins.AI.Easy.Code
+namespace Game.Penguins.AI.Medium.Code
 {
-    public class AiEasy : IAi
+    internal class AIMedium : IAi
     {
-        private readonly ILog Log = LogManager.GetLogger<AiEasy>();
+        #region Definitions
+
+        
+
+        
+        //tries to go th where there is the most penguins
+        private readonly ILog Log = LogManager.GetLogger<AIMedium>();
+
         public int PlacementPenguinX { get; set; }
         public int PlacementPenguinY { get; set; }
 
@@ -20,12 +27,12 @@ namespace Game.Penguins.AI.Easy.Code
         private readonly int[] _tabDirection = new int[6];
         private readonly MovementVerificationHelper _movementManager;
 
-        public AiEasy(IBoard plateauParam)
+        public AIMedium(IBoard plateauParam)
         {
             MainBoard = plateauParam;
             _movementManager = new MovementVerificationHelper(MainBoard);
         }
-
+        #endregion
         /// <summary>
         /// Places a penguin randomly on the board
         /// </summary>

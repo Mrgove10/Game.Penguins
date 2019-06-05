@@ -1,5 +1,4 @@
-﻿using Game.Penguins.Core.Interfaces.Game.Players;
-using Game.Penguins.Extensions;
+﻿using Game.Penguins.Extensions;
 using Game.Penguins.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Windows.Controls;
 
 namespace Game.Penguins.ViewModels
 {
-    class WelcomeScreenViewModel
+    internal class WelcomeScreenViewModel
         : ViewModel
         , IApplicationContentView
     {
@@ -17,6 +16,7 @@ namespace Game.Penguins.ViewModels
         #region Players configuration
 
         private string player1Name = "Player 1";
+
         public string Player1Name
         {
             get => player1Name;
@@ -36,6 +36,7 @@ namespace Game.Penguins.ViewModels
         public ComboBoxItem Player1Type { get; set; }
 
         private string player2Name = "Player 2";
+
         public string Player2Name
         {
             get => player2Name;
@@ -55,6 +56,7 @@ namespace Game.Penguins.ViewModels
         public ComboBoxItem Player2Type { get; set; }
 
         private string player3Name = "Player 3";
+
         public string Player3Name
         {
             get => player3Name;
@@ -74,6 +76,7 @@ namespace Game.Penguins.ViewModels
         public ComboBoxItem Player3Type { get; set; }
 
         private string player4Name = "Player 4";
+
         public string Player4Name
         {
             get => player4Name;
@@ -101,7 +104,7 @@ namespace Game.Penguins.ViewModels
             };
         }
 
-        #endregion
+        #endregion Players configuration
 
         #region Validation
 
@@ -128,7 +131,7 @@ namespace Game.Penguins.ViewModels
             return !GetAllErrors().Any();
         }
 
-        #endregion
+        #endregion Validation
 
         #region Navigation
 
@@ -154,7 +157,7 @@ namespace Game.Penguins.ViewModels
                     GetConfigurationPlayer(Player1Name, Player1Type.Content.ToString()),
                     GetConfigurationPlayer(Player2Name, Player2Type.Content.ToString())
                 };
-                if(Player3Type.Content.ToString() != "None")
+                if (Player3Type.Content.ToString() != "None")
                     players.Add(GetConfigurationPlayer(Player3Name, Player3Type.Content.ToString()));
                 if (Player4Type.Content.ToString() != "None")
                     players.Add(GetConfigurationPlayer(Player4Name, Player4Type.Content.ToString()));
@@ -165,6 +168,6 @@ namespace Game.Penguins.ViewModels
             return null;
         }
 
-        #endregion
+        #endregion Navigation
     }
 }

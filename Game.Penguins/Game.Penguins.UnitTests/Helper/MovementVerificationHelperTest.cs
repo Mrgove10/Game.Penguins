@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Game.Penguins.Core.Code.GameBoard;
+﻿using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace Game.Penguins.UnitTests.Helper
 {
@@ -21,7 +19,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[1, 0] = new Cell(CellType.Water, 3, 1, 0);
             board[1, 1] = new Cell(CellType.Water, 0, 1, 1);
 
-
             Plateau TestBoard = new Plateau(board);
 
             MovementVerificationHelper helperTest = new MovementVerificationHelper(TestBoard);
@@ -32,7 +29,6 @@ namespace Game.Penguins.UnitTests.Helper
 
             Assert.AreEqual(0, helperResults[0].XPos);
             Assert.AreEqual(1, helperResults[0].YPos);
-
         }
 
         [TestMethod]
@@ -44,7 +40,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[0, 1] = new Cell(CellType.FishWithPenguin, 0, 0, 1);
             board[1, 0] = new Cell(CellType.Water, 3, 1, 0);
             board[1, 1] = new Cell(CellType.Water, 0, 1, 1);
-
 
             Plateau TestBoard = new Plateau(board);
 
@@ -68,7 +63,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[1, 0] = new Cell(CellType.Water, 3, 1, 0);
             board[1, 1] = new Cell(CellType.FishWithPenguin, 0, 1, 1);
 
-
             Plateau TestBoard = new Plateau(board);
 
             MovementVerificationHelper helperTest = new MovementVerificationHelper(TestBoard);
@@ -90,7 +84,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[0, 1] = new Cell(CellType.Fish, 0, 0, 1);
             board[1, 0] = new Cell(CellType.FishWithPenguin, 3, 1, 0);
             board[1, 1] = new Cell(CellType.Water, 0, 1, 1);
-
 
             Plateau TestBoard = new Plateau(board);
 
@@ -114,7 +107,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[1, 0] = new Cell(CellType.Fish, 3, 1, 0);
             board[1, 1] = new Cell(CellType.Water, 0, 1, 1);
 
-
             Plateau TestBoard = new Plateau(board);
 
             MovementVerificationHelper helperTest = new MovementVerificationHelper(TestBoard);
@@ -136,7 +128,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[0, 1] = new Cell(CellType.Water, 0, 0, 1);
             board[1, 0] = new Cell(CellType.Fish, 3, 1, 0);
             board[1, 1] = new Cell(CellType.Water, 0, 1, 1);
-
 
             Plateau TestBoard = new Plateau(board);
 
@@ -166,7 +157,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[2, 0] = new Cell(CellType.FishWithPenguin, 3, 2, 0);
             board[2, 1] = new Cell(CellType.Water, 0, 2, 1);
             board[2, 2] = new Cell(CellType.Water, 0, 2, 2);
-
 
             Plateau TestBoard = new Plateau(board);
 
@@ -200,7 +190,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[2, 1] = new Cell(CellType.Water, 1, 2, 1);
             board[2, 2] = new Cell(CellType.FishWithPenguin, 1, 2, 2);
 
-
             Plateau TestBoard = new Plateau(board);
 
             MovementVerificationHelper helperTest = new MovementVerificationHelper(TestBoard);
@@ -233,7 +222,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[2, 1] = new Cell(CellType.Fish, 1, 2, 1);
             board[2, 2] = new Cell(CellType.Water, 1, 2, 2);
 
-
             Plateau TestBoard = new Plateau(board);
 
             MovementVerificationHelper helperTest = new MovementVerificationHelper(TestBoard);
@@ -265,7 +253,6 @@ namespace Game.Penguins.UnitTests.Helper
             board[2, 0] = new Cell(CellType.Water, 1, 2, 0);
             board[2, 1] = new Cell(CellType.Fish, 1, 2, 1);
             board[2, 2] = new Cell(CellType.Water, 1, 2, 2);
-
 
             Plateau TestBoard = new Plateau(board);
 
