@@ -12,12 +12,12 @@ namespace Game.Penguins.Core.Code.Helper
         /// <summary>
         /// Verifies end game
         /// </summary>
-        public bool VerifyEndGame(NextActionType action, IList<IPlayer> Players)
+        public bool VerifyEndGame(NextActionType action, IList<IPlayer> players)
         {
             int playerAlive = 0;
 
             //TODO si penguin == 0;
-            foreach (IPlayer player in Players)
+            foreach (IPlayer player in players)
             {
                 if (player.Penguins > 0)
                 {
