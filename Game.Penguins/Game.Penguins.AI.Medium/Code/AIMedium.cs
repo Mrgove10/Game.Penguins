@@ -8,12 +8,12 @@ using System.Linq;
 
 namespace Game.Penguins.AI.Medium.Code
 {
-    internal class AIMedium : IAi
+    public class AiMedium : IAi
     {
         #region Definitions
 
         //tries to go th where there is the most penguins
-        private readonly ILog Log = LogManager.GetLogger<AIMedium>();
+        private readonly ILog Log = LogManager.GetLogger<AiMedium>();
 
         public int PlacementPenguinX { get; set; }
         public int PlacementPenguinY { get; set; }
@@ -24,7 +24,7 @@ namespace Game.Penguins.AI.Medium.Code
         private readonly int[] _tabDirection = new int[6];
         private readonly MovementVerificationHelper _movementManager;
 
-        public AIMedium(IBoard plateauParam)
+        public AiMedium(IBoard plateauParam)
         {
             MainBoard = plateauParam;
             _movementManager = new MovementVerificationHelper(MainBoard);

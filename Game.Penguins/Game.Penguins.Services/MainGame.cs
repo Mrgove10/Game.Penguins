@@ -1,5 +1,6 @@
 using Common.Logging;
 using Game.Penguins.AI.Easy.Code;
+using Game.Penguins.AI.Medium.Code;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
@@ -17,7 +18,7 @@ namespace Game.Penguins.Services
         #region Declarations
 
         private readonly IAi _aiEasy;
-
+        private readonly IAi _aiMedium;
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -55,8 +56,10 @@ namespace Game.Penguins.Services
             _pointManager = new PointHelper();
             _isolationHelper = new IsolationVerificationHelper(Board);
             _endGameHelper = new EndGameHelper();
+
             _aiEasy = new AiEasy(Board);
-            // her would the AI medium and hard initialization
+            _aiMedium = new AiMedium(Board);
+            // her would the AI  hard initialization
             Players = new List<IPlayer>();
             CurrentPlayer = null;
 
@@ -230,15 +233,14 @@ namespace Game.Penguins.Services
         {
             switch (CurrentPlayer.PlayerType)
             {
-                case PlayerType.AIEasy:
-                    {
-                        Coordinates pos = _aiEasy.PlacementPenguin();
-                        PlacePenguinManual(pos.X, pos.Y);
-                        break;
-                    }
+                case PlayerType.AIEasy: //Easy difficulty AI
+                    Coordinates posEasy = _aiEasy.PlacementPenguin();
+                    PlacePenguinManual(posEasy.Y, posEasy.X);
+                    break;
 
-                case PlayerType.AIMedium:
-                    //Hard AI place function here
+                case PlayerType.AIMedium: //Medium difficulty AI
+                    Coordinates posMedium = _aiMedium.PlacementPenguin();
+                    PlacePenguinManual(posMedium.Y, posMedium.X);
                     break;
 
                 case PlayerType.AIHard:
