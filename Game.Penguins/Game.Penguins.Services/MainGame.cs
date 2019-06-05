@@ -33,8 +33,9 @@ namespace Game.Penguins.Services
 
         private readonly PointHelper _pointManager;
 
-        //verifies if a cell has other cells around it or not 
+        //verifies if a cell has other cells around it or not
         private readonly IsolationVerificationHelper _isolationHelper;
+
         private readonly EndGameHelper _endGameHelper;
 
         #endregion Declarations
@@ -146,7 +147,7 @@ namespace Game.Penguins.Services
             List<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
             List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
-            while (copyStartList.Count > 0) //randomizes the player who starts the game 
+            while (copyStartList.Count > 0) //randomizes the player who starts the game
             {
                 int randomIndex = r.Next(0, copyStartList.Count);
                 randomList.Add(copyStartList[randomIndex]);
@@ -261,11 +262,13 @@ namespace Game.Penguins.Services
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
+
             if (destinationCell.CellType == CellType.Fish) //the destination must have at least one fish on it
             {
                 if (originCell != destinationCell) //the destination cell should not be the origin cell
                 {
                     if (CurrentPlayer == originCell.CurrentPenguin.Player) //the current player must be the one on the origin cell
+                    //TODO : error here
                     {
                         _log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
                         _log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
