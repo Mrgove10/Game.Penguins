@@ -15,12 +15,16 @@ namespace Game.Penguins.Extensions
             {
                 case "Human":
                     return PlayerType.Human;
+
                 case "AI - Easy":
                     return PlayerType.AIEasy;
+
                 case "AI - Medium":
                     return PlayerType.AIMedium;
+
                 case "AI - Hard":
                     return PlayerType.AIHard;
+
                 default:
                     return PlayerType.Human;
             }

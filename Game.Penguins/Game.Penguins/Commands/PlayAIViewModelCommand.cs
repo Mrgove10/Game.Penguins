@@ -3,7 +3,7 @@ using Game.Penguins.ViewModels;
 
 namespace Game.Penguins.Commands
 {
-    class PlayAIViewModelCommand
+    internal class PlayAIViewModelCommand
         : Command
     {
         private readonly CurrentGameViewModel currentGameViewModel;
@@ -12,7 +12,6 @@ namespace Game.Penguins.Commands
         {
             currentGameViewModel = contextViewModel;
         }
-
 
         public override void Execute(object parameter)
         {

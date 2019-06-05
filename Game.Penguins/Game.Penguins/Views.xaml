@@ -3,8 +3,7 @@
                     xmlns:local="clr-namespace:Game.Penguins">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Views/CurrentGame.xaml"/>
-        <ResourceDictionary Source="Views/WelcomeScreen.xaml"/>
+        <ResourceDictionary Source="Views/CurrentGame.xaml" />
+        <ResourceDictionary Source="Views/WelcomeScreen.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
 </ResourceDictionary>

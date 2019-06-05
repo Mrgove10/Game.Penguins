@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Game.Penguins.Framework
 {
-    abstract class Command
+    internal abstract class Command
         : ICommand
     {
         public abstract void Execute(object parameter);

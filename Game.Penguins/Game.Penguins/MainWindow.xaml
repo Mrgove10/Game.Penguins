@@ -7,15 +7,15 @@
         xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
+
     <Window.Style>
-        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
     </Window.Style>
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Views.xaml"/>
+                <ResourceDictionary Source="Views.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -40,29 +40,25 @@
                             <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"
                                     Content="{Binding Content.PreviousButtonContent}"
                                     Command="{Binding PreviousViewCommand}"
-                                    Margin="{adonisUi:Space 1, 0, 0, 0}"/>
+                                    Margin="{adonisUi:Space 1, 0, 0, 0}" />
 
                             <Button Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"
                                     Content="{Binding Content.NextButtonContent}"
-                                    Command="{Binding NextViewCommand}"/>
-
+                                    Command="{Binding NextViewCommand}" />
                         </UniformGrid>
-
                     </DockPanel>
-
                 </Border>
-
             </Grid>
 
             <StatusBar DockPanel.Dock="Bottom">
-                <StatusBarItem Content="Ready"/>
+                <StatusBarItem Content="Ready" />
             </StatusBar>
 
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid>
@@ -70,7 +66,7 @@
                               MinWidth="132">
                         <GroupBox.Header>
                             <TextBlock Text="Actions"
-                                       Margin="{adonisUi:Space 1}"/>
+                                       Margin="{adonisUi:Space 1}" />
                         </GroupBox.Header>
 
                         <StackPanel Orientation="Vertical"
@@ -80,7 +76,7 @@
                                     Style="{DynamicResource {x:Static adonisUi:Styles.ToolbarButton}}"
                                     Click="ChangeTheme"
                                     HorizontalAlignment="Stretch"
-                                    Padding="8"/>
+                                    Padding="8" />
                         </StackPanel>
                     </GroupBox>
                 </Grid>
@@ -90,8 +86,7 @@
 
                     <ContentControl Content="{Binding Content}"
                                     IsEnabled="{Binding IsEnabled}"
-                                    Margin="{adonisUi:Space 1}"/>
-
+                                    Margin="{adonisUi:Space 1}" />
                 </Grid>
             </Grid>
         </DockPanel>
@@ -105,19 +100,18 @@
                 <Viewbox.Effect>
                     <DropShadowEffect ShadowDepth="2"
                                       BlurRadius="10"
-                                      Opacity="0.2"/>
+                                      Opacity="0.2" />
                 </Viewbox.Effect>
 
                 <Path Data="M 0 0 L 20 0 L 18 8 L 2 8 Z"
-                      Fill="{DynamicResource {x:Static adonisUi:Brushes.AccentHighlightBrush}}"/>
+                      Fill="{DynamicResource {x:Static adonisUi:Brushes.AccentHighlightBrush}}" />
             </Viewbox>
 
             <TextBlock Text="{Binding Content.Name}"
                        TextAlignment="Center"
                        VerticalAlignment="Center"
                        Foreground="{DynamicResource {x:Static adonisUi:Brushes.AccentForegroundBrush}}"
-                       FontSize="14"/>
+                       FontSize="14" />
         </Grid>
-
     </Grid>
 </Window>

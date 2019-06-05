@@ -2,7 +2,7 @@
 
 namespace Game.Penguins.Framework
 {
-    abstract class ViewModelCommand<TContextViewModel>
+    internal abstract class ViewModelCommand<TContextViewModel>
         : Command
         where TContextViewModel : ViewModel
     {

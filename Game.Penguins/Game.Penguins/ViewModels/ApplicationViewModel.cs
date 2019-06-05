@@ -3,7 +3,7 @@ using Game.Penguins.Framework;
 
 namespace Game.Penguins.ViewModels
 {
-    class ApplicationViewModel
+    internal class ApplicationViewModel
         : ViewModel
     {
         private ViewModel _content;
