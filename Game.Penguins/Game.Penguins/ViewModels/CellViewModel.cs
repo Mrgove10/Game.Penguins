@@ -25,6 +25,7 @@ namespace Game.Penguins.ViewModels
         public bool IsIce { get; private set; }
 
         private bool isSelectedFirst;
+
         public bool IsSelectedFirst
         {
             get => isSelectedFirst;
@@ -39,6 +40,7 @@ namespace Game.Penguins.ViewModels
         }
 
         private bool isSelectedSecond;
+
         public bool IsSelectedSecond
         {
             get => isSelectedSecond;
@@ -60,7 +62,7 @@ namespace Game.Penguins.ViewModels
 
         public bool IsThreePoint { get; private set; }
 
-        #endregion
+        #endregion Fish points
 
         #region Colors
 
@@ -72,7 +74,7 @@ namespace Game.Penguins.ViewModels
 
         public bool IsRed { get; private set; }
 
-        #endregion
+        #endregion Colors
 
         public CellViewModel(int x, int y, ICell cell)
             : base()

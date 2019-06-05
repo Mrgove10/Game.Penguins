@@ -3,7 +3,7 @@ using Game.Penguins.ViewModels;
 
 namespace Game.Penguins.Commands
 {
-    class MovePenguinValidationViewModel
+    internal class MovePenguinValidationViewModel
         : Command
     {
         private readonly CurrentGameViewModel currentGameViewModel;

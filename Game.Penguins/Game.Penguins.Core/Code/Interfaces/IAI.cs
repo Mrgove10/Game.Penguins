@@ -3,7 +3,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 
 namespace Game.Penguins.Core.Code.Interfaces
 {
-    public interface IAI
+    public interface IAi
     {
         int PlacementPenguinX { get; set; }
         int PlacementPenguinY { get; set; }

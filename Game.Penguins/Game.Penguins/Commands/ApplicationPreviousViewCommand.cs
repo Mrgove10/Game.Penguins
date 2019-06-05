@@ -3,7 +3,7 @@ using Game.Penguins.ViewModels;
 
 namespace Game.Penguins.Commands
 {
-    class ApplicationPreviousViewCommand
+    internal class ApplicationPreviousViewCommand
         : ViewModelCommand<ApplicationViewModel>
     {
         public ApplicationPreviousViewCommand(ApplicationViewModel contextViewModel) : base(contextViewModel)

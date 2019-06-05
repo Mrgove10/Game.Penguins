@@ -1,13 +1,11 @@
-﻿using System.Threading.Tasks;
-
-namespace Game.Penguins.ViewModels
+﻿namespace Game.Penguins.ViewModels
 {
-    interface IApplicationContentView
+    internal interface IApplicationContentView
     {
         string Name { get; }
 
         string PreviousButtonContent { get; }
-        
+
         string NextButtonContent { get; }
 
         bool HasPreviousView { get; }
