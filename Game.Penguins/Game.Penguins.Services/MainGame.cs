@@ -33,6 +33,7 @@ namespace Game.Penguins.Services
 
         private readonly PointHelper _pointManager;
         private readonly IsolationVerificationHelper _isolationHelper;
+        private readonly EndGameHelper _endGameHelper;
 
         #endregion Declarations
 
@@ -273,7 +274,7 @@ namespace Game.Penguins.Services
             }
             CalculateCurrentPlayerNumber();
             WhatIsNextTurn();
-            VerifyEndGame();
+            _endGameHelper.VerifyEndGame(NextAction, Players);
             _isolationHelper.VerifyIsolation(destinationCell); //deletes the penguin and the cell
             StateChanged?.Invoke(this, null);
         }
@@ -326,30 +327,6 @@ namespace Game.Penguins.Services
 
         #endregion Mouvement
 
-        /// <summary>
-        /// Verifies end game
-        /// </summary>
-        public void VerifyEndGame()
-        {
-            int playerAlive = 0;
-
-            //TODO si penguin == 0;
-            foreach (IPlayer player in Players)
-            {
-                if (player.Penguins > 0)
-                {
-                    playerAlive += 1;
-                }
-            }
-
-            if (playerAlive == 0)
-            {
-                //GAME-OVER
-                NextAction = NextActionType.Nothing;
-                _log.Debug(" -- FIN DU JEU -- ");
-            }
-
-            //Next actionType == nothing
-        }
+       
     }
 }
