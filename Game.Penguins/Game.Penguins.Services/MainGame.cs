@@ -98,7 +98,7 @@ namespace Game.Penguins.Services
                 _log.Debug("Next turn is a Placement Turn");
                 NextAction = NextActionType.PlacePenguin;
             }
-            else
+            else //in a normal turn :
             {
                 _log.Debug("Next turn is a Normal Turn");
                 NextAction = NextActionType.MovePenguin;
@@ -133,7 +133,7 @@ namespace Game.Penguins.Services
             List<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
             List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
-            while (copyStartList.Count > 0)
+            while (copyStartList.Count > 0) //randomizes the player who starts the game 
             {
                 int randomIndex = r.Next(0, copyStartList.Count);
                 randomList.Add(copyStartList[randomIndex]);
@@ -189,12 +189,14 @@ namespace Game.Penguins.Services
 
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin) // is empty and has only one penguin
             {
-                Player currentPlayer = (Player)CurrentPlayer;
-                Penguin createdPenguin = new Penguin(currentPlayer, x, y);
-                currentPlayer.ListPenguins.Add(createdPenguin);
-                currentCell.CurrentPenguin = createdPenguin;
-                currentCell.CellType = CellType.FishWithPenguin;
-                currentPlayer.Penguins++;
+                Player currentPlayer = (Player)CurrentPlayer; //the current player...
+                Penguin createdPenguin = new Penguin(currentPlayer, x, y);//...gets a new penguin to place..
+                currentPlayer.ListPenguins.Add(createdPenguin); //... which is added to his stack of penguins...
+                currentCell.CurrentPenguin = createdPenguin; //...it becomes the resident penguin of the cell...
+                currentCell.CellType = CellType.FishWithPenguin;//... which types becomes fish + penguin
+                currentPlayer.Penguins++; // the current player's penguins increases
+
+                //and we switch to the next player's turn
                 CalculateCurrentPlayerNumber();
                 WhatIsNextTurn();
                 StateChanged?.Invoke(this, null);
@@ -244,7 +246,7 @@ namespace Game.Penguins.Services
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
-            if (destinationCell.CellType == CellType.Fish)
+            if (destinationCell.CellType == CellType.Fish) //the destination must have at least one fish on it
             {
                 if (originCell != destinationCell) //the destination cell should not be the origin cell
                 {
@@ -272,9 +274,14 @@ namespace Game.Penguins.Services
             {
                 _log.Debug("You can not move to that cell"); //if the destination cell is not eligible
             }
+
+            //preparing for next player's turn
             CalculateCurrentPlayerNumber();
             WhatIsNextTurn();
+
+            //verifying if the game is over yet
             VerifyEndGame();
+
             _isolationHelper.VerifyIsolation(destinationCell); //deletes the penguin and the cell
             StateChanged?.Invoke(this, null);
         }
@@ -337,7 +344,7 @@ namespace Game.Penguins.Services
             //TODO si penguin == 0;
             foreach (IPlayer player in Players)
             {
-                if (player.Penguins > 0)
+                if (player.Penguins > 0) 
                 {
                     playerAlive += 1;
                 }
@@ -349,8 +356,6 @@ namespace Game.Penguins.Services
                 NextAction = NextActionType.Nothing;
                 _log.Debug(" -- FIN DU JEU -- ");
             }
-
-            //Next actionType == nothing
         }
     }
 }
