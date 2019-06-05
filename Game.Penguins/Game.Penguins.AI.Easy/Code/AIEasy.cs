@@ -1,14 +1,14 @@
-﻿using Common.Logging;
+﻿using System;
+using System.Linq;
+using Common.Logging;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
 using Game.Penguins.Core.Interfaces.Game.GameBoard;
-using System;
-using System.Linq;
 
-namespace Game.Penguins.AI.Code
+namespace Game.Penguins.AI.Easy.Code
 {
-    public class AiEasy : IAI
+    public class AiEasy : IAi
     {
         private readonly ILog Log = LogManager.GetLogger<AiEasy>();
         public int PlacementPenguinX { get; set; }
@@ -32,9 +32,8 @@ namespace Game.Penguins.AI.Code
         public Coordinates PlacementPenguin()
         {
             Random rnd = new Random();
-            bool search = true;
 
-            while (search) //while it is in a searching state
+            while (true) //while it is in a searching state
             {
                 Log.Debug("starting the search of a suitable case");
                 PlacementPenguinX = rnd.Next(8);
@@ -65,11 +64,11 @@ namespace Game.Penguins.AI.Code
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
             if (possibleCells.Any())
             {
-                var ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                var chosenCell = possibleCells[new Random().Next(possibleCells.Count)];
                 return new Coordinates()
                 {
-                    X = ChosenCell.XPos,
-                    Y = ChosenCell.YPos
+                    X = chosenCell.XPos,
+                    Y = chosenCell.YPos
                 };
             }
             else

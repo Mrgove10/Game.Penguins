@@ -12,14 +12,14 @@ namespace Game.Penguins.Core.Code.Players
         public PlayerColor Color { get; set; }
         public string Name { get; }
 
-        private int points;
+        private int _points;
 
         public int Points
         {
-            get => points;
+            get => _points;
             set
             {
-                points = value; //value = access the object created by set
+                _points = value; //value = access the object created by set
                 StateChanged?.Invoke(this, null);
             }
         }

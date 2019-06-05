@@ -1,5 +1,4 @@
 using Common.Logging;
-using Game.Penguins.AI.Code;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
@@ -9,6 +8,7 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
+using Game.Penguins.AI.Easy.Code;
 
 namespace Game.Penguins.Services
 {
@@ -16,7 +16,7 @@ namespace Game.Penguins.Services
     {
         #region Declarations
 
-        private readonly IAI _aiEasy;
+        private readonly IAi _aiEasy;
 
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
@@ -32,7 +32,7 @@ namespace Game.Penguins.Services
         private readonly ILog _log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
 
         private readonly PointHelper _pointManager;
-        private readonly IsolementVerificationHelper _isolationHelper;
+        private readonly IsolationVerificationHelper _isolationHelper;
 
         #endregion Declarations
 
@@ -48,7 +48,7 @@ namespace Game.Penguins.Services
             Board = new Plateau(8, 8);
 
             _pointManager = new PointHelper();
-            _isolationHelper = new IsolementVerificationHelper(Board);
+            _isolationHelper = new IsolationVerificationHelper(Board);
 
             _aiEasy = new AiEasy(Board);
             // AiMedium = new AiMedium(Board);
@@ -266,7 +266,7 @@ namespace Game.Penguins.Services
                 _log.Debug("You can not move to that cell");
             }
 
-            _isolationHelper.VerifyIsolate(destinationCell); //deletes the penguin and the cell
+            _isolationHelper.VerifyIsolation(destinationCell); //deletes the penguin and the cell
             VerifyEndGame();
         }
 
@@ -286,7 +286,7 @@ namespace Game.Penguins.Services
 
                     if (posCell == null)//a  player can not move anymore, end of game for him
                     {
-                        if (_isolationHelper.VerifyIsolate(originCell))
+                        if (_isolationHelper.VerifyIsolation(originCell))
                         {
                             //in this case then penguin is isolated
                             currentPlayer.Penguins --; //decreases the number of penguins for this player
