@@ -7,6 +7,7 @@ namespace Game.Penguins.AI.UnitTests
     [TestClass]
     public class CellTests
     {
+        //TEST CELL CREATION - CORRECT
         [TestMethod]
         public void CellCreation()
         {
@@ -32,11 +33,11 @@ namespace Game.Penguins.AI.UnitTests
 
         //TODO
         //TEST DELETE CELLS - CORRECT
-        /*[TestMethod]
+       /* [TestMethod]
         public void DeleteCellTrue()
         {
             Cell cell = new Cell(CellType.Fish, 3);
-            deleteCell(cell);
+            DeleteCell();
             Assert.IsTrue(FishCount = 0);
         }*/
 

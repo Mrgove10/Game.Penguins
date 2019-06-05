@@ -41,76 +41,88 @@ namespace Game.Penguins.Core.Code.Helper
             int xMove = 0;
             int yMove = 0;
 
-            if (originCell.YPos % 2 == 0)//means this is even (pair) in the Y axis
+            if (originCell.XPos % 2 == 0)//means this is even (pair) in the Y axis
             {
                 switch (dir)
                 {
                     case Direction.Right:
                         xMove = 0;
                         yMove = +1;
+                        _log.Debug("2 Droite");
                         break;
 
                     case Direction.BottomRight:
                         xMove = +1;
                         yMove = 0;
+                        _log.Debug("2 bas droite");
                         break;
 
                     case Direction.BottomLeft:
                         xMove = +1;
                         yMove = -1;
+                        _log.Debug("2 bas gauche");
                         break;
 
                     case Direction.Left:
                         xMove = 0;
                         yMove = -1;
+                        _log.Debug("2 gauche");
                         break;
 
                     case Direction.TopLeft:
                         xMove = -1;
                         yMove = -1;
+                        _log.Debug("2 haut gauche");
                         break;
 
                     case Direction.TopRight:
                         xMove = -1;
                         yMove = 0;
+                        _log.Debug("2 haut droite");
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
                 }
             }
-            else if (originCell.YPos % 2 != 0) //means this is Odd in the Y axis
+            else if (originCell.XPos % 2 != 0) //means this is Odd in the Y axis
             {
                 switch (dir)
                 {
                     case Direction.Right:
                         xMove = 0;
                         yMove = +1;
+                        _log.Debug("1 Droite");
                         break;
 
                     case Direction.BottomRight:
                         xMove = +1;
                         yMove = +1;
+                        _log.Debug("1 bas Droite");
                         break;
 
                     case Direction.BottomLeft:
                         xMove = +1;
                         yMove = 0;
+                        _log.Debug("1 bas gauche");
                         break;
 
                     case Direction.Left:
                         xMove = 0;
                         yMove = -1;
+                        _log.Debug("1 gauche");
                         break;
 
                     case Direction.TopLeft:
                         xMove = -1;
                         yMove = 0;
+                        _log.Debug("1 haut gauche");
                         break;
 
                     case Direction.TopRight:
                         xMove = -1;
                         yMove = +1;
+                        _log.Debug("1 haut droite");
                         break;
 
                     default:
