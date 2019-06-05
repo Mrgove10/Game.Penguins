@@ -39,26 +39,28 @@ namespace Game.Penguins.Services
 
         /// <summary>
         /// MainGame constructor
+        /// The board is made out of hexagones
+        /// 0,0 is on the top left and
+        /// 7,7 is on the bottom right.
+        /// THE X AND Y ARE INVERSED
         /// </summary>
         public MainGame()
         {
             _log.Debug("Starting Game");
-            /*8x8 Board , coordinates go from
-            0,0 on the upper left to
-            7,7 on the bottom right*/
             Board = new Plateau(8, 8);
 
             _pointManager = new PointHelper();
             _isolationHelper = new IsolationVerificationHelper(Board);
-
+            _endGameHelper = new EndGameHelper();
             _aiEasy = new AiEasy(Board);
-            // AiMedium = new AiMedium(Board);
-            // AiHard = new AiHard(Board);
+            // her would the AI medium and hard initialization
             Players = new List<IPlayer>();
             CurrentPlayer = null;
 
-            StateChanged?.Invoke(this, null);
+            StateChanged?.Invoke(this, null); //sets the game in th ready state
         }
+
+        #region Game start
 
         /// <summary>
         /// Adds a player to the game
@@ -87,6 +89,10 @@ namespace Game.Penguins.Services
             _log.Debug("Current Number Of players : " + Players.Count);
             StateChanged?.Invoke(this, null);
         }
+
+        #endregion Game start
+
+        #region Turn related
 
         /// <summary>
         /// Runs the current turn number
@@ -124,6 +130,10 @@ namespace Game.Penguins.Services
             CurrentPlayer = _playersPlayOrder[_currentPlayerNumber];
             _log.Debug("Current player is now " + _currentPlayerNumber + " (" + CurrentPlayer.Name + ")");
         }
+
+        #endregion Turn related
+
+        #region initialisation stuff
 
         /// <summary>
         /// Randomizes the Player turns
@@ -175,6 +185,8 @@ namespace Game.Penguins.Services
                     break;
             }
         }
+
+        #endregion initialisation stuff
 
         #region Placement
 
@@ -326,7 +338,5 @@ namespace Game.Penguins.Services
         }
 
         #endregion Mouvement
-
-       
     }
 }
