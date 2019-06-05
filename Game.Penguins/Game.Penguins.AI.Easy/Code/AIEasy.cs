@@ -18,7 +18,7 @@ namespace Game.Penguins.AI.Code
         public IPenguin Penguin { get; }
 
         private readonly int[] _tabDirection = new int[6];
-        private MovementVerificationHelper _movementManager;
+        private readonly MovementVerificationHelper _movementManager;
 
         public AiEasy(IBoard plateauParam)
         {
@@ -56,17 +56,16 @@ namespace Game.Penguins.AI.Code
         }
 
         /// <summary>
-        /// Determines wheere a penguin can move
+        /// Determines where a penguin can move
         /// </summary>
         /// <param name="posX"></param>
         /// <param name="posY"></param>
         public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
-            Cell ChosenCell;
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
             if (possibleCells.Any())
             {
-                ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                var ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
                 return new Coordinates()
                 {
                     X = ChosenCell.XPos,

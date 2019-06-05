@@ -25,9 +25,9 @@ namespace Game.Penguins.Services
 
         public event EventHandler StateChanged;
 
-        private IList<IPlayer> _playersPlayOrder;
-        private int _currentPlayerNumber;
-        private int _penguinsPerPlayer;
+        private IList<IPlayer> _playersPlayOrder; //list of the player by they play order
+        private int _currentPlayerNumber; //the number of the current player
+        private int _penguinsPerPlayer; //number of penguins per player
 
         private readonly ILog _log = LogManager.GetLogger<MainGame>(); //http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage
 
@@ -37,7 +37,6 @@ namespace Game.Penguins.Services
         #endregion Declarations
 
         /// <summary>
-
         /// MainGame constructor
         /// </summary>
         public MainGame()
@@ -208,21 +207,24 @@ namespace Game.Penguins.Services
         /// </summary>
         public void PlacePenguin()
         {
-            if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
+            switch (CurrentPlayer.PlayerType)
             {
-                Coordinates pos = _aiEasy.PlacementPenguin();
-                PlacePenguinManual(pos.X, pos.Y);
+                case PlayerType.AIEasy:
+                    {
+                        Coordinates pos = _aiEasy.PlacementPenguin();
+                        PlacePenguinManual(pos.X, pos.Y);
+                        break;
+                    }
+
+                case PlayerType.AIMedium:
+                    //Hard AI place function here
+                    break;
+
+                case PlayerType.AIHard:
+                    //Medium AI place function here
+                    break;
             }
-            else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
-            {
-                //Medium AI place function here
-                StateChanged?.Invoke(this, null);
-            }
-            else if (CurrentPlayer.PlayerType == PlayerType.AIHard)
-            {
-                //Hard AI place function here
-                StateChanged?.Invoke(this, null);
-            }
+            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -235,7 +237,6 @@ namespace Game.Penguins.Services
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
-            //todo: if teh cell is not water
             if (destinationCell.CellType == CellType.Fish)
             {
                 if (originCell != destinationCell)
@@ -266,6 +267,7 @@ namespace Game.Penguins.Services
             }
 
             _isolationHelper.VerifyIsolate(destinationCell); //deletes the penguin and the cell
+            VerifyEndGame();
         }
 
         /// <summary>
@@ -273,46 +275,66 @@ namespace Game.Penguins.Services
         /// </summary>
         public void Move()
         {
-            if (CurrentPlayer.PlayerType == PlayerType.AIEasy)
+            switch (CurrentPlayer.PlayerType)
             {
-                Player currentPlayer = (Player)CurrentPlayer;
-                Penguin penguinToMove = currentPlayer.ListPenguins[new Random().Next(currentPlayer.ListPenguins.Count)];
-                Coordinates posCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos);
-                if (posCell != null)
-                {
-                    MoveManual(Board.Board[penguinToMove.XPos, penguinToMove.YPos], Board.Board[posCell.X, posCell.Y]);
-                }
-                else
-                {
-                    //a  player can not move anymore, end of game for him
-                }
-            }
-            else if (CurrentPlayer.PlayerType == PlayerType.AIMedium)
-            {
-                //Medium AI move function here
-            }
-            else if (CurrentPlayer.PlayerType == PlayerType.AIHard)
-            {
-                //Hard AI move function here
+                case PlayerType.AIEasy:
+                    //Easy AI movement
+                    Player currentPlayer = (Player)CurrentPlayer;
+                    Penguin penguinToMove = currentPlayer.ListPenguins[new Random().Next(currentPlayer.ListPenguins.Count)];
+                    Coordinates posCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos);
+                    Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
+
+                    if (posCell == null)//a  player can not move anymore, end of game for him
+                    {
+                        if (_isolationHelper.VerifyIsolate(originCell))
+                        {
+                            //in this case then penguin is isolated
+                            currentPlayer.Penguins --; //decreases the number of penguins for this player
+                            originCell.CurrentPenguin = null;
+                            originCell.CellType = CellType.Water;
+                            _log.Warn("penguin at " + originCell.XPos + " - " + originCell.YPos + "is isolated");
+                        }
+                    }
+                    else
+                    {
+                        Cell destinationCell = (Cell)Board.Board[posCell.X, posCell.Y];
+                        MoveManual(originCell, destinationCell);
+
+                        penguinToMove.XPos = posCell.X;
+                        penguinToMove.YPos = posCell.Y;
+                    }
+
+                    break;
+
+                case PlayerType.AIMedium:
+                    //Medium AI move function here
+                    break;
+
+                case PlayerType.AIHard:
+                    //Hard AI move function here
+                    break;
             }
         }
 
+        /// <summary>
+        /// Verifies end game
+        /// </summary>
         public void VerifyEndGame()
         {
-            int PlayerAlive = 0;
+            int playerAlive = 0;
 
             //TODO si penguin == 0;
             foreach (IPlayer player in Players)
             {
                 if (player.Penguins > 0)
                 {
-                    PlayerAlive += 1;
+                    playerAlive += 1;
                 }
             }
 
-            if (PlayerAlive == 0)
+            if (playerAlive == 0)
             {
-                //GAMEOVER
+                //GAME-OVER
                 NextAction = NextActionType.Nothing;
                 _log.Debug(" -- FIN DU JEU -- ");
             }
