@@ -8,7 +8,7 @@ namespace Game.Penguins.AI.UnitTests
     [TestClass]
     public class PlayerTests
     {
-        // CREATE PLAYER
+        // CREATE PLAYER WITH A NORMAL NAME  - CORRECT
         [TestMethod]
         public void CreatePlayerNormal()
         {
@@ -16,6 +16,7 @@ namespace Game.Penguins.AI.UnitTests
             Assert.IsTrue(p.Name == "Foo" && p.PlayerType == PlayerType.Human);
         }
 
+        //TEST CREATE A PLAYER WITH A POSSIBLY ANNOYING NAME - CORRECT
         [TestMethod]
         public void CreatePlayerNormalEmoji()
         {
@@ -23,7 +24,7 @@ namespace Game.Penguins.AI.UnitTests
             Assert.IsTrue(p.Name == "👩‍💻🙄💕😁✌🤞✌");
         }
 
-        //UPDATE SCORE
+        //TEST UPDATE SCORE - CORRECT
         [TestMethod]
         public void UpdatePlayerScoreTrue()
         {
@@ -37,6 +38,7 @@ namespace Game.Penguins.AI.UnitTests
             Assert.IsTrue(playerTest.Points == 21);
         }
 
+        //TEST UPDATE SCORE - INCORRECT
         [TestMethod]
         public void UpdatePlayerScoreFalse()
         {

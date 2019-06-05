@@ -12,9 +12,6 @@ namespace Game.Penguins.AI.Medium.Code
     {
         #region Definitions
 
-        
-
-        
         //tries to go th where there is the most penguins
         private readonly ILog Log = LogManager.GetLogger<AIMedium>();
 
@@ -32,7 +29,9 @@ namespace Game.Penguins.AI.Medium.Code
             MainBoard = plateauParam;
             _movementManager = new MovementVerificationHelper(MainBoard);
         }
-        #endregion
+
+        #endregion Definitions
+
         /// <summary>
         /// Places a penguin randomly on the board
         /// </summary>
