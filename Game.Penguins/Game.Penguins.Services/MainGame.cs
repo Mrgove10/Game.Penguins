@@ -326,7 +326,7 @@ namespace Game.Penguins.Services
                     }
                     else
                     {
-                        Cell destinationCell = (Cell)Board.Board[posCell.X, posCell.Y];
+                        Cell destinationCell = (Cell)Board.Board[posCell.Y, posCell.X];
                         MoveManual(originCell, destinationCell);
                         //gets the destination cell and moves the penguin
                         penguinToMove.XPos = posCell.X;
