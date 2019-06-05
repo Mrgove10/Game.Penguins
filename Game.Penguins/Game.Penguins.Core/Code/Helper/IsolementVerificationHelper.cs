@@ -3,17 +3,17 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 
 namespace Game.Penguins.Core.Code.Helper
 {
-    public class IsolementVerificationHelper
+    public class IsolationVerificationHelper
     {
-        private bool Isolate = false;
-        private readonly IBoard gameBoard = null;
+        private bool _isolated = false;
+        private readonly IBoard _gameBoard = null;
 
-        public IsolementVerificationHelper(IBoard gb)
+        public IsolationVerificationHelper(IBoard gb)
         {
-            gameBoard = gb;
+            _gameBoard = gb;
         }
 
-        public bool VerifyIsolate(Cell originCell)
+        public bool VerifyIsolation(Cell originCell)
         {
             int x = originCell.XPos;
             int y = originCell.YPos;
@@ -37,7 +37,7 @@ namespace Game.Penguins.Core.Code.Helper
                 VerifyCells(originCell, +1, -1); //left bottom movement
             }
 
-            return Isolate;
+            return _isolated;
         }
 
         public void VerifyCells(Cell originCell, int xMove, int yMove)
@@ -48,7 +48,7 @@ namespace Game.Penguins.Core.Code.Helper
 
             if (testedCell.CellType == CellType.Fish)
             {
-                Isolate = true;
+                _isolated = true;
             }
         }
     }
