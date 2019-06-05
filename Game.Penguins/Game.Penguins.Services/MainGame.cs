@@ -1,5 +1,6 @@
 using Common.Logging;
 using Game.Penguins.AI.Easy.Code;
+using Game.Penguins.AI.Medium.Code;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
@@ -17,7 +18,7 @@ namespace Game.Penguins.Services
         #region Declarations
 
         private readonly IAi _aiEasy;
-
+        private readonly IAi _aiMedium;
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -33,8 +34,9 @@ namespace Game.Penguins.Services
 
         private readonly PointHelper _pointManager;
 
-        //verifies if a cell has other cells around it or not 
+        //verifies if a cell has other cells around it or not
         private readonly IsolationVerificationHelper _isolationHelper;
+
         private readonly EndGameHelper _endGameHelper;
 
         #endregion Declarations
@@ -54,8 +56,10 @@ namespace Game.Penguins.Services
             _pointManager = new PointHelper();
             _isolationHelper = new IsolationVerificationHelper(Board);
             _endGameHelper = new EndGameHelper();
+
             _aiEasy = new AiEasy(Board);
-            // her would the AI medium and hard initialization
+            _aiMedium = new AiMedium(Board);
+            // her would the AI  hard initialization
             Players = new List<IPlayer>();
             CurrentPlayer = null;
 
@@ -146,7 +150,7 @@ namespace Game.Penguins.Services
             List<IPlayer> copyStartList = new List<IPlayer>(Players); //local copy only for this function
             List<IPlayer> randomList = new List<IPlayer>();
             Random r = new Random();
-            while (copyStartList.Count > 0) //randomizes the player who starts the game 
+            while (copyStartList.Count > 0) //randomizes the player who starts the game
             {
                 int randomIndex = r.Next(0, copyStartList.Count);
                 randomList.Add(copyStartList[randomIndex]);
@@ -229,15 +233,14 @@ namespace Game.Penguins.Services
         {
             switch (CurrentPlayer.PlayerType)
             {
-                case PlayerType.AIEasy:
-                    {
-                        Coordinates pos = _aiEasy.PlacementPenguin();
-                        PlacePenguinManual(pos.X, pos.Y);
-                        break;
-                    }
+                case PlayerType.AIEasy: //Easy difficulty AI
+                    Coordinates posEasy = _aiEasy.PlacementPenguin();
+                    PlacePenguinManual(posEasy.Y, posEasy.X);
+                    break;
 
-                case PlayerType.AIMedium:
-                    //Hard AI place function here
+                case PlayerType.AIMedium: //Medium difficulty AI
+                    Coordinates posMedium = _aiMedium.PlacementPenguin();
+                    PlacePenguinManual(posMedium.Y, posMedium.X);
                     break;
 
                 case PlayerType.AIHard:
@@ -261,11 +264,13 @@ namespace Game.Penguins.Services
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
+
             if (destinationCell.CellType == CellType.Fish) //the destination must have at least one fish on it
             {
                 if (originCell != destinationCell) //the destination cell should not be the origin cell
                 {
                     if (CurrentPlayer == originCell.CurrentPenguin.Player) //the current player must be the one on the origin cell
+                    //TODO : error here
                     {
                         _log.Debug("initial cell : " + originCell.XPos + ":" + originCell.YPos);
                         _log.Debug("Destination cell : " + destinationCell.XPos + ":" + destinationCell.YPos);
@@ -326,7 +331,7 @@ namespace Game.Penguins.Services
                     }
                     else
                     {
-                        Cell destinationCell = (Cell)Board.Board[posCell.X, posCell.Y];
+                        Cell destinationCell = (Cell)Board.Board[posCell.Y, posCell.X];
                         MoveManual(originCell, destinationCell);
                         //gets the destination cell and moves the penguin
                         penguinToMove.XPos = posCell.X;
