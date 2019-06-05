@@ -38,10 +38,10 @@ namespace Game.Penguins.AI.Code
             {
                 Log.Debug("starting the search of a suitable case");
                 PlacementPenguinX = rnd.Next(8);
-                PlacementPenguinY = rnd.Next(8);
+                PlacementPenguinY = rnd.Next(8); //the coordinates are choosen randomly
                 ICell c = MainBoard.Board[PlacementPenguinX, PlacementPenguinY];
 
-                if (c.CellType == CellType.Fish && c.FishCount == 1 && c.CurrentPenguin == null)
+                if (c.CellType == CellType.Fish && c.FishCount == 1 && c.CurrentPenguin == null) //checks that the placement cell has one fish on it and no penguin
                 {
                     Log.Debug("AI will place itself at x: " + PlacementPenguinX + " , y: " + PlacementPenguinY);
                     return new Coordinates()
@@ -52,22 +52,23 @@ namespace Game.Penguins.AI.Code
                 }
             }
             Log.Error("no cell found");
+
             return null; //TODO: change this
         }
 
         /// <summary>
-        /// Determines wheere a penguin can move
+        /// Determines where a penguin can move
         /// </summary>
         /// <param name="posX"></param>
         /// <param name="posY"></param>
         public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
             Cell ChosenCell;
-            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
-            if (possibleCells.Any())
+            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]); //possible eligible cell for moving
+            if (possibleCells.Any()) //if there's any eligible cell, it will be taken immediately to replace the origin cell's coordinates
             {
                 ChosenCell = possibleCells[new Random().Next(possibleCells.Count)];
-                return new Coordinates()
+                return new Coordinates() 
                 {
                     X = ChosenCell.XPos,
                     Y = ChosenCell.YPos

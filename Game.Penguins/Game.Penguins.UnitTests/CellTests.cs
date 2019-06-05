@@ -7,6 +7,7 @@ namespace Game.Penguins.AI.UnitTests
     [TestClass]
     public class CellTests
     {
+        //TEST CELL CREATION - CORRECT
         [TestMethod]
         public void CellCreation()
         {
