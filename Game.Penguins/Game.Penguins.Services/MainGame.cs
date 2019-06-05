@@ -45,7 +45,7 @@ namespace Game.Penguins.Services
         /// The board is made out of hexagones
         /// 0,0 is on the top left and
         /// 7,7 is on the bottom right.
-        /// THE X AND Y ARE INVERSED
+        /// THE y AND x ARE INVERSED
         /// </summary>
         public MainGame()
         {
@@ -194,7 +194,7 @@ namespace Game.Penguins.Services
         #region Placement
 
         /// <summary>
-        /// Places the penguins on the board whit an X and Y parameter
+        /// Places the penguins on the board whit an y and x parameter
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -233,7 +233,7 @@ namespace Game.Penguins.Services
                 case PlayerType.AIEasy:
                     {
                         Coordinates pos = _aiEasy.PlacementPenguin();
-                        PlacePenguinManual(pos.X, pos.Y);
+                        PlacePenguinManual(pos.Y, pos.X);
                         break;
                     }
 
@@ -262,6 +262,7 @@ namespace Game.Penguins.Services
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
             Cell originCell = (Cell)origin;
             Cell destinationCell = (Cell)destination;
+
 
             if (destinationCell.CellType == CellType.Fish) //the destination must have at least one fish on it
             {
