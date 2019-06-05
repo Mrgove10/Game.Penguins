@@ -35,6 +35,7 @@ namespace Game.Penguins.Services
 
         //verifies if a cell has other cells around it or not 
         private readonly IsolationVerificationHelper _isolationHelper;
+        private readonly EndGameHelper _endGameHelper;
 
         #endregion Declarations
 
@@ -280,10 +281,8 @@ namespace Game.Penguins.Services
             //preparing for next player's turn
             CalculateCurrentPlayerNumber();
             WhatIsNextTurn();
-
             //verifying if the game is over yet
-            VerifyEndGame();
-
+            _endGameHelper.VerifyEndGame(NextAction, Players);
             _isolationHelper.VerifyIsolation(destinationCell); //deletes the penguin and the cell
             StateChanged?.Invoke(this, null);
         }
@@ -346,7 +345,7 @@ namespace Game.Penguins.Services
             //TODO si penguin == 0;
             foreach (IPlayer player in Players)
             {
-                if (player.Penguins > 0) 
+                if (player.Penguins > 0)
                 {
                     playerAlive += 1;
                 }
@@ -358,6 +357,8 @@ namespace Game.Penguins.Services
                 NextAction = NextActionType.Nothing;
                 _log.Debug(" -- FIN DU JEU -- ");
             }
+
+            //Next actionType == nothing
         }
     }
 }
