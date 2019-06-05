@@ -1,4 +1,5 @@
 using Common.Logging;
+using Game.Penguins.AI.Easy.Code;
 using Game.Penguins.Core.Code.GameBoard;
 using Game.Penguins.Core.Code.Helper;
 using Game.Penguins.Core.Code.Interfaces;
@@ -8,7 +9,6 @@ using Game.Penguins.Core.Interfaces.Game.GameBoard;
 using Game.Penguins.Core.Interfaces.Game.Players;
 using System;
 using System.Collections.Generic;
-using Game.Penguins.AI.Easy.Code;
 
 namespace Game.Penguins.Services
 {
@@ -175,6 +175,8 @@ namespace Game.Penguins.Services
             }
         }
 
+        #region Placement
+
         /// <summary>
         /// Places the penguins on the board whit an X and Y parameter
         /// </summary>
@@ -227,6 +229,10 @@ namespace Game.Penguins.Services
             StateChanged?.Invoke(this, null);
         }
 
+        #endregion Placement
+
+        #region Mouvement
+
         /// <summary>
         /// Moves the penguin
         /// </summary>
@@ -265,9 +271,11 @@ namespace Game.Penguins.Services
             {
                 _log.Debug("You can not move to that cell");
             }
-
-            _isolationHelper.VerifyIsolation(destinationCell); //deletes the penguin and the cell
+            CalculateCurrentPlayerNumber();
+            WhatIsNextTurn();
             VerifyEndGame();
+            _isolationHelper.VerifyIsolation(destinationCell); //deletes the penguin and the cell
+            StateChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -289,7 +297,7 @@ namespace Game.Penguins.Services
                         if (_isolationHelper.VerifyIsolation(originCell))
                         {
                             //in this case then penguin is isolated
-                            currentPlayer.Penguins --; //decreases the number of penguins for this player
+                            currentPlayer.Penguins--; //decreases the number of penguins for this player
                             originCell.CurrentPenguin = null;
                             originCell.CellType = CellType.Water;
                             _log.Warn("penguin at " + originCell.XPos + " - " + originCell.YPos + "is isolated");
@@ -315,6 +323,8 @@ namespace Game.Penguins.Services
                     break;
             }
         }
+
+        #endregion Mouvement
 
         /// <summary>
         /// Verifies end game
