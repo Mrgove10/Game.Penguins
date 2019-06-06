@@ -334,7 +334,7 @@ namespace Game.Penguins.Services
                     Penguin penguinToMove = ((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
                     Coordinates chosenCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos); //destination cell
 
-                    if (chosenCell == null)//a  player can not move anymore, end of game for him
+                    if (chosenCell == null)//a player can not move anymore, end of game for him
                     {
                         throw new Exception("shit went down");
                        /* if (_isolationHelper.VerifyIsolation(originCell))
