@@ -264,70 +264,68 @@ namespace Game.Penguins.Services
         /// <param name="destination"></param>
         public void MoveManual(ICell origin, ICell destination)
         {
+
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
+           
+            //var possibleCells = _movementHelper.WhereCanIMove((Cell)origin); TODO : verif movement
 
-             var possibleCells = _movementHelper.WhereCanIMove((Cell)origin);
-
-                if (possibleCells.Contains((Cell)destination))
+            //if (possibleCells.Contains((Cell)destination))
+            //{
+                if (destination.CellType == CellType.Fish) //the destination must have at least one fish on it and be on the list of eligible cells
                 {
-                    if (destination.CellType == CellType.Fish) //the destination must have at least one fish on it
+                    if (origin != destination) //the destination cell should not be the origin cell
                     {
-                        if (origin != destination) //the destination cell should not be the origin cell
+                        if (CurrentPlayer == origin.CurrentPenguin.Player) //the current player must be the one on the origin cell
                         {
-                            if (CurrentPlayer == origin.CurrentPenguin.Player) //the current player must be the one on the origin cell
-                            {
-                                _log.Debug("initial cell : " + ((Cell)origin).XPos + ":" + ((Cell)origin).YPos);
-                                _log.Debug("Destination cell : " + ((Cell)destination).XPos + ":" + ((Cell)destination).YPos);
-                                _pointManager.UpdatePlayerPoints(CurrentPlayer, ((Cell)origin).FishCount); // the number of fish on the origin cell is added to the current player's score as he moves
-                                ((Cell)destination).CellType = CellType.FishWithPenguin; // the destination cell becomes a "Fish + Penguin" type cell
-                                ((Cell)destination).CurrentPenguin = ((Cell)origin).CurrentPenguin; //the penguin moves //todo : probleme here
-                                Penguin p = (Penguin)destination.CurrentPenguin; //penguin at the destination
-                                p.XPos = ((Cell)destination).XPos;
-                                p.YPos = ((Cell)destination).YPos; //correct the position of the penguin
-                                ((Cell)origin).DeleteCell(); //the origin cell is removed
+                            _log.Debug("initial cell : " + ((Cell)origin).XPos + ":" + ((Cell)origin).YPos);
+                            _log.Debug("Destination cell : " + ((Cell)destination).XPos + ":" + ((Cell)destination).YPos);
+                            _pointManager.UpdatePlayerPoints(CurrentPlayer, ((Cell)origin).FishCount); // the number of fish on the origin cell is added to the current player's score as he moves
+                            ((Cell)destination).CellType = CellType.FishWithPenguin; // the destination cell becomes a "Fish + Penguin" type cell
+                            ((Cell)destination).CurrentPenguin = ((Cell)origin).CurrentPenguin; //the penguin moves //todo : probleme here
+                            Penguin p = (Penguin)destination.CurrentPenguin; //penguin at the destination
+                            p.XPos = ((Cell)destination).XPos;
+                            p.YPos = ((Cell)destination).YPos; //correct the position of the penguin
+                            ((Cell)origin).DeleteCell(); //the origin cell is removed
 
-                                StateChanged?.Invoke(this, null); //board update
-                            }
-                            else
-                            {
-                                _log.Debug("This is not the penguin of the player"); //if the current player tries to move from the wrong cell
-                            }
+                            StateChanged?.Invoke(this, null); //board update
                         }
                         else
                         {
-                            _log.Debug("Origin cell can not be the same as the destination cell"); //if the current player selects his origin cell to move to
+                            _log.Debug("This is not the penguin of the player"); //if the current player tries to move from the wrong cell
                         }
                     }
                     else
                     {
-                        _log.Debug("You can not move to that cell"); //if the destination cell is not eligible
+                        _log.Debug("Origin cell can not be the same as the destination cell"); //if the current player selects his origin cell to move to
                     }
                 }
-                else{
-                    _log.Debug("NYEH");
+                else
+                {
+                    _log.Debug("You can not move to that cell"); //if the destination cell is not eligible
                 }
-            
-         
+                //preparing for next player's turn
+                CalculateCurrentPlayerNumber();
+                WhatIsNextTurn();
+                //verifying if the game is over yet
+                _endGameHelper.VerifyEndGame(NextAction, Players);
+                //verifying if the penguin is isolated
+                _isolationHelper.VerifyIsolation((Cell)destination); //deletes the penguin and the cell
 
-           
+                StateChanged?.Invoke(this, null);
 
-            //preparing for next player's turn
-            CalculateCurrentPlayerNumber();
-            WhatIsNextTurn();
-            //verifying if the game is over yet
-            _endGameHelper.VerifyEndGame(NextAction, Players);
-            //verifying if the penguin is isolated
-            _isolationHelper.VerifyIsolation((Cell)destination); //deletes the penguin and the cell
+           // }
+           // else
+            //{
+             //   _log.Debug("NAH");
 
-            StateChanged?.Invoke(this, null);
+            //}          
         }
 
         /// <summary>
         /// Execute a move for an AI
         /// </summary>
         public void Move()
-        {
-            switch (CurrentPlayer.PlayerType)
+        {            switch (CurrentPlayer.PlayerType)
             {
                 case PlayerType.AIEasy:
                     //Easy AI movement
