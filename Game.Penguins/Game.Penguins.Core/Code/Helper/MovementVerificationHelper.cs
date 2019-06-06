@@ -133,21 +133,28 @@ namespace Game.Penguins.Core.Code.Helper
             if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= _gameBoard.Board.GetUpperBound(0) && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= _gameBoard.Board.GetUpperBound(0))
             {
                 Cell nextCell = (Cell)_gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
-
-                if (nextCell.CellType == CellType.Fish)
+                if (nextCell != originCell)
                 {
-                    _log.Debug("Adding cell " + nextCell.XPos + "|" + nextCell.YPos);
-                    possibleCells.Add(nextCell);
-                    possibleCells.AddRange(VerifyMovementv2(nextCell, dir)); //recursive function
+                    if (nextCell.CellType == CellType.Fish)
+                    {
+                        _log.Debug("Adding cell " + nextCell.XPos + "|" + nextCell.YPos);
+                        possibleCells.Add(nextCell);
+                        possibleCells.AddRange(VerifyMovementv2(nextCell, dir)); //recursive function
+                                                                                 //todo : in this state it means ( i think) that the penguin can "enjambe" another penguin
+                    }
+                    else
+                    {
+                        _log.Warn("Not valid cell");
+                    }
                 }
                 else
                 {
-                    _log.Debug("Not valid cell");
+                    _log.Warn("this is the same cell as the origin cell");
                 }
             }
             else
             {
-                _log.Debug("cell is out of range");
+                _log.Warn("cell is out of range");
             }
             return possibleCells;
         }
