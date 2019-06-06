@@ -61,6 +61,13 @@ namespace Game.Penguins.Core.Code.GameBoard
             }
         }
 
+        /// <summary>
+        /// Cell constructor
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="numberOfFish"></param>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
         public Cell(CellType type, int numberOfFish, int posX, int posY)
         {
             CellType = type;
@@ -68,6 +75,14 @@ namespace Game.Penguins.Core.Code.GameBoard
             YPos = posY;
         }
 
+        /// <summary>
+        /// Empty cell contructor
+        /// </summary>
+        public Cell(){}
+
+        /// <summary>
+        /// Deletes the cell by setting all its values to zero
+        /// </summary>
         public void DeleteCell()
         {
             CurrentPenguin = null;
