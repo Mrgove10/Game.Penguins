@@ -18,7 +18,7 @@ namespace Game.Penguins.Core.Code.Helper
             _log.Debug("Current player has " + player.Points + " adding  " + pointToAdd);
             Player cp = (Player)player;
             cp.Points += pointToAdd; //adds the points to the current player score
-            _log.Debug("Player now has" + player.Points);
+            _log.Debug("Player now has " + player.Points);
         }
     }
 }

@@ -16,24 +16,34 @@ namespace Game.Penguins.Core.Code.Helper
         {
             _gameBoard = gb;
         }
-
-        public List<Cell> WhereCanIMove(Cell originCell)
+        /// <summary>
+        /// Calculates the possible Cells to move to from a certain possition
+        /// </summary>
+        /// <param name="TheOriginalCell">The original cell you want to calculate the posibilities from</param>
+        /// <returns>A list of all the possible cells the player can move to relative to teh origine cell</returns>
+        public List<Cell> WhereCanIMove(Cell TheOriginalCell)
         {
-            int x = originCell.XPos;
-            int y = originCell.YPos;
+            int x = TheOriginalCell.XPos;
+            int y = TheOriginalCell.YPos;
             List<Cell> possibleCells = new List<Cell>();
 
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Left)); //left movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopLeft)); //left top movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.TopRight)); //right top movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.Right)); //right movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomRight)); //right bottom movement
-            possibleCells.AddRange(VerifyMovementv2(originCell, Direction.BottomLeft)); //left bottom movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Left)); //left movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopLeft)); //left top movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopRight)); //right top movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Right)); //right movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomRight)); //right bottom movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomLeft)); //left bottom movement
 
             _log.Debug("total possible movement cells = " + possibleCells.Count);
             return possibleCells;
         }
 
+        /// <summary>
+        /// Verrifies the celll possible to move to 
+        /// </summary>
+        /// <param name="originCell"></param>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         public List<Cell> VerifyMovementv2(Cell originCell, Direction dir)
         {
             List<Cell> possibleCells = new List<Cell>();
@@ -41,7 +51,7 @@ namespace Game.Penguins.Core.Code.Helper
             int xMove = 0;
             int yMove = 0;
 
-            if (originCell.XPos % 2 == 0)//means this is even (pair) in the Y axis
+            if (originCell.XPos % 2 == 0) //means this is even (pair) in the Y axis
             {
                 switch (dir)
                 {
@@ -129,30 +139,45 @@ namespace Game.Penguins.Core.Code.Helper
                         throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
                 }
             }
+
             // if the next move is still in the board
-            if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= _gameBoard.Board.GetUpperBound(0) && originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= _gameBoard.Board.GetUpperBound(0))
+            if (originCell.XPos + xMove >= 0 && originCell.XPos + xMove <= _gameBoard.Board.GetUpperBound(0) &&
+                originCell.YPos + yMove >= 0 && originCell.YPos + yMove <= _gameBoard.Board.GetUpperBound(0))
             {
                 Cell nextCell = (Cell)_gameBoard.Board[originCell.XPos + xMove, originCell.YPos + yMove];
-
-                if (nextCell.CellType == CellType.Fish)
+                if (nextCell != originCell)
                 {
-                    _log.Debug("Adding cell " + nextCell.XPos + "|" + nextCell.YPos);
-                    possibleCells.Add(nextCell);
-                    possibleCells.AddRange(VerifyMovementv2(nextCell, dir)); //recursive function
+                    if (nextCell.CellType != CellType.Fish)
+                    {
+                        //log.Debug("stopping to add cells");
+                       // possibleCells.Add(null);
+                        //VerifyMovementv2(nextCell, dir);
+                        // //todo : not possible to return null (cause recurtion)
+                    }
+                    else
+                    {
+                        _log.Debug("Adding cell");
+                        possibleCells.Add(nextCell);
+                        possibleCells.AddRange(VerifyMovementv2(nextCell, dir)); //recursive function
+                    }
                 }
                 else
                 {
-                    _log.Debug("Not valid cell");
+                    _log.Warn("this is the same cell as the origin cell");
                 }
             }
             else
             {
-                _log.Debug("cell is out of range");
+                _log.Warn("cell is out of range");
             }
+
             return possibleCells;
         }
     }
 
+    /// <summary>
+    /// Direction possible by the player
+    /// </summary>
     public enum Direction
     {
         Right,
