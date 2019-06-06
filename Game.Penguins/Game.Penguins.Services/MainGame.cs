@@ -301,7 +301,11 @@ namespace Game.Penguins.Services
             WhatIsNextTurn();
             //verifying if the game is over yet
             _endGameHelper.VerifyEndGame(NextAction, Players);
-            _isolationHelper.VerifyIsolation((Cell)destination); //deletes the penguin and the cell
+            if (_isolationHelper.VerifyIsolation((Cell)destination) == false)
+            {
+                throw new Exception("LE PENGUIN EST ISOLE MSKN");
+                //deletes the penguin and the cell
+            }
             StateChanged?.Invoke(this, null);
         }
 
@@ -319,17 +323,10 @@ namespace Game.Penguins.Services
 
                     if (chosenCell == null)//a  player can not move anymore, end of game for him
                     {
-                        throw new Exception("shit when down");
-                       /* if (_isolationHelper.VerifyIsolation(originCell))
-                        {
-                            //in this case the penguin is isolated
-                            currentPlayer.Penguins--; //decreases the number of penguins for this player
-                            //originCell.CurrentPenguin = null; //the cell doesn't have a penguin anymore
-                            //originCell.CellType = CellType.Water; //the cell becomes water
-                            //originCell.DeleteCell();
-                            _log.Warn("penguin at " + originCell.XPos + " - " + originCell.YPos + "is isolated");
-                        }*/
-                    }
+                        Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
+
+                        _isolationHelper.VerifyIsolation(originCell);
+                    } 
                     else
                     {
                         Cell destinationCell = (Cell)Board.Board[chosenCell.Y, chosenCell.X];
