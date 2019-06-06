@@ -73,22 +73,19 @@ namespace Game.Penguins.AI.Easy.Code
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posY, posX]); //searches for an eligible cell to move to
             if (possibleCells.Any()) //...if there's any, it is immediately choosen...
             {
-                bool found = false;
-                Cell chosenCell = null;
-                while (!found)
+                while (true)
                 {
-                    chosenCell = possibleCells[new Random().Next(possibleCells.Count)];
-                    if (chosenCell != null)
+                    Cell chosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                    if (chosenCell.CellType == CellType.Fish)
                     {
-                        found = true;
+                        Console.WriteLine("xgfcvhb,jhvgcfxdgjchvb; bhjvgcythgvcftygcvnbjgbjkihygfvchbjgfvbcnhjkuygfcv");
+                        return new Coordinates() //...and its coordinates replace the origin cell's coordinates.
+                        {
+                            X = chosenCell.XPos,
+                            Y = chosenCell.YPos
+                        };
                     }
                 }
-                return new Coordinates() //...and its coordinates replace the origin cell's coordinates.
-                {
-                    X = chosenCell.XPos,
-                    Y = chosenCell.YPos
-                };
-
             }
             else
             {
