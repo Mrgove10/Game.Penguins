@@ -20,5 +20,11 @@ namespace Game.Penguins.UnitTests
 
             Assert.IsTrue(gb.Board.Length == 4);
         }
+
+        //TODO : comment
+        [TestMethod]
+        public void GbCreationFalse() {
+            Plateau gbFalse = new Plateau(4, 4);
+                Assert.IsFalse(gbFalse.Board.Length == 4);                    }
     }
 }
