@@ -5,7 +5,7 @@ namespace Game.Penguins.Core.Code.Helper
 {
     public class IsolationVerificationHelper
     {
-        private bool _isolated = false;
+        private bool _isolated = true;
         private readonly IBoard _gameBoard = null;
 
         public IsolationVerificationHelper(IBoard gb)
@@ -15,6 +15,7 @@ namespace Game.Penguins.Core.Code.Helper
 
         public bool VerifyIsolation(Cell originCell)
         {
+
             int x = originCell.XPos;
             int y = originCell.YPos;
 
@@ -43,12 +44,12 @@ namespace Game.Penguins.Core.Code.Helper
         public void VerifyCells(Cell originCell, int xMove, int yMove)
         {
             Cell testedCell = originCell;
-            originCell.XPos += xMove;
-            originCell.YPos += yMove;
+            testedCell.XPos += xMove;
+            testedCell.YPos += yMove;
 
             if (testedCell.CellType == CellType.Fish)
             {
-                _isolated = true;
+                _isolated = false;
             }
         }
     }
