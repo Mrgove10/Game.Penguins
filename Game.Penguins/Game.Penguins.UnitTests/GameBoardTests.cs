@@ -1,4 +1,3 @@
-using System;
 using Game.Penguins.Core.Code.GameBoard;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,8 +22,10 @@ namespace Game.Penguins.UnitTests
 
         //TODO : comment
         [TestMethod]
-        public void GbCreationFalse() {
+        public void GbCreationFalse()
+        {
             Plateau gbFalse = new Plateau(4, 4);
-                Assert.IsFalse(gbFalse.Board.Length == 4);                    }
+            Assert.IsFalse(gbFalse.Board.Length == 4);
+        }
     }
 }

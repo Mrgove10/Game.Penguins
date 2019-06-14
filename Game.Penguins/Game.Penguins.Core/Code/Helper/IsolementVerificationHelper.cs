@@ -15,7 +15,6 @@ namespace Game.Penguins.Core.Code.Helper
 
         public bool VerifyIsolation(Cell originCell)
         {
-
             int x = originCell.XPos;
             int y = originCell.YPos;
 

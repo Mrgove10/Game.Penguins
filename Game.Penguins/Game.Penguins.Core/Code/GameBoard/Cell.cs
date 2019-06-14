@@ -78,7 +78,7 @@ namespace Game.Penguins.Core.Code.GameBoard
         /// <summary>
         /// Empty cell contructor
         /// </summary>
-        public Cell(){}
+        public Cell() { }
 
         /// <summary>
         /// Deletes the cell by setting all its values to zero

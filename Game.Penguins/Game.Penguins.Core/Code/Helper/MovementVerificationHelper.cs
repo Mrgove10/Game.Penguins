@@ -16,6 +16,7 @@ namespace Game.Penguins.Core.Code.Helper
         {
             _gameBoard = gb;
         }
+
         /// <summary>
         /// Calculates the possible Cells to move to from a certain possition
         /// </summary>
@@ -39,7 +40,7 @@ namespace Game.Penguins.Core.Code.Helper
         }
 
         /// <summary>
-        /// Verrifies the celll possible to move to 
+        /// Verrifies the celll possible to move to
         /// </summary>
         /// <param name="originCell"></param>
         /// <param name="dir"></param>
@@ -150,7 +151,7 @@ namespace Game.Penguins.Core.Code.Helper
                     if (nextCell.CellType != CellType.Fish)
                     {
                         //log.Debug("stopping to add cells");
-                       // possibleCells.Add(null);
+                        // possibleCells.Add(null);
                         //VerifyMovementv2(nextCell, dir);
                         // //todo : not possible to return null (cause recurtion)
                     }
