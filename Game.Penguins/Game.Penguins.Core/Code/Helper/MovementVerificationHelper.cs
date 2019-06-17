@@ -28,13 +28,13 @@ namespace Game.Penguins.Core.Code.Helper
             int y = TheOriginalCell.YPos;
             List<ICell> possibleCells = new List<ICell>();
 
-            possibleCells.AddRange(GetAvailableCells(_gameBoard.Board,TheOriginalCell));
-           /* possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Left)); //left movement
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopLeft)); //left top movement
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopRight)); //right top movement
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Right)); //right movement
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomRight)); //right bottom movement
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomLeft)); //left bottom movement*/
+            possibleCells.AddRange(GetAvailableCells(_gameBoard.Board, TheOriginalCell));
+            /* possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Left)); //left movement
+             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopLeft)); //left top movement
+             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopRight)); //right top movement
+             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Right)); //right movement
+             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomRight)); //right bottom movement
+             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomLeft)); //left bottom movement*/
 
             _log.Debug("total possible movement cells = " + possibleCells.Count);
             return possibleCells;
@@ -198,12 +198,14 @@ namespace Game.Penguins.Core.Code.Helper
                         destination = board[origin.XPos - 1, origin.YPos];
                     }
                     break;
+
                 case Direction.Right:
                     if (origin.XPos < 7)
                     {
                         destination = board[origin.XPos + 1, origin.YPos];
                     }
                     break;
+
                 case Direction.TopLeft:
                     xDest = (origin.YPos % 2 == 0) ? origin.XPos - 1 : origin.XPos;
                     if (xDest >= 0 && origin.YPos > 0)
@@ -211,6 +213,7 @@ namespace Game.Penguins.Core.Code.Helper
                         destination = board[xDest, origin.YPos - 1];
                     }
                     break;
+
                 case Direction.TopRight:
                     xDest = (origin.YPos % 2 == 0) ? origin.XPos : origin.XPos + 1;
                     if (xDest < 8 && origin.YPos > 0)
@@ -218,6 +221,7 @@ namespace Game.Penguins.Core.Code.Helper
                         destination = board[xDest, origin.YPos - 1];
                     }
                     break;
+
                 case Direction.BottomLeft:
                     xDest = (origin.YPos % 2 == 0) ? origin.XPos - 1 : origin.XPos;
                     if (xDest >= 0 && origin.YPos < 7)
@@ -225,6 +229,7 @@ namespace Game.Penguins.Core.Code.Helper
                         destination = board[xDest, origin.YPos + 1];
                     }
                     break;
+
                 case Direction.BottomRight:
                     xDest = (origin.YPos % 2 == 0) ? origin.XPos : origin.XPos + 1;
                     if (xDest < 8 && origin.YPos < 7)
@@ -245,7 +250,7 @@ namespace Game.Penguins.Core.Code.Helper
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="board"></param>
         /// <param name="origin"></param>
@@ -255,15 +260,11 @@ namespace Game.Penguins.Core.Code.Helper
             var result = new List<ICell>();
 
             for (int i = 0; i <= 5; i++)
-                result.AddRange(GetAvailableCells(board,origin, (Direction)i, true));
+                result.AddRange(GetAvailableCells(board, origin, (Direction)i, true));
 
             return result;
         }
-
-  
     }
-
-
 
     /// <summary>
     /// Direction possible by the player
