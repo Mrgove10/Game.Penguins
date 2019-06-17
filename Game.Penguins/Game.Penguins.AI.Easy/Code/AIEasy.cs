@@ -70,15 +70,14 @@ namespace Game.Penguins.AI.Easy.Code
         /// <param name="posY"></param>
         public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
-            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posY, posX]); //searches for an eligible cell to move to
+            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]); //searches for an eligible cell to move to
             if (possibleCells.Any()) //...if there's any, it is immediately choosen...
             {
                 while (true)
                 {
-                    Cell chosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                    Cell chosenCell = (Cell)possibleCells[new Random().Next(possibleCells.Count)];
                     if (chosenCell.CellType == CellType.Fish)
                     {
-                        Console.WriteLine("xgfcvhb,jhvgcfxdgjchvb; bhjvgcythgvcftygcvnbjgbjkihygfvchbjgfvbcnhjkuygfcv");
                         return new Coordinates() //...and its coordinates replace the origin cell's coordinates.
                         {
                             X = chosenCell.XPos,

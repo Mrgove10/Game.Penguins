@@ -30,16 +30,5 @@ namespace Game.Penguins.AI.UnitTests
             Cell cell = new Cell(CellType.Fish, 3);
             Assert.IsFalse(cell.FishCount == 2);
         }
-
-        [TestMethod]
-        public void DeleteCellTrue()
-        {
-            Cell cell = new Cell(CellType.Fish, 3);
-            cell.DeleteCell();
-           Assert.IsTrue(cell == null);
-        }
-
-
-
     }
 }

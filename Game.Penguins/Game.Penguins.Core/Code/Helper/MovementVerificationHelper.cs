@@ -16,30 +16,32 @@ namespace Game.Penguins.Core.Code.Helper
         {
             _gameBoard = gb;
         }
+
         /// <summary>
         /// Calculates the possible Cells to move to from a certain possition
         /// </summary>
         /// <param name="TheOriginalCell">The original cell you want to calculate the posibilities from</param>
         /// <returns>A list of all the possible cells the player can move to relative to teh origine cell</returns>
-        public List<Cell> WhereCanIMove(Cell TheOriginalCell)
+        public List<ICell> WhereCanIMove(Cell TheOriginalCell)
         {
             int x = TheOriginalCell.XPos;
             int y = TheOriginalCell.YPos;
-            List<Cell> possibleCells = new List<Cell>();
+            List<ICell> possibleCells = new List<ICell>();
 
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Left)); //left movement
+            possibleCells.AddRange(GetAvailableCells(_gameBoard.Board,TheOriginalCell));
+           /* possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Left)); //left movement
             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopLeft)); //left top movement
             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.TopRight)); //right top movement
             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.Right)); //right movement
             possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomRight)); //right bottom movement
-            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomLeft)); //left bottom movement
+            possibleCells.AddRange(VerifyMovementv2(TheOriginalCell, Direction.BottomLeft)); //left bottom movement*/
 
             _log.Debug("total possible movement cells = " + possibleCells.Count);
             return possibleCells;
         }
 
         /// <summary>
-        /// Verrifies the celll possible to move to 
+        /// Verrifies the celll possible to move to
         /// </summary>
         /// <param name="originCell"></param>
         /// <param name="dir"></param>
@@ -150,7 +152,7 @@ namespace Game.Penguins.Core.Code.Helper
                     if (nextCell.CellType != CellType.Fish)
                     {
                         //log.Debug("stopping to add cells");
-                       // possibleCells.Add(null);
+                        // possibleCells.Add(null);
                         //VerifyMovementv2(nextCell, dir);
                         // //todo : not possible to return null (cause recurtion)
                     }
@@ -173,7 +175,95 @@ namespace Game.Penguins.Core.Code.Helper
 
             return possibleCells;
         }
+
+        /// <summary>
+        /// Returns all available cell for a penguins from an origin cell
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="origin"></param>
+        /// <param name="direction"></param>
+        /// <param name="searchChilds"></param>
+        /// <returns></returns>
+        public static IList<ICell> GetAvailableCells(ICell[,] board, Cell origin, Direction direction, bool searchChilds)
+        {
+            var result = new List<ICell>();
+
+            ICell destination = null;
+            int xDest = 0;
+            switch (direction)
+            {
+                case Direction.Left:
+                    if (origin.XPos > 0)
+                    {
+                        destination = board[origin.XPos - 1, origin.YPos];
+                    }
+                    break;
+                case Direction.Right:
+                    if (origin.XPos < 7)
+                    {
+                        destination = board[origin.XPos + 1, origin.YPos];
+                    }
+                    break;
+                case Direction.TopLeft:
+                    xDest = (origin.YPos % 2 == 0) ? origin.XPos - 1 : origin.XPos;
+                    if (xDest >= 0 && origin.YPos > 0)
+                    {
+                        destination = board[xDest, origin.YPos - 1];
+                    }
+                    break;
+                case Direction.TopRight:
+                    xDest = (origin.YPos % 2 == 0) ? origin.XPos : origin.XPos + 1;
+                    if (xDest < 8 && origin.YPos > 0)
+                    {
+                        destination = board[xDest, origin.YPos - 1];
+                    }
+                    break;
+                case Direction.BottomLeft:
+                    xDest = (origin.YPos % 2 == 0) ? origin.XPos - 1 : origin.XPos;
+                    if (xDest >= 0 && origin.YPos < 7)
+                    {
+                        destination = board[xDest, origin.YPos + 1];
+                    }
+                    break;
+                case Direction.BottomRight:
+                    xDest = (origin.YPos % 2 == 0) ? origin.XPos : origin.XPos + 1;
+                    if (xDest < 8 && origin.YPos < 7)
+                    {
+                        destination = board[xDest, origin.YPos + 1];
+                    }
+                    break;
+            }
+
+            if (destination != null && destination.CellType == CellType.Fish)
+            {
+                result.Add(destination);
+                if (searchChilds)
+                    result.AddRange(GetAvailableCells(board, (Cell)destination, direction, searchChilds));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="origin"></param>
+        /// <returns></returns>
+        public static IList<ICell> GetAvailableCells(ICell[,] board, Cell origin)
+        {
+            var result = new List<ICell>();
+
+            for (int i = 0; i <= 5; i++)
+                result.AddRange(GetAvailableCells(board,origin, (Direction)i, true));
+
+            return result;
+        }
+
+  
     }
+
+
 
     /// <summary>
     /// Direction possible by the player

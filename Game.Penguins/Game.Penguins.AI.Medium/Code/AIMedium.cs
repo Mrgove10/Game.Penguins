@@ -70,7 +70,7 @@ namespace Game.Penguins.AI.Medium.Code
             var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]);
             if (possibleCells.Any())
             {
-                var chosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                var chosenCell = (Cell)possibleCells[new Random().Next(possibleCells.Count)];
                 return new Coordinates()
                 {
                     X = chosenCell.XPos,

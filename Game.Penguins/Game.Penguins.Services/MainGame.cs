@@ -48,7 +48,6 @@ namespace Game.Penguins.Services
         /// The board is made out of hexagones
         /// 0,0 is on the top left and
         /// 7,7 is on the bottom right.
-        /// THE X AND Y ARE INVERSED
         /// </summary>
         public MainGame()
         {
@@ -182,7 +181,7 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    _penguinsPerPlayer = 1;//4 penguins per player
+                    _penguinsPerPlayer = 4;//4 penguins per player
                     break;
 
                 case 3:
@@ -238,12 +237,12 @@ namespace Game.Penguins.Services
             {
                 case PlayerType.AIEasy: //Easy difficulty AI
                     Coordinates posEasy = _aiEasy.PlacementPenguin();
-                    PlacePenguinManual(posEasy.Y, posEasy.X);
+                    PlacePenguinManual(posEasy.X, posEasy.Y);
                     break;
 
                 case PlayerType.AIMedium: //Medium difficulty AI
                     Coordinates posMedium = _aiMedium.PlacementPenguin();
-                    PlacePenguinManual(posMedium.Y, posMedium.X);
+                    PlacePenguinManual(posMedium.X, posMedium.Y);
                     break;
 
                 case PlayerType.AIHard:
@@ -266,10 +265,6 @@ namespace Game.Penguins.Services
         {
             _log.Debug("Player " + CurrentPlayer.Name + " wants to move from [" + ((Cell)origin).XPos + "|" + ((Cell)origin).YPos + "] to [" + ((Cell)destination).XPos + "|" + ((Cell)destination).YPos + "]");
 
-            //var possibleCells = _movementHelper.WhereCanIMove((Cell)origin); TODO : verif movement
-
-            //if (possibleCells.Contains((Cell)destination))
-            //{
             if (destination.CellType == CellType.Fish) //the destination must have at least one fish on it and be on the list of eligible cells
             {
                 if (origin != destination) //the destination cell should not be the origin cell
@@ -294,8 +289,6 @@ namespace Game.Penguins.Services
                         //verifying if the penguin is isolated
                         _isolationHelper.VerifyIsolation((Cell)destination); //deletes the penguin and the cell
 
-                        //   StateChanged?.Invoke(this, null);
-
                         StateChanged?.Invoke(this, null); //board update
                     }
                     else
@@ -312,13 +305,6 @@ namespace Game.Penguins.Services
             {
                 _log.Debug("You can not move to that cell"); //if the destination cell is not eligible
             }
-
-            // }
-            // else
-            //{
-            //   _log.Debug("NAH");
-
-            //}
         }
 
         /// <summary>
@@ -330,29 +316,37 @@ namespace Game.Penguins.Services
             {
                 case PlayerType.AIEasy:
                     //Easy AI movement
-                    Penguin penguinToMove = ((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
-                    Coordinates chosenCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos); //destination cell
+                    if (((Player)CurrentPlayer).ListPenguins.Count > 0)
+                    {
+                        Penguin penguinToMove =((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
 
-                    if (chosenCell == null)//a player can not move anymore, end of game for him
-                    {
-                        throw new Exception("shit went down");
-                        /* if (_isolationHelper.VerifyIsolation(originCell))
-                         {
-                             //in this case the penguin is isolated
-                             currentPlayer.Penguins--; //decreases the number of penguins for this player
-                             //originCell.CurrentPenguin = null; //the cell doesn't have a penguin anymore
-                             //originCell.CellType = CellType.Water; //the cell becomes water
-                             //originCell.DeleteCell();
-                             _log.Warn("penguin at " + originCell.XPos + " - " + originCell.YPos + "is isolated");
-                         }*/
+                        Coordinates chosenCell =_aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos,penguinToMove.YPos); //destination cell
+                        Cell OriginCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];//origin cell
+                        if (chosenCell == null) //a player can not move anymore, end of game for him
+                        {
+                            _pointManager.UpdatePlayerPoints(CurrentPlayer, OriginCell.FishCount);
+                            ((Player)CurrentPlayer).ListPenguins.Remove(
+                                ((Player)CurrentPlayer).ListPenguins.Find(x =>
+                                   x.XPos == OriginCell.XPos && x.YPos == OriginCell.YPos));
+                            if (((Player) CurrentPlayer).ListPenguins.Count == 0)
+                            {
+                               Players.RemoveAt(_currentPlayerNumber);
+                            }
+                            OriginCell.DeleteCell();
+                            CalculateCurrentPlayerNumber();
+                            WhatIsNextTurn();
+                            _endGameHelper.VerifyEndGame(NextAction, Players);
+                        }
+                        else
+                        {
+                            Cell destinationCell = (Cell)Board.Board[chosenCell.X, chosenCell.Y];
+                            Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
+                            //gets the destination cell and moves the penguin
+                            MoveManual(originCell, destinationCell);
+                        }
                     }
-                    else
-                    {
-                        Cell destinationCell = (Cell)Board.Board[chosenCell.Y, chosenCell.X];
-                        Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
-                        //gets the destination cell and moves the penguin
-                        MoveManual(originCell, destinationCell);
-                    }
+                    StateChanged?.Invoke(this, null);
+
                     break;
 
                 case PlayerType.AIMedium:
