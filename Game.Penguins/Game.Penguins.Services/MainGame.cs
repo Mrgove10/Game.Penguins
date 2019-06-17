@@ -275,7 +275,7 @@ namespace Game.Penguins.Services
                         _log.Debug("Destination cell : " + ((Cell)destination).XPos + ":" + ((Cell)destination).YPos);
                         _pointManager.UpdatePlayerPoints(CurrentPlayer, ((Cell)origin).FishCount); // the number of fish on the origin cell is added to the current player's score as he moves
                         ((Cell)destination).CellType = CellType.FishWithPenguin; // the destination cell becomes a "Fish + Penguin" type cell
-                        ((Cell)destination).CurrentPenguin = ((Cell)origin).CurrentPenguin; //the penguin moves //todo : probleme here
+                        ((Cell)destination).CurrentPenguin = ((Cell)origin).CurrentPenguin; //the penguin moves
                         Penguin p = (Penguin)destination.CurrentPenguin; //penguin at the destination
                         p.XPos = ((Cell)destination).XPos;
                         p.YPos = ((Cell)destination).YPos; //correct the position of the penguin
@@ -318,9 +318,9 @@ namespace Game.Penguins.Services
                     //Easy AI movement
                     if (((Player)CurrentPlayer).ListPenguins.Count > 0)
                     {
-                        Penguin penguinToMove =((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
+                        Penguin penguinToMove = ((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
 
-                        Coordinates chosenCell =_aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos,penguinToMove.YPos); //destination cell
+                        Coordinates chosenCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos); //destination cell
                         Cell OriginCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];//origin cell
                         if (chosenCell == null) //a player can not move anymore, end of game for him
                         {
@@ -328,9 +328,9 @@ namespace Game.Penguins.Services
                             ((Player)CurrentPlayer).ListPenguins.Remove(
                                 ((Player)CurrentPlayer).ListPenguins.Find(x =>
                                    x.XPos == OriginCell.XPos && x.YPos == OriginCell.YPos));
-                            if (((Player) CurrentPlayer).ListPenguins.Count == 0)
+                            if (((Player)CurrentPlayer).ListPenguins.Count == 0)
                             {
-                               Players.RemoveAt(_currentPlayerNumber);
+                                Players.RemoveAt(_currentPlayerNumber);
                             }
                             OriginCell.DeleteCell();
                             CalculateCurrentPlayerNumber();
