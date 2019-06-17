@@ -275,7 +275,7 @@ namespace Game.Penguins.Services
                         _log.Debug("Destination cell : " + ((Cell)destination).XPos + ":" + ((Cell)destination).YPos);
                         _pointManager.UpdatePlayerPoints(CurrentPlayer, ((Cell)origin).FishCount); // the number of fish on the origin cell is added to the current player's score as he moves
                         ((Cell)destination).CellType = CellType.FishWithPenguin; // the destination cell becomes a "Fish + Penguin" type cell
-                        ((Cell)destination).CurrentPenguin = ((Cell)origin).CurrentPenguin; //the penguin moves //todo : probleme here
+                        ((Cell)destination).CurrentPenguin = ((Cell)origin).CurrentPenguin; //the penguin moves
                         Penguin p = (Penguin)destination.CurrentPenguin; //penguin at the destination
                         p.XPos = ((Cell)destination).XPos;
                         p.YPos = ((Cell)destination).YPos; //correct the position of the penguin
