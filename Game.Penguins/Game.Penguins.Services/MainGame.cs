@@ -238,12 +238,12 @@ namespace Game.Penguins.Services
             {
                 case PlayerType.AIEasy: //Easy difficulty AI
                     Coordinates posEasy = _aiEasy.PlacementPenguin();
-                    PlacePenguinManual(posEasy.Y, posEasy.X);
+                    PlacePenguinManual(posEasy.X, posEasy.Y);
                     break;
 
                 case PlayerType.AIMedium: //Medium difficulty AI
                     Coordinates posMedium = _aiMedium.PlacementPenguin();
-                    PlacePenguinManual(posMedium.Y, posMedium.X);
+                    PlacePenguinManual(posMedium.X, posMedium.Y);
                     break;
 
                 case PlayerType.AIHard:
@@ -348,7 +348,7 @@ namespace Game.Penguins.Services
                     }
                     else
                     {
-                        Cell destinationCell = (Cell)Board.Board[chosenCell.Y, chosenCell.X];
+                        Cell destinationCell = (Cell)Board.Board[chosenCell.X, chosenCell.Y];
                         Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
                         //gets the destination cell and moves the penguin
                         MoveManual(originCell, destinationCell);

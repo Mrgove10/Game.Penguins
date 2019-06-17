@@ -70,7 +70,7 @@ namespace Game.Penguins.AI.Easy.Code
         /// <param name="posY"></param>
         public Coordinates ChoseFinalDestinationCell(int posX, int posY)
         {
-            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posY, posX]); //searches for an eligible cell to move to
+            var possibleCells = _movementManager.WhereCanIMove((Cell)MainBoard.Board[posX, posY]); //searches for an eligible cell to move to
             if (possibleCells.Any()) //...if there's any, it is immediately choosen...
             {
                 while (true)
