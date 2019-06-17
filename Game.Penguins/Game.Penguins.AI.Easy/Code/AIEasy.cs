@@ -75,10 +75,9 @@ namespace Game.Penguins.AI.Easy.Code
             {
                 while (true)
                 {
-                    Cell chosenCell = possibleCells[new Random().Next(possibleCells.Count)];
+                    Cell chosenCell = (Cell)possibleCells[new Random().Next(possibleCells.Count)];
                     if (chosenCell.CellType == CellType.Fish)
                     {
-                        Console.WriteLine("xgfcvhb,jhvgcfxdgjchvb; bhjvgcythgvcftygcvnbjgbjkihygfvchbjgfvbcnhjkuygfcv");
                         return new Coordinates() //...and its coordinates replace the origin cell's coordinates.
                         {
                             X = chosenCell.XPos,
