@@ -181,7 +181,7 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    _penguinsPerPlayer = 1;//4 penguins per player
+                    _penguinsPerPlayer = 4;//4 penguins per player
                     break;
 
                 case 3:
@@ -316,20 +316,37 @@ namespace Game.Penguins.Services
             {
                 case PlayerType.AIEasy:
                     //Easy AI movement
-                    Penguin penguinToMove = ((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
-                    Coordinates chosenCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos); //destination cell
+                    if (((Player)CurrentPlayer).ListPenguins.Count > 0)
+                    {
+                        Penguin penguinToMove =((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
 
-                    if (chosenCell == null)//a player can not move anymore, end of game for him
-                    {
-                        throw new Exception("shit went down, players can't move anymore");
+                        Coordinates chosenCell =_aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos,penguinToMove.YPos); //destination cell
+                        Cell OriginCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];//origin cell
+                        if (chosenCell == null) //a player can not move anymore, end of game for him
+                        {
+                            _pointManager.UpdatePlayerPoints(CurrentPlayer, OriginCell.FishCount);
+                            ((Player)CurrentPlayer).ListPenguins.Remove(
+                                ((Player)CurrentPlayer).ListPenguins.Find(x =>
+                                   x.XPos == OriginCell.XPos && x.YPos == OriginCell.YPos));
+                            if (((Player) CurrentPlayer).ListPenguins.Count == 0)
+                            {
+                               Players.RemoveAt(_currentPlayerNumber);
+                            }
+                            OriginCell.DeleteCell();
+                            CalculateCurrentPlayerNumber();
+                            WhatIsNextTurn();
+                            _endGameHelper.VerifyEndGame(NextAction, Players);
+                        }
+                        else
+                        {
+                            Cell destinationCell = (Cell)Board.Board[chosenCell.X, chosenCell.Y];
+                            Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
+                            //gets the destination cell and moves the penguin
+                            MoveManual(originCell, destinationCell);
+                        }
                     }
-                    else
-                    {
-                        Cell destinationCell = (Cell)Board.Board[chosenCell.X, chosenCell.Y];
-                        Cell originCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];
-                        //gets the destination cell and moves the penguin
-                        MoveManual(originCell, destinationCell);
-                    }
+                    StateChanged?.Invoke(this, null);
+
                     break;
 
                 case PlayerType.AIMedium:
