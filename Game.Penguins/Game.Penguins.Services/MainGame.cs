@@ -19,6 +19,8 @@ namespace Game.Penguins.Services
 
         private readonly IAi _aiEasy;
         private readonly IAi _aiMedium;
+        private readonly IAi _aiHard;
+
         public IBoard Board { get; }
         public NextActionType NextAction { get; set; }
         public IPlayer CurrentPlayer { get; set; }
@@ -240,13 +242,16 @@ namespace Game.Penguins.Services
                     PlacePenguinManual(posEasy.X, posEasy.Y);
                     break;
 
-                case PlayerType.AIMedium: //Medium difficulty AI
-                    Coordinates posMedium = _aiMedium.PlacementPenguin();
-                    PlacePenguinManual(posMedium.X, posMedium.Y);
+                case PlayerType.AIMedium:
+                    // This should normaly be a medium AI
+                    Coordinates posM = _aiEasy.PlacementPenguin();
+                    PlacePenguinManual(posM.X, posM.Y);
                     break;
 
                 case PlayerType.AIHard:
-                    //Medium AI place function here
+                    // This should normaly be a hard AI
+                    Coordinates posH = _aiEasy.PlacementPenguin();
+                    PlacePenguinManual(posH.X, posH.Y);
                     break;
             }
             StateChanged?.Invoke(this, null);
