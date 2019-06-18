@@ -10,5 +10,6 @@ namespace Game.Penguins
 
     class FakeClasses
     {
+        //Fake Game Class
     }
 }
