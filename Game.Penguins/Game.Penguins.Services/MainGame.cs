@@ -183,15 +183,15 @@ namespace Game.Penguins.Services
                     throw new ArgumentOutOfRangeException();
 
                 case 2:
-                    _penguinsPerPlayer = 4;//4 penguins per player
+                    _penguinsPerPlayer = 4; //4 penguins per player
                     break;
 
                 case 3:
-                    _penguinsPerPlayer = 3;//3 penguins per player
+                    _penguinsPerPlayer = 3; //3 penguins per player
                     break;
 
                 case 4:
-                    _penguinsPerPlayer = 2;//2 penguins per player
+                    _penguinsPerPlayer = 2; //2 penguins per player
                     break;
             }
         }
@@ -213,10 +213,10 @@ namespace Game.Penguins.Services
             if (currentCell.FishCount == 1 && currentCell.CellType != CellType.FishWithPenguin) // is empty and has only one penguin
             {
                 Player currentPlayer = (Player)CurrentPlayer; //the current player...
-                Penguin createdPenguin = new Penguin(currentPlayer, x, y);//...gets a new penguin to place..
+                Penguin createdPenguin = new Penguin(currentPlayer, x, y); //...gets a new penguin to place..
                 currentPlayer.ListPenguins.Add(createdPenguin); //... which is added to his stack of penguins...
                 currentCell.CurrentPenguin = createdPenguin; //...it becomes the resident penguin of the cell...
-                currentCell.CellType = CellType.FishWithPenguin;//... which types becomes fish + penguin
+                currentCell.CellType = CellType.FishWithPenguin; //... which types becomes fish + penguin
                 currentPlayer.Penguins++; // the current player's penguins increases
 
                 //and we switch to the next player's turn
@@ -326,7 +326,7 @@ namespace Game.Penguins.Services
                         Penguin penguinToMove = ((Player)CurrentPlayer).ListPenguins[new Random().Next(((Player)CurrentPlayer).ListPenguins.Count)]; //penguins to move
 
                         Coordinates chosenCell = _aiEasy.ChoseFinalDestinationCell(penguinToMove.XPos, penguinToMove.YPos); //destination cell
-                        Cell OriginCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos];//origin cell
+                        Cell OriginCell = (Cell)Board.Board[penguinToMove.XPos, penguinToMove.YPos]; //origin cell
                         if (chosenCell == null) //a player can not move anymore, end of game for him
                         {
                             _pointManager.UpdatePlayerPoints(CurrentPlayer, OriginCell.FishCount);
