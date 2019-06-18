@@ -6,7 +6,6 @@ namespace Game.Penguins.UnitTests.Helper
     public class MovementVerificationHelperTest
     {
         /// THESE DO NOT WORK ANYMORE BECAUSE WE CHANGED ALGORYTHMES
-
         /*  [TestMethod]
           public void WhereCanIMove_right()
           {
